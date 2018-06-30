@@ -1,0 +1,59 @@
+const webpack = require('webpack');
+const path = require('path');
+
+const BUILD_DIR = path.resolve(__dirname, 'build'); //rename to public
+// const APP_DIR = path.resolve(__dirname, 'client/js');
+// const SRC = path.resolve(__dirname, 'client');
+// const NODE_MODULES = path.resolve(__dirname, "node_modules");
+
+
+const config = {
+    entry: [
+        //connect to the server to receive bundle rebuild notifications
+        './client/js/cGame.js',
+    ],
+    
+    output: {
+        filename: 'bundle.js',
+        //path of the bundle, otherwise it's stocked in memory
+        path: BUILD_DIR,
+        // location of hot update
+        publicPath: '/build',
+    },
+    
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    
+    module: {
+        rules: [{
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loaders: ['babel-loader'],
+        }]
+        //JSX transpiling via babel-loader
+        // test: [
+        //     /\.png$/,
+        //     /\.jpg$/
+        // ],
+        // loader: "url-loader"
+    },
+    
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('development'),
+                MODE: JSON.stringify('1')
+            }
+        })
+    ]
+};
+
+console.log("Webpack development");
+config.entry.push('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true');
+config.plugins.push(
+    new webpack.HotModuleReplacementPlugin()
+);
+
+
+module.exports = config;
