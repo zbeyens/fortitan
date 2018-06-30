@@ -19,7 +19,8 @@ export default class EntityState {
         const mask = this.entity.props.mask;
         this.body = Matter.Bodies.circle(this.x, this.y, radius, {
             isStatic,
-            inertia: Infinity,
+            inertia: Infinity, //prevents player rotation
+            // friction: 0.002,
             collisionFilter: {
                 category: category,
                 mask: mask

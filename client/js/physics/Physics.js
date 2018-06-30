@@ -22,8 +22,8 @@ export default class Physics {
         Matter.Engine.run(this.engine);
 
         // engine.enableSleeping = true;
-        engine.world.gravity.x = 0;
-        engine.world.gravity.y = 0;
+        // engine.world.gravity.x = 0;
+        engine.world.gravity.y = 10;
     }
     
     //Debugger

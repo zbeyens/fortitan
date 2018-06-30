@@ -11,6 +11,8 @@ export default class PlayerState extends EntityState {
         super(entity, state, engine);
 
         this.createCircleBody(this.entity.props.radius, false);
+
+        Matter.Body.setMass(this.body, 10000);
     }
 
     init() {
@@ -64,6 +66,7 @@ export default class PlayerState extends EntityState {
         const moveFactor = ccfg.playerSpeed;
 
         // Matter.Sleeping.set(this.body, false);
+        //
         Matter.Body.setVelocity(this.body, { x: dirX * moveFactor, y: dirY * moveFactor });
     }
 
