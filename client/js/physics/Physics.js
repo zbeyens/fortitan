@@ -23,7 +23,7 @@ export default class Physics {
 
         // engine.enableSleeping = true;
         // engine.world.gravity.x = 0;
-        engine.world.gravity.y = 10;
+        // engine.world.gravity.y = 1;
     }
     
     //Debugger
@@ -50,11 +50,14 @@ export default class Physics {
             event.pairs.forEach((pair) => {
                 const entityA = pair.bodyA.parent.entity;
                 const entityB = pair.bodyB.parent.entity;
-                if (entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.playerCategory) {
+
+                if (!entityA || !entityB) return;
+
+                if (entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.player.category) {
                     // console.log('player with player collision started');
-                } else if ((entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.playerCategory)) {
+                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.player.category)) {
                     // console.log('player with tree collision started');
-                } else if ((entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.stoneCategory) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.playerCategory)) {
+                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.stoneCategory) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.player.category)) {
                     // console.log('player with stone collision started');
                 } else {
                     console.log('mysterious collision started');
@@ -66,11 +69,15 @@ export default class Physics {
             event.pairs.forEach((pair) => {
                 const entityA = pair.bodyA.parent.entity;
                 const entityB = pair.bodyB.parent.entity;
-                if (entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.playerCategory) {
+
+                if (!entityA || !entityB) return;
+
+
+                if (entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.player.category) {
                     // console.log('player with player collision going on');
-                } else if ((entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.playerCategory)) {
+                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.player.category)) {
                     // console.log('player with tree collision going on');
-                } else if ((entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.Category) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.playerCategory)) {
+                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.Category) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.player.category)) {
                     // console.log('player with stone collision going on');
                 } else {
                     console.log('mysterious collision going on');
@@ -82,11 +89,15 @@ export default class Physics {
             event.pairs.forEach((pair) => {
                 const entityA = pair.bodyA.parent.entity;
                 const entityB = pair.bodyB.parent.entity;
-                if (entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.playerCategory) {
+
+                if (!entityA || !entityB) return;
+
+
+                if (entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.player.category) {
                     // console.log('player with player collision ended');
-                } else if ((entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.playerCategory)) {
+                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.player.category)) {
                     // console.log('player with tree collision ended');
-                } else if ((entityA.props.category === ccfg.playerCategory && entityB.props.category === ccfg.Category) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.playerCategory)) {
+                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.Category) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.player.category)) {
                     // console.log('player with stone collision ended');
                 } else {
                     console.log('mysterious collision ended');

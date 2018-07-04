@@ -1,3 +1,6 @@
+let player = require('./ccfgPlayer.js');
+let tree = require('./ccfgTree.js');
+
 /**
  * Client config for production
  * @type {Object}
@@ -15,24 +18,17 @@ const config = {
         antialias: true,
         // transparent: false,
     },
-    
-    //props of each type of entity
-    playerCategory: 0x0001,
-    playerBodyRadius: 64,
-    playerSpeed: 5,
-    playerHittingCd: 500,
-    playerHittingRayWidth: 10,
-    playerHittingRayRange: 100,
 
-    treeBodyRadius: 64,
-    treeCategory: 0x0010,
+    player: player,
+    tree: tree,
 
     stoneBodyRadius: 128,
     stoneCategory: 0x0011,
 
 };
 
-config.playerMask = config.treeCategory | config.stoneCategory;
-config.treeMask = config.playerCategory;
+config.player.bodyOptions.collisionFilter.mask = config.treeCategory | config.stoneCategory;
+config.tree.bodyOptions.collisionFilter.mask = config.player.category;
 config.stoneMask = config.stoneCategory;
+
 module.exports = config;

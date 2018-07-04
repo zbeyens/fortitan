@@ -29,6 +29,8 @@ class GameScene extends Phaser.State {
         this.physics = new Physics();
         const physics = this.physics;
 
+        
+
         this.playerManager = new PlayerManager(this.game);
         this.playerManager.add({
             id: 0,
@@ -37,7 +39,7 @@ class GameScene extends Phaser.State {
                 y: 300,
             },
             props: {
-                skin: 'test',
+                skin: 'p1_walk',
             },
             engine: physics.engine
         });

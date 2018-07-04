@@ -20,7 +20,7 @@ export default class PlayerActionHittingState extends State {
 
         this.checkHitCollisions();
 
-        if (this.timeElapsed > ccfg.playerHittingCd) {
+        if (this.timeElapsed > ccfg.player.hittingCd) {
             this.state.actionState = this.state.getActionIdleState(this.state);
         }
     }
@@ -36,10 +36,10 @@ export default class PlayerActionHittingState extends State {
     checkHitCollisions() {
         const state = this.state;
         const startPoint = { x: state.x, y: state.y };
-        const endPoint = { x: startPoint.x + Math.cos(state.targetAngle) * ccfg.playerHittingRayRange, y: startPoint.y + Math.sin(state.targetAngle) * ccfg.playerHittingRayRange };
+        const endPoint = { x: startPoint.x + Math.cos(state.targetAngle) * ccfg.player.hittingRayRange, y: startPoint.y + Math.sin(state.targetAngle) * ccfg.player.hittingRayRange };
         const bodies = Matter.Composite.allBodies(this.state.engine.world);
 
-        const collisions = Matter.Query.ray(bodies, startPoint, endPoint, ccfg.playerHittingRayWidth);
+        const collisions = Matter.Query.ray(bodies, startPoint, endPoint, ccfg.player.hittingRayWidth);
         //console.log(bodies);
         for (let i = 0; i < collisions.length; i++) {
             const collision = collisions[i];

@@ -1,3 +1,6 @@
+import ccfg from '../config/';
+
+
 /**
  * Setup the pre-game boot sequence.
  * Scene loading all the assets: image, atlas, sounds,...
@@ -24,7 +27,7 @@ export default class PreloaderScene extends Phaser.State {
         this.load.image('title-background', 'client/img/icons/bg-2.png');
         this.load.image('title', 'client/img/title.png');
 
-        this.load.image('test', 'client/img/mobile/btn-dash.png');
+        // this.load.image('p1_walk', 'client/img/temp/p1_walk.png');
         this.load.image('tree2', 'client/img/tree2.jpg');
         this.load.image('stone','client/img/stone.png');
         this.load.image('background', 'client/img/bg.png');
@@ -41,7 +44,7 @@ export default class PreloaderScene extends Phaser.State {
         // this.load.spritesheet('sprites16', 'assets/images/16x16sprites.png', { frameWidth: 16, frameHeight: 16 });
 
         // Beginning of an atlas to replace spritesheets
-        // this.load.atlas('mario-sprites', 'assets/mario-sprites.png', 'assets/mario-sprites.json');
+        this.load.atlas(ccfg.player.keyWalk, ccfg.player.urlWalk + '.png', ccfg.player.urlWalk + '.json');
 
         // Music to play. Need to cut it for it to loop properly
         // this.load.audio('overworld', [

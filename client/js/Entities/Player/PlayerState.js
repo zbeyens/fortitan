@@ -10,9 +10,23 @@ export default class PlayerState extends EntityState {
     constructor(entity, state, engine) {
         super(entity, state, engine);
 
-        this.createCircleBody(this.entity.props.radius, false);
+        this.body = this.circle(ccfg.player.bodyRadius, ccfg.player.bodyOptions);
+        Matter.World.add(this.engine.world, this.body);
 
-        Matter.Body.setMass(this.body, 10000);
+        // TODO: create Map
+        const body = Matter.Bodies.rectangle(0, 800, 3000, 200, {
+            isStatic: true,
+            inertia: Infinity, //prevents player rotation
+            // friction: 0.002, 
+            friction: 1,
+            frictionAir: 1,
+            // collisionFilter: {
+            //     // group
+            //     category: category,
+            //     mask: mask
+            // },
+        });
+        Matter.World.add(this.engine.world, body);
     }
 
     init() {
@@ -25,16 +39,20 @@ export default class PlayerState extends EntityState {
         this.dirX = 0;
         this.dirY = 0;
         if (input.left) {
+            this.dirLeft = true;
             this.dirX = -1;
         }
         if (input.right) {
+            this.dirLeft = false;
             this.dirX = 1;
         }
         if (input.up) {
-            this.dirY = -1;
-        }
-        if (input.down) {
             this.dirY = 1;
+        }
+
+         // TODO: check onGround
+        if (!input.up) {
+            this.onGround = true;
         }
     }
 
@@ -49,11 +67,11 @@ export default class PlayerState extends EntityState {
 
 
         this.targetAngle = Math.atan2(window.game.camera.y + window.game.input.mousePointer.y - this.y, window.game.camera.x + window.game.input.mousePointer.x - this.x);
-        
+
         // console.log(window.game.camera.x);
         this.angle = this.targetAngle * 180 / Math.PI;
         // Matter.Body.setAngle(this.body, this.targetAngle);
-        
+
         this.actionState.update(delta);
     }
 
@@ -63,11 +81,23 @@ export default class PlayerState extends EntityState {
      * @param  {int} dirY   moving direction (-1, 1, 0)
      */
     move(dirX, dirY) {
-        const moveFactor = ccfg.playerSpeed;
+        const body = this.body;
 
-        // Matter.Sleeping.set(this.body, false);
-        //
-        Matter.Body.setVelocity(this.body, { x: dirX * moveFactor, y: dirY * moveFactor });
+        
+
+        if (this.dirY && this.onGround) {
+            this.onGround = false;
+
+            Matter.Body.applyForce(this.body, this, {
+                x: 0,
+                y: -0.4
+            });
+        }
+
+        Matter.Body.setVelocity(body, {
+            x: dirX * ccfg.player.speed,
+            y: body.velocity.y
+        });
     }
 
     getActionIdleState() {

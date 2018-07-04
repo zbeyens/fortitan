@@ -14,19 +14,16 @@ export default class EntityState {
         this.y = y;
     }
 
-    createCircleBody(radius, isStatic) {
-        const category = this.entity.props.category;
-        const mask = this.entity.props.mask;
-        this.body = Matter.Bodies.circle(this.x, this.y, radius, {
-            isStatic,
-            inertia: Infinity, //prevents player rotation
-            // friction: 0.002,
-            collisionFilter: {
-                category: category,
-                mask: mask
-            },
-        });
-        this.body.entity = this.entity;
-        Matter.World.add(this.engine.world, this.body);
+
+    /**
+     * create a circle body
+     * @param  {float} radius  
+     * @param  {object} options 
+     * @return {Matter.Body}
+     */
+    circle(radius, options) {
+        const body = Matter.Bodies.circle(this.x, this.y, radius, options);
+        body.entity = this.entity;
+        return body;
     }
 }
