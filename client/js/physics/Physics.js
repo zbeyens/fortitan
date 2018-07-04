@@ -4,15 +4,15 @@ import ccfg from '../config';
 export default class Physics {
 
     constructor() {
-        this.initEngine(); 
+        this.initEngine();
         this.initRenderer();
         this.handleCollisions();
-        
+
         //const ground = Matter.Bodies.rectangle(75, 75, 150, 150, { isStatic: true }); PAS DE TOOOO BAAAD
         // add all of the bodies to the world
         //Matter.World.add(this.engine.world, [ground]);
     }
-    
+
     //initEngine : loop 60 times per sec and checks physics each time
     initEngine() {
         // create an engine
@@ -25,7 +25,7 @@ export default class Physics {
         // engine.world.gravity.x = 0;
         // engine.world.gravity.y = 1;
     }
-    
+
     //Debugger
     initRenderer() {
         const engine = this.engine;
@@ -50,15 +50,17 @@ export default class Physics {
             event.pairs.forEach((pair) => {
                 const entityA = pair.bodyA.parent.entity;
                 const entityB = pair.bodyB.parent.entity;
-
+                console.log("start checking on Ground for player before");
                 if (!entityA || !entityB) return;
 
-                if (entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.player.category) {
+                this.checkPlayerOnGround(entityA, entityB);
+               
+
+
+                if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.player.category)) {
                     // console.log('player with player collision started');
-                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.player.category)) {
+                } else if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.treeCategory)) {
                     // console.log('player with tree collision started');
-                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.stoneCategory) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.player.category)) {
-                    // console.log('player with stone collision started');
                 } else {
                     console.log('mysterious collision started');
                 }
@@ -73,12 +75,10 @@ export default class Physics {
                 if (!entityA || !entityB) return;
 
 
-                if (entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.player.category) {
+                if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.player.category)) {
                     // console.log('player with player collision going on');
-                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.player.category)) {
+                } else if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.treeCategory)) {
                     // console.log('player with tree collision going on');
-                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.Category) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.player.category)) {
-                    // console.log('player with stone collision going on');
                 } else {
                     console.log('mysterious collision going on');
                 }
@@ -92,13 +92,12 @@ export default class Physics {
 
                 if (!entityA || !entityB) return;
 
+                this.checkPlayerOffGround(entityA, entityB);	
 
-                if (entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.player.category) {
+                if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.player.category)) {
                     // console.log('player with player collision ended');
-                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.treeCategory) || (entityA.props.category === ccfg.treeCategory && entityB.props.category === ccfg.player.category)) {
+                } else if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.treeCategory)) {
                     // console.log('player with tree collision ended');
-                } else if ((entityA.props.category === ccfg.player.category && entityB.props.category === ccfg.Category) || (entityA.props.category === ccfg.Category && entityB.props.category === ccfg.player.category)) {
-                    // console.log('player with stone collision ended');
                 } else {
                     console.log('mysterious collision ended');
                 }
@@ -106,8 +105,44 @@ export default class Physics {
         });
     }
 
-    
+    checkPlayerOnGround(entityA, entityB) {
+    	console.log("start checking on Ground for player");
+        const res = this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.ground.category);
+        console.log(res);
+        if (!res) return;
+       
+        let player;
+        if (res === 1) {
+            player = entityA;
+        } else if (res === 2) {
+            player = entityB;
+        }
+        player.enterLand();
 
+    }
+    checkPlayerOffGround(entityA, entityB) {
+    	console.log("start checking off Ground for player");
+        const res = this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.ground.category);
+        console.log(res);
+        if (!res) return;
+       
+        let player;
+        if (res === 1) {
+            player = entityA;
+        } else if (res === 2) {
+            player = entityB;
+        }
+        player.exitLand();
+
+    }
+    checkCategory(categoryA, categoryB, category1, category2) {
+        if ((categoryA === category1 && categoryB === category2)) {
+            return 1;
+        }
+        if ((categoryB === category1 && categoryA === category2)) {
+            return 2;
+        }
+    }
     update(selfPlayer) {
         if (this.render) {
             this.render.bounds.min.x = -this.render.options.width / 2 + selfPlayer.state.x;

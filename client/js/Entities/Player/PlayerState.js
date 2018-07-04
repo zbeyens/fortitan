@@ -50,10 +50,6 @@ export default class PlayerState extends EntityState {
             this.dirY = 1;
         }
 
-         // TODO: check onGround
-        if (!input.up) {
-            this.onGround = true;
-        }
     }
 
     /**
@@ -86,7 +82,7 @@ export default class PlayerState extends EntityState {
         
 
         if (this.dirY && this.onGround) {
-            this.onGround = false;
+           // this.onGround = false;
 
             Matter.Body.applyForce(this.body, this, {
                 x: 0,
@@ -108,4 +104,12 @@ export default class PlayerState extends EntityState {
         return new PlayerActionHittingState(this);
     }
 
+    enterLand() {
+        this.onGround = true;
+        console.log("onground END" + this.onGround);
+    }
+    exitLand() {
+        this.onGround = false;
+        console.log("offground END" + this.onGround);
+    }
 }
