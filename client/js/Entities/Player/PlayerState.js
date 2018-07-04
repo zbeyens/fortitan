@@ -94,6 +94,8 @@ export default class PlayerState extends EntityState {
             });
         }
 
+        console.log(body.velocity.y);
+
         Matter.Body.setVelocity(body, {
             x: dirX * ccfg.player.speed,
             y: body.velocity.y

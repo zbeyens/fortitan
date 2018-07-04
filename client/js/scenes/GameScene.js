@@ -1,4 +1,5 @@
 import Map from '../Map';
+import Level from '../Level';
 import Camera from '../Camera';
 import PlayerManager from '../Entities/Player/PlayerManager';
 import InputManager from '../InputManager';
@@ -30,6 +31,7 @@ class GameScene extends Phaser.State {
         const physics = this.physics;
 
         
+        this.level = new Level(this);
 
         this.playerManager = new PlayerManager(this.game);
         this.playerManager.add({
@@ -66,8 +68,9 @@ class GameScene extends Phaser.State {
                 skin: 'stone',
             },
             engine: physics.engine
-
         });
+
+        
 
         const selfPlayer = this.playerManager.entities[0];
         this.camera.follow(selfPlayer);

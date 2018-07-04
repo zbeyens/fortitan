@@ -26,4 +26,10 @@ export default class EntityState {
         body.entity = this.entity;
         return body;
     }
+
+    rectangle(width, height, options) {
+        const body = Matter.Bodies.rectangle(this.x, this.y, width, height, options);
+        body.entity = this.entity;
+        return body;
+    }
 }
