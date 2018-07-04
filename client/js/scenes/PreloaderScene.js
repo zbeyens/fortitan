@@ -44,7 +44,7 @@ export default class PreloaderScene extends Phaser.State {
         // this.load.spritesheet('sprites16', 'assets/images/16x16sprites.png', { frameWidth: 16, frameHeight: 16 });
 
         // Beginning of an atlas to replace spritesheets
-        this.load.atlas(ccfg.player.keyWalk, ccfg.player.urlWalk + '.png', ccfg.player.urlWalk + '.json');
+        this.load.atlas(ccfg.player.keyPlayer1, ccfg.player.urlPlayer1 + '.png', ccfg.player.urlPlayer1 + '.json');
 
         // Music to play. Need to cut it for it to loop properly
         // this.load.audio('overworld', [

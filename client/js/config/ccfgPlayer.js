@@ -19,8 +19,9 @@ const config = {
     hittingRayWidth: 10,
     hittingRayRange: 100,
 
+    keyPlayer1: 'p1',
+    urlPlayer1: 'client/img/temp/p1',
     keyWalk: 'p1_walk',
-    urlWalk: 'client/img/temp/p3_walk/p3_walk',
 };
 
 

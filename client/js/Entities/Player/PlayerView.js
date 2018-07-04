@@ -5,8 +5,12 @@ export default class PlayerView extends EntityView {
     constructor(entity) {
         super(entity);
 
+        const framesWalk = [];
+        for (var i = 0; i < 11; i++) {
+            framesWalk.push(2+i);
+        }
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
-        this.animations.add('walk');
+        this.animations.add('walk', framesWalk);
 
     }
 
@@ -19,6 +23,11 @@ export default class PlayerView extends EntityView {
             this.animations.play('walk', 15, true);
         } else {
         	this.animations.stop('walk', true);
+            this.frame = 1;
+        }
+
+        if (!this.entity.state.onGround) {
+            this.frame = 0;
         }
 
         // TODO: jump 

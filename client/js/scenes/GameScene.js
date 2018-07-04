@@ -39,7 +39,7 @@ class GameScene extends Phaser.State {
                 y: 300,
             },
             props: {
-                skin: 'p1_walk',
+                skin: ccfg.player.keyPlayer1,
             },
             engine: physics.engine
         });
