@@ -1,5 +1,6 @@
 let player = require('./ccfgPlayer.js');
 let tree = require('./ccfgTree.js');
+let ground = require('./ccfgGround.js');
 
 /**
  * Client config for production
@@ -21,6 +22,7 @@ const config = {
 
     player: player,
     tree: tree,
+    ground: ground,
 
     stoneBodyRadius: 128,
     stoneCategory: 0x0011,
