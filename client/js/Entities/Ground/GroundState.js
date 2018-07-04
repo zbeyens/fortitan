@@ -1,6 +1,6 @@
 import Matter from 'matter-js';
-import ccfg from '../../../config';
-
+import ccfg from '../../config';
+import EntityState from '../EntityState'
 
 export default class GroundState extends EntityState {
 

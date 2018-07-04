@@ -1,5 +1,5 @@
-import Ground from '../Entities/Ground/Ground';
-
+import Ground from './Entities/Ground/Ground';
+import ccfg from './config'
 
 
 export default class Level {
@@ -15,15 +15,16 @@ export default class Level {
 		const ground = new Ground({
             id: 2,
             state: {
-                x: 700,
-                y: 700,
+                x: 0,
+                y: 800,
             },
             props: {
             	width: ccfg.ground.width,
             	height: ccfg.ground.height,
-                skin: 'stone',
+            	category: ccfg.ground.category,
+                skin: 'stone', //TODO
             },
-            engine: physics.engine
+            engine: state.physics.engine
         })
     }
 

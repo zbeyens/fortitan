@@ -1,7 +1,9 @@
 import Entity from '../Entity';
-import GroundProps from './GroundProps';
+// import GroundProps from './GroundProps';
 import GroundState from './GroundState';
-import GroundView from './GroundView';
+import EntityView from '../EntityView'
+
+// import GroundView from './GroundView';
 
 /**
  * Every Entity has a props, a state and a view component.

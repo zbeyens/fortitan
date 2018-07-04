@@ -13,20 +13,7 @@ export default class PlayerState extends EntityState {
         this.body = this.circle(ccfg.player.bodyRadius, ccfg.player.bodyOptions);
         Matter.World.add(this.engine.world, this.body);
 
-        // TODO: create Map
-        const body = Matter.Bodies.rectangle(0, 800, 3000, 200, {
-            isStatic: true,
-            inertia: Infinity, //prevents player rotation
-            // friction: 0.002, 
-            friction: 1,
-            frictionAir: 1,
-            // collisionFilter: {
-            //     // group
-            //     category: category,
-            //     mask: mask
-            // },
-        });
-        Matter.World.add(this.engine.world, body);
+        this.onGround = false;
     }
 
     init() {
@@ -56,10 +43,18 @@ export default class PlayerState extends EntityState {
      * Update the position from the inputs
      */
     update(delta) {
+        // const jumpTimeElapsed = new Date() - this.jumpTime || 1000;
+        if (!this.body.velocity.y) {
+            this.onGround = true;
+        } else {
+            this.onGround = false;
+        }
+
         this.move(this.dirX, this.dirY);
 
         this.x = this.body.position.x;
         this.y = this.body.position.y;
+
 
 
         this.targetAngle = Math.atan2(window.game.camera.y + window.game.input.mousePointer.y - this.y, window.game.camera.x + window.game.input.mousePointer.x - this.x);
@@ -82,15 +77,17 @@ export default class PlayerState extends EntityState {
         
 
         if (this.dirY && this.onGround) {
-           // this.onGround = false;
+           this.onGround = false;
 
+           console.log("apply force");
             Matter.Body.applyForce(this.body, this, {
                 x: 0,
                 y: -0.4
             });
+
+            this.jumpTime = new Date();
         }
 
-        console.log(body.velocity.y);
 
         Matter.Body.setVelocity(body, {
             x: dirX * ccfg.player.speed,
@@ -107,11 +104,11 @@ export default class PlayerState extends EntityState {
     }
 
     enterLand() {
-        this.onGround = true;
+        // this.onGround = true;
         console.log("onground END" + this.onGround);
     }
     exitLand() {
-        this.onGround = false;
+        // this.onGround = false;
         console.log("offground END" + this.onGround);
     }
 }

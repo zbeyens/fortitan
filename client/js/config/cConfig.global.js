@@ -20,6 +20,7 @@ const config = {
         // transparent: false,
     },
 
+
     player: player,
     tree: tree,
     ground: ground,

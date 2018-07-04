@@ -50,7 +50,6 @@ export default class Physics {
             event.pairs.forEach((pair) => {
                 const entityA = pair.bodyA.parent.entity;
                 const entityB = pair.bodyB.parent.entity;
-                console.log("start checking on Ground for player before");
                 if (!entityA || !entityB) return;
 
                 this.checkPlayerOnGround(entityA, entityB);
@@ -61,8 +60,6 @@ export default class Physics {
                     // console.log('player with player collision started');
                 } else if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.treeCategory)) {
                     // console.log('player with tree collision started');
-                } else {
-                    console.log('mysterious collision started');
                 }
             });
         });
@@ -79,8 +76,6 @@ export default class Physics {
                     // console.log('player with player collision going on');
                 } else if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.treeCategory)) {
                     // console.log('player with tree collision going on');
-                } else {
-                    console.log('mysterious collision going on');
                 }
             });
         });
@@ -98,17 +93,13 @@ export default class Physics {
                     // console.log('player with player collision ended');
                 } else if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.treeCategory)) {
                     // console.log('player with tree collision ended');
-                } else {
-                    console.log('mysterious collision ended');
                 }
             });
         });
     }
 
     checkPlayerOnGround(entityA, entityB) {
-    	console.log("start checking on Ground for player");
         const res = this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.ground.category);
-        console.log(res);
         if (!res) return;
        
         let player;
@@ -117,13 +108,11 @@ export default class Physics {
         } else if (res === 2) {
             player = entityB;
         }
-        player.enterLand();
+        player.state.enterLand();
 
     }
     checkPlayerOffGround(entityA, entityB) {
-    	console.log("start checking off Ground for player");
         const res = this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.ground.category);
-        console.log(res);
         if (!res) return;
        
         let player;
@@ -132,7 +121,7 @@ export default class Physics {
         } else if (res === 2) {
             player = entityB;
         }
-        player.exitLand();
+        player.state.exitLand();
 
     }
     checkCategory(categoryA, categoryB, category1, category2) {

@@ -2,7 +2,7 @@ const config = {
 
     //props of each type of entity
     category: 0x0011,
-    width: 3000,
+    width: 5000,
     height: 200,
 
     // keyWalk: 'p1_walk',
@@ -12,7 +12,6 @@ const config = {
 
 config.bodyOptions = {
     inertia: Infinity,
-    isSensor: true,
     isStatic: true,
     collisionFilter: {
         category: config.category,

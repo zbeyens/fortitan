@@ -21,7 +21,7 @@ class GameScene extends Phaser.State {
         this.game.Resourcegroup = this.game.add.group();
         this.game.Hudgroup = this.game.add.group();
         
-        this.game.world.setBounds(0, 0, 1500, 1500);
+        this.game.world.setBounds(0, 0, 5000, 1024);
 
         this.map = new Map(this);
         this.camera = new Camera(this.game);
