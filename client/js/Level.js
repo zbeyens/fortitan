@@ -12,25 +12,29 @@ export default class Level {
 		// let consBB = []; //all constaints between two bodies
 		// 
 		
-		const tilesX = 8;
-        const tilesY = 1;
+		const tilesX = 0;
+        const tilesY = 6;
+        const tilesWidth = 8;
+        const tilesHeight = 1;
+        const width = tilesWidth * ccfg.tileSize;
+        const height = tilesHeight * ccfg.tileSize;
 
 		const ground = new Ground({
             id: 2,
             state: {
-                x: 350,
-                y: 860,
+                x: tilesX * ccfg.tileSize + width / 2,
+                y: tilesY * ccfg.tileSize + height / 2,
             },
             props: {
-            	tilesX,
-            	tilesY,
-            	width: tilesX * ccfg.tileSize,
-            	height: tilesY * ccfg.tileSize,
+            	width,
+            	height,
             	category: ccfg.ground.category,
                 skin: 'ground', //TODO
             },
             engine: state.physics.engine
-        })
+        });
+
+        // const 
     }
 
 }
