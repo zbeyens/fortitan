@@ -28,8 +28,8 @@ export default class PreloaderScene extends Phaser.State {
         this.load.image('title', 'client/img/title.png');
 
         // this.load.image('p1_walk', 'client/img/temp/p1_walk.png');
-        this.load.image('tree2', 'client/img/tree2.jpg');
-        this.load.image('stone','client/img/stone.png');
+        this.load.image('tree2', 'client/img/tree/Asset 1.png');
+        this.load.image('stone','client/img/tiles/Spring/256x256/GrassJoinHillRight2&Left2 DownShadow.png');
         this.load.image(ccfg.bgKey, ccfg.bgUrl);
         this.load.image('ground', 'client/img/tiles/Spring/128x128/GrassMid.png');
         

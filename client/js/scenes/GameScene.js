@@ -48,8 +48,19 @@ class GameScene extends Phaser.State {
         this.treeManager.add({
             id: 1,
             state: {
-                x: 500,
-                y: 500,
+                x: 400,
+                y: 675,
+            },
+            props: {
+                skin: 'tree2'
+            },
+            engine: physics.engine
+        });
+        this.treeManager.add({
+            id: 2,
+            state: {
+                x: 600,
+                y: 675,
             },
             props: {
                 skin: 'tree2'
@@ -60,8 +71,8 @@ class GameScene extends Phaser.State {
         this.stoneManager.add({
             id: 2,
             state: {
-                x: 700,
-                y: 700,
+                x: 900,
+                y: 900,
             },
             props: {
                 skin: 'stone',
