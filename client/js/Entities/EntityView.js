@@ -9,6 +9,7 @@ export default class EntityView extends Phaser.Sprite {
         this.anchor.setTo(0.5);
 
         this.game.add.existing(this);
+
     }
 
     /**
@@ -17,5 +18,7 @@ export default class EntityView extends Phaser.Sprite {
     update(delta) {
         this.x = this.entity.state.x;
         this.y = this.entity.state.y;
+        
+        // this.game.debug.spriteBounds(this);
     }
 }

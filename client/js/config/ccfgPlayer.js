@@ -2,7 +2,7 @@ const config = {
 
     Fx: 0.025, //run Force on ground
     FxAir: 0.015, //run Force in Air
-    jumpForce: 0.38,
+    jumpForce: -0.3,
     gravity: 0.0019,
     friction: {
         ground: 0.01,
@@ -13,7 +13,8 @@ const config = {
 
     //props of each type of entity
     category: 0x0001,
-    bodyRadius: 64,
+    bodyWidth: 72,
+    bodyHeight: 90,
     speed: 5,
     hittingCd: 500,
     hittingRayWidth: 10,

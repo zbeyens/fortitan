@@ -20,6 +20,14 @@ const config = {
         // transparent: false,
     },
 
+    bgUrl: 'client/img/background/sun.png',
+    bgKey: 'background',
+    bgWidth: 2048,
+    // bgHeight: 1536,
+    bgHeight: 1024,
+    bgScale: 0.9,
+
+    tileSize: 128,
 
     player: player,
     tree: tree,

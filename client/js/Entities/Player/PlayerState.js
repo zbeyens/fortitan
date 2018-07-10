@@ -10,7 +10,7 @@ export default class PlayerState extends EntityState {
     constructor(entity, state, engine) {
         super(entity, state, engine);
 
-        this.body = this.circle(ccfg.player.bodyRadius, ccfg.player.bodyOptions);
+        this.body = this.rectangle(ccfg.player.bodyWidth, ccfg.player.bodyHeight, ccfg.player.bodyOptions);
         Matter.World.add(this.engine.world, this.body);
 
         this.onGround = false;
@@ -82,7 +82,7 @@ export default class PlayerState extends EntityState {
            console.log("apply force");
             Matter.Body.applyForce(this.body, this, {
                 x: 0,
-                y: -0.4
+                y: ccfg.player.jumpForce
             });
 
             this.jumpTime = new Date();

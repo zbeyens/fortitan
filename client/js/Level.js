@@ -12,17 +12,22 @@ export default class Level {
 		// let consBB = []; //all constaints between two bodies
 		// 
 		
+		const tilesX = 8;
+        const tilesY = 1;
+
 		const ground = new Ground({
             id: 2,
             state: {
-                x: 0,
-                y: 800,
+                x: 350,
+                y: 860,
             },
             props: {
-            	width: ccfg.ground.width,
-            	height: ccfg.ground.height,
+            	tilesX,
+            	tilesY,
+            	width: tilesX * ccfg.tileSize,
+            	height: tilesY * ccfg.tileSize,
             	category: ccfg.ground.category,
-                skin: 'stone', //TODO
+                skin: 'ground', //TODO
             },
             engine: state.physics.engine
         })
