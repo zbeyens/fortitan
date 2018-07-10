@@ -18,15 +18,21 @@ export default class PlayerView extends EntityView {
         super.update(delta);
         // this.game.debug.spriteBounds(this);
 
-        if (this.entity.state.dirX) {
+        const isMoving = this.entity.state.dirX;
+        const onGround = this.entity.state.onGround;
+
+        if (onGround && isMoving && !this.animations.getAnimation('walk').isPlaying) {
             //  Play the animation at 30fps on a loop
             this.animations.play('walk', 15, true);
-        } else {
+        }
+        if (!isMoving && this.animations.getAnimation('walk').isPlaying) {
         	this.animations.stop('walk', true);
             this.frame = 1;
-        }
-
-        if (!this.entity.state.onGround) {
+        } 
+        if (!isMoving && onGround) {
+            this.frame = 1;
+        } 
+        if (!onGround) {
             this.frame = 0;
         }
 
