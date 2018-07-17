@@ -17,9 +17,9 @@ export default class Ground extends Entity {
         this.state = new GroundState(this, state, engine);
         // this.view = new EntityView(this);
 
-    	this.view = window.game.add.tileSprite(this.state.x, this.state.y, props.width, props.height, 'ground');
+    	this.view = new Phaser.TileSprite(window.game, this.state.x, this.state.y, props.width, props.height, 'ground');
     	this.view.anchor.setTo(0.5);
-
+    	window.game.platformGroup.add(this.view);
     }
 
 
