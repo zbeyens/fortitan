@@ -16,10 +16,9 @@ export default class Physics {
     //initEngine : loop 60 times per sec and checks physics each time
     initEngine() {
         // create an engine
-        const engine = Matter.Engine.create();
-        this.engine = engine;
+        this.engine = Matter.Engine.create();
 
-        Matter.Engine.run(this.engine);
+        // Matter.Engine.run(this.engine);
 
         // engine.enableSleeping = true;
         // engine.world.gravity.x = 0;
@@ -132,7 +131,10 @@ export default class Physics {
             return 2;
         }
     }
-    update(selfPlayer) {
+
+    update(delta, selfPlayer) {
+        Matter.Engine.update(this.engine, delta);
+
         if (this.render) {
             this.render.bounds.min.x = -this.render.options.width / 2 + selfPlayer.state.x;
             this.render.bounds.max.x = this.render.options.width / 2 + selfPlayer.state.x;

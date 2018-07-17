@@ -1,4 +1,5 @@
 import EntityView from '../EntityView';
+import ccfg from '../../config';
 
 export default class PlayerView extends EntityView {
 
@@ -11,6 +12,8 @@ export default class PlayerView extends EntityView {
         }
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
         this.animations.add('walk', framesWalk);
+
+        this.wall = new Phaser.Rectangle(0, 550, 800, 50);
 
     }
 
@@ -46,6 +49,11 @@ export default class PlayerView extends EntityView {
         }
 
         // this.entity.state.actionState.render(this);
+
+        const width = 10;
+        const height = ccfg.tileSize;
+        this.wall.setTo(this.entity.state.x + ccfg.tileSize / 2 - width / 2, this.entity.state.y - height / 2, width, height);
+        this.game.debug.geom(this.wall,'#A67C52');
     }
 
 }
