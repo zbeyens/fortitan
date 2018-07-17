@@ -8,7 +8,7 @@ export default class EntityView extends Phaser.Sprite {
         this.entity = entity;
         this.anchor.setTo(0.5);
 
-        this.game.add.existing(this);
+        //this.game.add.existing(this);
 
     }
 

@@ -11,7 +11,8 @@ export default class PlayerView extends EntityView {
         }
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
         this.animations.add('walk', framesWalk);
-
+        console.log(this.game.playerGroup);
+        this.game.playerGroup.add(this);
     }
 
     update(delta) {

@@ -15,12 +15,13 @@ import Hud from '../Hud';
 class GameScene extends Phaser.State {
 
     create() {
-        this.game.backgroundgroup = this.game.add.group();
-        this.game.Itemgroup = this.game.add.group();
-        this.game.Playersgroup = this.game.add.group();
-        this.game.Resourcegroup = this.game.add.group();
-        this.game.Hudgroup = this.game.add.group();
         
+        this.game.backgroundGroup = this.game.add.group();
+        this.game.resourceGroup = this.game.add.group();
+        this.game.platformGroup = this.game.add.group();
+        this.game.itemGroup = this.game.add.group();
+        this.game.playerGroup = this.game.add.group();
+        this.game.hudGroup = this.game.add.group();
 
         this.map = new Map(this);
         this.camera = new Camera(this.game);
@@ -49,7 +50,7 @@ class GameScene extends Phaser.State {
             id: 1,
             state: {
                 x: 400,
-                y: 675,
+                y: 650,
             },
             props: {
                 skin: 'tree2'
@@ -60,7 +61,7 @@ class GameScene extends Phaser.State {
             id: 2,
             state: {
                 x: 600,
-                y: 675,
+                y: 650,
             },
             props: {
                 skin: 'tree2'
