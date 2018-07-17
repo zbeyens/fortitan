@@ -32,6 +32,7 @@ export default class PreloaderScene extends Phaser.State {
         this.load.image('stone','client/img/tiles/Spring/256x256/GrassJoinHillRight2&Left2 DownShadow.png');
         this.load.image(ccfg.bgKey, ccfg.bgUrl);
         this.load.image('ground', 'client/img/tiles/Spring/128x128/GrassMid.png');
+        this.load.image('pickaxe', 'client/img/SpriteWay/StonePick.png');
         
         // Tilemap with a lot of objects and tile-properties tricks
         // this.load.tilemap('map', 'client/assets/tilemaps/super-mario.json');

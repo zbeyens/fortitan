@@ -1,8 +1,9 @@
 import Matter from 'matter-js';
 import EntityState from '../EntityState';
 import ccfg from '../../config';
-import PlayerActionIdleState from './States/PlayerActionIdleState'
-import PlayerActionHittingState from './States/PlayerActionHittingState'
+import PlayerActionIdleState from './States/PlayerActionIdleState';
+import PlayerActionHittingState from './States/PlayerActionHittingState';
+
 
 
 export default class PlayerState extends EntityState {
@@ -14,6 +15,7 @@ export default class PlayerState extends EntityState {
         Matter.World.add(this.engine.world, this.body);
 
         this.onGround = false;
+        
     }
 
     init() {

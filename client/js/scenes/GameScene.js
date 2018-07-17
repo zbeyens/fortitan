@@ -19,8 +19,8 @@ class GameScene extends Phaser.State {
         this.game.backgroundGroup = this.game.add.group();
         this.game.resourceGroup = this.game.add.group();
         this.game.platformGroup = this.game.add.group();
-        this.game.itemGroup = this.game.add.group();
         this.game.playerGroup = this.game.add.group();
+        this.game.itemGroup = this.game.add.group();
         this.game.hudGroup = this.game.add.group();
 
         this.map = new Map(this);
@@ -95,7 +95,7 @@ class GameScene extends Phaser.State {
      * @param  {float} delta time between 2 updates
      */
     update(game) {
-        const delta = game.time.elapsed
+        const delta = game.time.elapsed;
         const selfPlayer = this.playerManager.entities[0];
 
         this.inputManager.handleGame(selfPlayer);
@@ -117,9 +117,6 @@ class GameScene extends Phaser.State {
     
     }
 
-    preRender() {
-    	this.game.debug.spriteBounds(this.playerManager.entities[0].view);
-    }
 }
 
 export default GameScene;

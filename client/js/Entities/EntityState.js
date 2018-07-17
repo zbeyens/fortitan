@@ -9,7 +9,7 @@ export default class EntityState {
     constructor(entity, { x, y }, engine) {
         this.entity = entity;
         this.engine = engine;
-
+        
         this.x = x;
         this.y = y;
     }
