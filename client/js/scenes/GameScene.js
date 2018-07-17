@@ -8,6 +8,7 @@ import StoneManager from '../Entities/Resource/Stone/StoneManager';
 import Physics from '../physics/Physics'
 import ccfg from '../config/';
 import Hud from '../Hud';
+import Wall from '../Entities/Building/Wall/Wall'
 
 /**
  * Setup and display the main game state.
@@ -80,11 +81,20 @@ class GameScene extends Phaser.State {
             },
             engine: physics.engine
         });
-
         
 
         const selfPlayer = this.playerManager.entities[0];
         this.camera.follow(selfPlayer);
+
+        // this.buildingPreview = new Wall({
+        // 	id: 0,
+        // 	state: {
+        // 		x: selfPlayer.state.x,
+        // 		y: selfPlayer.state.y,
+        // 		owner: selfPlayer,
+        // 	},
+        // 	engine: physics.engine
+        // });
 
         this.inputManager = new InputManager(this.game);
     }

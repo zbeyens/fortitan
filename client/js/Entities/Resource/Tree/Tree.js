@@ -10,7 +10,7 @@ export default class Tree extends Resource {
     constructor({ id, state, props, engine }) {
         super(id);
         this.props = new TreeProps(props);
-        this.state = new TreeState(this, state,engine);
+        this.state = new TreeState(this, state, engine);
         this.view = new TreeView(this);
     }
 
