@@ -100,7 +100,7 @@ class GameScene extends Phaser.State {
 
         this.inputManager.handleGame(selfPlayer);
 
-        this.physics.update(selfPlayer);
+        this.physics.update(delta, selfPlayer);
         
         // console.log(delta);
         this.playerManager.update(delta);
@@ -115,6 +115,10 @@ class GameScene extends Phaser.State {
         
     
     
+    }
+
+    preRender() {
+    	this.game.debug.spriteBounds(this.playerManager.entities[0].view);
     }
 }
 

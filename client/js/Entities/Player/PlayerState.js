@@ -44,16 +44,16 @@ export default class PlayerState extends EntityState {
      */
     update(delta) {
         // const jumpTimeElapsed = new Date() - this.jumpTime || 1000;
-        if (!this.body.velocity.y) {
+        if (Math.abs(this.body.velocity.y) < 0.01) {
             this.onGround = true;
         } else {
             this.onGround = false;
         }
 
-        this.move(this.dirX, this.dirY);
-
         this.x = this.body.position.x;
         this.y = this.body.position.y;
+        this.move(this.dirX, this.dirY);
+
 
 
 

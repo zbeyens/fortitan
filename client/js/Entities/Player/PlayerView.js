@@ -1,4 +1,5 @@
 import EntityView from '../EntityView';
+import ccfg from '../../config';
 
 export default class PlayerView extends EntityView {
 
@@ -11,23 +12,35 @@ export default class PlayerView extends EntityView {
         }
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
         this.animations.add('walk', framesWalk);
+<<<<<<< HEAD
         console.log(this.game.playerGroup);
         this.game.playerGroup.add(this);
+=======
+
+        this.wall = new Phaser.Rectangle(0, 550, 800, 50);
+
+>>>>>>> b1f908f81f0340bd38a3de8d7b15ad4d4ef6be15
     }
 
     update(delta) {
         super.update(delta);
         // this.game.debug.spriteBounds(this);
 
-        if (this.entity.state.dirX) {
+        const isMoving = this.entity.state.dirX;
+        const onGround = this.entity.state.onGround;
+
+        if (onGround && isMoving && !this.animations.getAnimation('walk').isPlaying) {
             //  Play the animation at 30fps on a loop
             this.animations.play('walk', 15, true);
-        } else {
+        }
+        if (!isMoving && this.animations.getAnimation('walk').isPlaying) {
         	this.animations.stop('walk', true);
             this.frame = 1;
-        }
-
-        if (!this.entity.state.onGround) {
+        } 
+        if (!isMoving && onGround) {
+            this.frame = 1;
+        } 
+        if (!onGround) {
             this.frame = 0;
         }
 
@@ -41,6 +54,11 @@ export default class PlayerView extends EntityView {
         }
 
         // this.entity.state.actionState.render(this);
+
+        const width = 10;
+        const height = ccfg.tileSize;
+        this.wall.setTo(this.entity.state.x + ccfg.tileSize / 2 - width / 2, this.entity.state.y - height / 2, width, height);
+        this.game.debug.geom(this.wall,'#A67C52');
     }
 
 }
