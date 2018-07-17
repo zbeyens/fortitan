@@ -49,7 +49,7 @@ export default class PlayerActionHittingState extends State {
             for (let j = this.hits.length - 1; j >= 0; j--) {
                 if (collision.parentA.entity === this.hits[j]) {
                     alreadyHit = true;
-                }gi
+                }
             }
             if (alreadyHit) continue;
 
