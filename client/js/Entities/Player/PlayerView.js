@@ -12,14 +12,9 @@ export default class PlayerView extends EntityView {
         }
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
         this.animations.add('walk', framesWalk);
-<<<<<<< HEAD
-        console.log(this.game.playerGroup);
         this.game.playerGroup.add(this);
-=======
 
         this.wall = new Phaser.Rectangle(0, 550, 800, 50);
-
->>>>>>> b1f908f81f0340bd38a3de8d7b15ad4d4ef6be15
     }
 
     update(delta) {
