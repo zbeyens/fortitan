@@ -25,6 +25,7 @@
     "phaser-animated-tiles": "^1.0.0",
     "phaser-ce": "^2.10.3",
     "public-ip": "^2.3.5",
+    "s": "^0.1.1",
     "serve-favicon": "^2.3.2",
     "stats.js": "^0.17.0",
     "ws": "^2.2.3"

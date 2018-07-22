@@ -8,6 +8,7 @@ export default class GroundState extends EntityState {
 		super(entity, state, engine);
 
 		this.body = this.rectangle(entity.props.width, entity.props.height, ccfg.ground.bodyOptions);
+		console.log(this.body);
         Matter.World.add(this.engine.world, this.body);
 	}
 	

@@ -133,6 +133,9 @@ export default class Physics {
     }
 
     update(delta, selfPlayer) {
+        // if delta is too high, physics system is broken
+        if (delta > 100) return;
+
         Matter.Engine.update(this.engine, delta);
 
         if (this.render) {
