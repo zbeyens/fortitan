@@ -6,6 +6,6 @@ export default class TreeProps extends ResourceProps {
 	constructor(props) {
 		super();
 		this.skin = props.skin;
-		this.category = ccfg.treeCategory;	
+		this.category = ccfg.tree.category;	
 	}
 }

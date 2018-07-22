@@ -15,7 +15,6 @@ export default class PlayerState extends EntityState {
         Matter.World.add(this.engine.world, this.body);
 
         this.onGround = false;
-        
     }
 
     init() {
@@ -76,12 +75,12 @@ export default class PlayerState extends EntityState {
     move(dirX, dirY) {
         const body = this.body;
 
-        
+
 
         if (this.dirY && this.onGround) {
-           this.onGround = false;
+            this.onGround = false;
 
-           console.log("apply force");
+            console.log("apply force");
             Matter.Body.applyForce(this.body, this, {
                 x: 0,
                 y: ccfg.player.jumpForce

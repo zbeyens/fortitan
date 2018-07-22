@@ -43,8 +43,7 @@ const config = {
 
 };
 
-config.player.bodyOptions.collisionFilter.mask = config.treeCategory | config.stoneCategory;
-config.tree.bodyOptions.collisionFilter.mask = config.player.category;
+//config.player.bodyOptions.collisionFilter.mask = config.treeCategory | config.stoneCategory;
+//config.tree.bodyOptions.collisionFilter.mask = config.item.pickaxeCategory;
 config.stoneMask = config.stoneCategory;
-
 module.exports = config;
