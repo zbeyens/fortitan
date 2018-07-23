@@ -20,6 +20,7 @@ class GameScene extends Phaser.State {
 
         this.game.backgroundGroup = this.game.add.group();
         this.game.resourceGroup = this.game.add.group();
+        this.game.buildingGroup = this.game.add.group();
         this.game.platformGroup = this.game.add.group();
         this.game.playerGroup = this.game.add.group();
         this.game.itemGroup = this.game.add.group();

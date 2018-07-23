@@ -19,6 +19,7 @@ export default class PlayerState extends EntityState {
     }
 
     init() {
+        // this.itemState = new PlayerItemWeapon
         this.actionState = new PlayerActionIdleState(this);
     }
 
@@ -55,9 +56,6 @@ export default class PlayerState extends EntityState {
         this.x = this.body.position.x;
         this.y = this.body.position.y;
         this.move(this.dirX, this.dirY);
-
-
-
 
         this.targetAngle = Math.atan2(window.game.camera.y + window.game.input.mousePointer.y - this.y, window.game.camera.x + window.game.input.mousePointer.x - this.x);
 

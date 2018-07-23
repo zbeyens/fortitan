@@ -18,7 +18,9 @@ export default class Player extends Entity {
         const self = this;
         this.buildingPreview = new Wall({
         	id: 0,
-        	props: {},
+        	props: {
+                preview: true
+            },
         	state: {
         		x: self.state.x,
         		y: self.state.y,
