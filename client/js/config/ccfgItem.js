@@ -1,7 +1,8 @@
 const config = {
 	category: 0x0100,
-    bodyWidth: 100,
-    bodyHeight: 120,
+    bodyWidth: 50,
+    bodyHeight: 40,
+    pickaxeCategory: 0x0101
 };
 
 config.bodyOptions = {
@@ -15,6 +16,6 @@ config.bodyOptions = {
         // group
         category: config.category,
     },
-}
+};
 
 module.exports = config;

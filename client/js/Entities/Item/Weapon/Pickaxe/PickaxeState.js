@@ -8,8 +8,12 @@ export default class PickaxeState extends EntityState {
 		super(entity, state, engine);
 		console.log(this.owner);
 		this.owner = state.owner;
-		this.body = this.rectangle(ccfg.item.bodyWidth, ccfg.item.bodyHeight, ccfg.item.bodyOptions);
+		const bodyOptions = ccfg.item.bodyOptions;
+		bodyOptions.category = ccfg.item.pickaxeCategory;
+		this.body = this.rectangle(ccfg.item.bodyWidth, ccfg.item.bodyHeight, bodyOptions);
+		this.body.entity = this.entity;
 		//this.body = this.rectangle(entity.props.width, entity.props.height, ccfg.ground.bodyOptions);
+		Matter.Body.rotate(this.body, 90);
         Matter.World.add(this.engine.world, this.body);
 	}
 	update(delta) {

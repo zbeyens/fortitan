@@ -49,10 +49,14 @@ export default class Physics {
             event.pairs.forEach((pair) => {
                 const entityA = pair.bodyA.parent.entity;
                 const entityB = pair.bodyB.parent.entity;
+
+                console.log("coucou2");
+
                 if (!entityA || !entityB) return;
 
                 this.checkPlayerOnGround(entityA, entityB);
-               
+                
+                this.checkPickaxeTreeCollisions(entityA, entityB);
 
 
                 if (this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.player.category)) {
@@ -98,6 +102,7 @@ export default class Physics {
     }
 
     checkPlayerOnGround(entityA, entityB) {
+
         const res = this.checkCategory(entityA.props.category, entityB.props.category, ccfg.player.category, ccfg.ground.category);
         if (!res) return;
        
@@ -130,6 +135,40 @@ export default class Physics {
         if ((categoryB === category1 && categoryA === category2)) {
             return 2;
         }
+    }
+
+    /**
+     * Use raycasting to check collisions
+     * Raycasting create a rectangle between startPoint and endPoint
+     * and check collisions with all the bodies.
+     * If there is a collision with self, ignore.
+     * If already hit one entity, ignore.
+     * Else, add the hit entity in this.hit and handle the collision. 
+     */
+    checkPickaxeTreeCollisions(entityA, entityB) {
+        console.log(entityA.props.category);
+        console.log(entityB.props.category);
+        const res = this.checkCategory(entityA.props.category, entityB.props.category, ccfg.item.pickaxeCategory, ccfg.tree.category);
+        console.log("coucou");
+         if (!res) return;
+       
+        let player;
+        let tree;
+
+        
+
+        //check which entity is the player
+        if (res === 1) {
+            player = entityA;
+            tree = entityB;
+            console.log("Collision between pickaxe and tree");
+        } else if (res === 2) {
+            player = entityB;
+            tree = entityA;
+            console.log("Collision between tree and pickaxe");
+        }
+        //tree.state.
+        //player.state.cutTree();
     }
 
     update(delta, selfPlayer) {

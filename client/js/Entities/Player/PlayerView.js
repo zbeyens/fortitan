@@ -45,10 +45,6 @@ export default class PlayerView extends EntityView {
         } else {
             this.scale.x = 1;
         }
-
         // this.entity.state.actionState.render(this);
-
-        
     }
-
 }

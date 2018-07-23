@@ -11,6 +11,7 @@ export default class Pickaxe extends Entity {
         super(id);
         // this.props = new GroundProps(props);
         this.props = props;
+        this.props.category = ccfg.item.pickaxeCategory;
         console.log(state);
         this.state = new PickaxeState(this, state, engine);
         this.view = new PickaxeView(this);
