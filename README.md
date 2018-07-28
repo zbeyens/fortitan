@@ -1,7 +1,13 @@
 <!-- ![Logo of the project](./images/logo.sample.png) -->
 
-# iogame-boilerplate
-> Additional information or tag line
+# iogine
+
+<!-- [![Crates.io][s2]][ci] [![MIT/Apache][s3]][li] -->
+[![Slack Status][s5]][sl] ![Lines of Code][s6]
+
+[s5]: https://arradastudios.herokuapp.com/badge.svg
+
+[sl]: https://arradastudios.slack.com/
 
 A brief description of your project, what it is used for.
 
