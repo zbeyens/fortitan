@@ -2,11 +2,14 @@
 
 # iogine
 
-<!-- [![Crates.io][s2]][ci] [![MIT/Apache][s3]][li] -->
-[![Slack Status][s5]][sl] ![Lines of Code][s6]
+<!-- 
+[![Crates.io][s2]][ci] [![MIT/Apache][s3]][li]
+https://img.shields.io/badge/slack-1-red.svg?longCache=true&style=flat&logo=slack&link=https://arradastudios.slack.com/
+-->
+
+[![Slack Status][s5]][sl]
 
 [s5]: https://arradastudios.herokuapp.com/badge.svg
-
 [sl]: https://arradastudios.slack.com/
 
 A brief description of your project, what it is used for.
