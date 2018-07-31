@@ -12,100 +12,84 @@ https://img.shields.io/badge/slack-1-red.svg?longCache=true&style=flat&logo=slac
 [s5]: https://arradastudios.herokuapp.com/badge.svg
 [sl]: https://arradastudios.slack.com/
 
-A brief description of your project, what it is used for.
+iogine is a fast, scalable game framework for node.js. It provides the basic development framework and many related components, including libraries and tools. iogine is also suitable for real-time web applications; its distributed architecture makes iogine scale better than other real-time web frameworks. Based on [pomelo](https://github.com/NetEase/pomelo).
 
-## Installing / Getting started
+-   Wiki:  [https://github.com/zbeyens/fortitan/wiki/](https://github.com/zbeyens/fortitan/wiki/)
+-   Issues:  [https://github.com/zbeyens/fortitan/issues/](https://github.com/zbeyens/fortitan/issues/)
+-   Tags: game, nodejs
 
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
+## Features
 
-```shell
-commands here
-```
+### Complete support of game server and realtime application server architecture
 
-Here you should say what actually happens when you execute the code above.
+-   Multiple-player game: mobile, social, web, MMORPG (middle size)
+-   Realtime application: chat, etc.
+
+### Fast, scalable
+<!--
+-   Distributed (multi-process) architecture, can be easily scale up
+-->
+-   Flexible server extension
+-   Full performance optimization and test
+
+### Easy
+
+-   Simple API: request, response, broadcast, etc.
+-   Lightweight: high development efficiency based on node.js
+-   Convention over configuration: almost zero config
+
+<!--
+### Powerful
+
+-   Many clients support, including javascript, flash, android, iOS, cocos2d-x, C
+-   Many libraries and tools, including command line tool, admin tool, performance test tool, AI, path finding etc.
+-   Good reference materials: full docs, many examples and  [an open-source MMO RPG demo](https://github.com/NetEase/pomelo/wiki/Introduction-to--Lord-of-Pomelo)
+-->
+
+### Extensible
+
+<!--
+-   Support plugin architecture, easy to add new features through plugins. We also provide many plugins like online status, master high availability.
+-->
+-   Custom features, users can define their own network protocol, custom components very easy.
+
+## Getting started
+
+### Requirements
+
+-   Ensure you have  [NodeJS](https://nodejs.org/)  installed on your machine.
+
+### Installing
+
+-   Get a fresh clone of the repository:
+    
+    ```
+    git clone https://github.com/zbeyens/fortitan.git
+    ```
+    
+-   Navigate into the directory you just cloned the repository into:
+    
+    ```
+    cd fortitan
+    ```
+    
+-   Install the application dependencies:
+    
+    ```
+    npm install
+    ```
+
+### Running
+  
+-   Run the server:
+    
+    ```
+    npm start
+    ```
+    
+
+Your server should be listening to port 3000 by default. You can change any of the default parameters by editing the  `config`  file.
 
 ## Developing
 
-### Built With
-List main libraries, frameworks used including versions (React, Angular etc...)
-
-### Prerequisites
-What is needed to set up the dev environment. For instance, global dependencies or any other tools. include download links.
-
-
-### Setting up Dev
-
-Here's a brief intro about what a developer must do in order to start developing
-the project further:
-
-```shell
-git clone https://github.com/your/your-project.git
-cd your-project/
-packagemanager install
-```
-
-And state what happens step-by-step. If there is any virtual environment, local server or database feeder needed, explain here.
-
-### Building
-
-If your project needs some additional steps for the developer to build the
-project after some code changes, state them here. for example:
-
-```shell
-./configure
-make
-make install
-```
-
-Here again you should state what actually happens when the code above gets
-executed.
-
-### Deploying / Publishing
-give instructions on how to build and release a new version
-In case there's some step you have to take that publishes this project to a
-server, this is the right time to state it.
-
-```shell
-packagemanager deploy your-project -s server.com -u username -p password
-```
-
-And again you'd need to tell what the previous code actually does.
-
-## Versioning
-
-We can maybe use [SemVer](http://semver.org/) for versioning. For the versions available, see the [link to tags on this repository](/tags).
-
-
-## Configuration
-
-Here you should write what are all of the configurations a user can enter when
-using the project.
-
-## Tests
-
-Describe and show how to run the tests with code examples.
-Explain what these tests test and why.
-
-```shell
-Give an example
-```
-
-## Style guide
-
-Explain your code style and show how to check it.
-
-## Api Reference
-
-If the api is external, link to api documentation. If not describe your api including authentication methods as well as explaining all the endpoints with their required parameters.
-
-
-## Database
-
-Explaining what database (and version) has been used. Provide download links.
-Documents your database design and schemas, relations etc... 
-
-## Licensing
-
-State what the license is and how to find the text version of the license."# fortitan" 
-"# fortitan" 
+You can check out the development workflow on our [wiki](https://github.com/zbeyens/fortitan/wiki/Development-Workflow).
