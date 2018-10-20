@@ -1,0 +1,1 @@
+tree -d -P "*.js" -I "node_modules|doc|package|lib|img|build"
