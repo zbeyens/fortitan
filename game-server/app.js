@@ -18,7 +18,7 @@ server.listen(cfg.serverPort, () => {
 });
 
 // Game Instances
-const gameEngine = new MyGameEngineServer();
+const gameEngine = new MyGameEngineS();
 const serverEngine = new MyServerEngine(io, gameEngine);
 
 // start the game

@@ -1,8 +1,8 @@
-import Background from '../world/map/Background'
-import Camera from '../camera/Camera'
-import InputManager from '../control/InputManager'
-import Hud from '../ui/Hud'
-import cfg from '../config/'
+import Background from '../world/map/Background';
+import Camera from '../camera/Camera';
+import InputManager from '../control/InputManager';
+import Hud from '../ui/Hud';
+// import cfg from '../config';
 
 
 /**
@@ -27,6 +27,8 @@ class GameScene extends Phaser.State {
         this.hud = new Hud();
 
         this.inputManager = new InputManager(this.clientEngine);
+
+        this.gameEngine.createLevel();
     }
 
     /**
@@ -35,18 +37,17 @@ class GameScene extends Phaser.State {
      * @param  {float} delta time between 2 updates
      */
     update(game) {
-        // console.log(this.gameEngine.selfPlayer);        
         if (this.gameEngine.selfPlayer && !this.game.camera.target) {
             this.camera.followPlayer(this.gameEngine.selfPlayer);
         }
-
         const dt = game.time.elapsed;
 
         this.inputManager.handleGameScene();
 
-        this.clientEngine.step(0, dt)
+        this.clientEngine.step(0, dt);
 
-        this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        const debugDim = 32;
+        this.game.debug.cameraInfo(this.game.camera, debugDim, debugDim);
 
         // if (!selfPlayer) return;
         // this.hud.update(selfPlayer);
@@ -61,49 +62,3 @@ class GameScene extends Phaser.State {
 export default GameScene;
 
 // this.level = new Level(this);
-
-        // this.playerManager = new PlayerManager(this.game);
-        // this.playerManager.add({
-        //     id: 0,
-        //     state: {
-        //         x: 300,
-        //         y: 300,
-        //     },
-        //     props: {
-        //         texture: cfg.players.keyPlayer1,
-        //     },
-        //     engine: self.engine.engine
-        // });
-        // this.treeManager = new TreeManager(this.game);
-        // this.treeManager.add({
-        //     id: 1,
-        //     state: {
-        //         x: 400,
-        //         y: 650,
-        //     },
-        //     props: {
-        //         texture: 'tree2'
-        //     },
-        //     engine: self.engine.engine
-        // });
-        // this.treeManager.add({
-        //     id: 2,
-        //     state: {
-        //         x: 600,
-        //         y: 650,
-        //     },
-        //     props: {
-        //         texture: 'tree2'
-        //     },
-        //     engine: self.engine.engine
-        // });
-
-        // this.buildingPreview = new Wall({
-        //  id: 0,
-        //  state: {
-        //      x: selfPlayer.state.x,
-        //      y: selfPlayer.state.y,
-        //      owner: selfPlayer,
-        //  },
-        //  engine: self.engine.engine
-        // });

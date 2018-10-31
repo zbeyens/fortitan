@@ -1,4 +1,5 @@
-import Player from './Player'
+import Player from './Player';
+import Ground from './Ground';
 
 
 export default class EntityFactory {
@@ -14,6 +15,8 @@ export default class EntityFactory {
 		
 		if (type === 'players')
 			newEntity = new Player(entity);
+		if (type === 'grounds')
+			newEntity = new Ground(entity);
 
 		return newEntity;
 	}

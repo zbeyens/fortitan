@@ -1,5 +1,6 @@
-import MyGameEngineV from './MyGameEngineV'
-import MyClientEngine from './MyClientEngine'
+import MyGameEngineV from './MyGameEngineV';
+import MyClientEngine from './MyClientEngine';
+
 
 // create a client engine and a game engine
 const gameEngine = new MyGameEngineV();

@@ -1,10 +1,13 @@
-import Matter from 'matter-js'
-import PhysicsEngine from './PhysicsEngine'
-import cfg from '../../client/src/js/config'
+import Matter from 'matter-js';
+import PhysicsEngine from './PhysicsEngine';
+import cfg from '../../client/src/js/config';
 
 
 /**
- * Matter.js physics engine runned on the server
+ * Matter physics engine runned on the server.
+ * It handles collision detection between all the Bodies added in the World.
+ * It handles physical response after collision.
+ * It has a renderer to debug the collisions. 
  */
  export default class MatterPhysicsEngine extends PhysicsEngine {
 

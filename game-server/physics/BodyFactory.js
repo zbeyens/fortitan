@@ -22,6 +22,7 @@ export default class BodyFactory {
 
     static rectangle(entity, width, height, options) {
         const pos = entity.state.position;
+
         const body = Matter.Bodies.rectangle(pos.x, pos.y, width, height, options);
         body.entity = entity;
         return body;

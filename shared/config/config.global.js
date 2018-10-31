@@ -1,13 +1,27 @@
-const config = {
+// Shared config - inherited by server and client configs
+const cfg = {
+
+    entityTypes: [
+        'players',
+        'grounds',
+        'resources'
+    ],
 
     tileSize: 128,
 
+    players: {
+        props: {
+            atlasIndex: 0,
+        }
+    },
 
     grounds: {
-        width: 5000,
-        height: 200,
-    }
+        props: {
+            textureIndex: 0,
+            body: {}
+        }
+    },
+
 };
 
-
-module.exports = config;
+module.exports = cfg;

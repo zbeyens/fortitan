@@ -1,4 +1,4 @@
-import cfg from '../config';
+// import cfg from '../config';
 
 /**
  * Defines the expected interface for all physics engines

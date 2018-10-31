@@ -1,9 +1,8 @@
 import EventEmitter from 'eventemitter3';
-import ClientEngine from './ClientEngine'
-import InputManager from './control/InputManager'
-import PhaserGame from './PhaserGame'
-import FakeServerEngine from '../../../game-server/FakeServerEngine'
-import cfg from './config'
+import ClientEngine from './ClientEngine';
+import PhaserGame from './PhaserGame';
+import FakeServerEngine from '../../../game-server/FakeServerEngine';
+import cfg from './config';
 
 export default class MyClientEngine extends ClientEngine {
 
@@ -50,14 +49,14 @@ export default class MyClientEngine extends ClientEngine {
     handleInboundMessage(data) {
         super.handleInboundMessage(data);
 
-        let type = 'players';
+        const type = 'players';
 
         this.updateEntities(type, data);
     }
 
     updateEntities(type, data) {
-        let entitiesServer = data[type];
-        for (let id of Object.keys(entitiesServer)) {
+        const entitiesServer = data[type];
+        for (const id of Object.keys(entitiesServer)) {
             const entityServer = entitiesServer[id];
 
             const entitiesView = this.gameEngine.world.entities[type];
@@ -65,7 +64,7 @@ export default class MyClientEngine extends ClientEngine {
                 const newEntity = this.gameEngine.addEntity(type, entityServer);
                 
                 // if it is a player with selfId, we know selfPlayer 
-                if (type === 'players' && id == this.gameEngine.selfId) {
+                if (type === 'players' && Number(id) === this.gameEngine.selfId) {
                     console.log("Self player update received");
                     this.gameEngine.selfPlayer = newEntity;
                 }

@@ -1,6 +1,6 @@
-const cfgs = require('./config'),
+const cfg = require('./config');
 // Server = require('./Server');
-Fps = require('../shared/tools/Fps');
+// Fps = require('../shared/tools/Fps');
 
 /*
 Start physics loop on existing players and entities : get and update a new state.
@@ -15,12 +15,11 @@ class Game {
         
         this.tickMainTs = 0;
         
-        console.log(cache.wss);
         // this.server = new Server(this, wss);
         
-        this.world = new World();
+        // this.world = new World();
         
-        this.fps = new Fps();
+        // this.fps = new Fps();
         this.fps.startServer();
     }
     
@@ -44,7 +43,7 @@ class Game {
         }, 0);
 
         setTimeout(() => {
-            const localTime = this.lastPhysicsTs - this.startTime;
+            // const localTime = this.lastPhysicsTs - this.startTime;
             // this.server.stateController.broadcastState(localTime);
         }, 0);
 
@@ -66,11 +65,11 @@ class Game {
     
     physicsLoop() {
         this.tickPhysics++;
-        if (this.tickPhysics < cfgs.tickPhysics) return;
+        if (this.tickPhysics < cfg.tickPhysics) return;
         this.tickPhysics = 0;
         
         const now = new Date();
-        const physicsDelta = (now - this.lastPhysicsTs);
+        // const physicsDelta = (now - this.lastPhysicsTs);
         
         // const world = 
     }

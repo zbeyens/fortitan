@@ -1,4 +1,4 @@
-import cfg from '../config/';
+import cfg from '../config';
 
 
 /**
@@ -7,15 +7,14 @@ import cfg from '../config/';
  */
 export default class PreloaderScene extends Phaser.State {
 
-    init() {
-    }
+    init() {}
 
     /**
      * Preload any assets needed for the main menu state.
      */
     preload() {
         // Images
-        
+
         this.load.image('inventoryBar', 'img/InventoryBar1.png');
 
         this.load.image('title-background', 'img/icons/bg-2.png');
@@ -23,11 +22,36 @@ export default class PreloaderScene extends Phaser.State {
 
         // this.load.image('p1_walk', 'img/temp/p1_walk.png');
         this.load.image('tree2', 'img/tree/Asset 1.png');
-        this.load.image('stone','img/tiles/Spring/256x256/GrassJoinHillRight2&Left2 DownShadow.png');
-        this.load.image(cfg.bgKey, cfg.bgUrl);
-        this.load.image('ground', 'img/tiles/Spring/128x128/GrassMid.png');
+        this.load.image('stone', 'img/tiles/Spring/256x256/GrassJoinHillRight2&Left2 DownShadow.png');
+        this.load.image(cfg.bg.key, cfg.bg.url);
         this.load.image('pickaxe', 'img/SpriteWay/StonePick.png');
-        
+        this.load.image('ground', 'img/tiles/Spring/128x128/GrassMid.png');
+
+        // preload all textures from the config where key = imageType + entityType + index (e.g. 'imagePlayers0')
+        for (const textureType of Object.keys(cfg.textures)) {
+            const textureList = cfg.textures[textureType];
+
+            for (let i = 0; i < textureList.length; i++) {
+                const key = 'image_' + textureType + '_' + i;
+                const url = textureList[i];
+
+                this.load.image(key, url);
+            }
+        }
+
+        // Beginning of an atlas to replace spritesheets
+        for (const atlasType of Object.keys(cfg.atlases)) {
+            const atlasList = cfg.atlases[atlasType];
+
+            for (let i = 0; i < atlasList.length; i++) {
+                const key = 'atlas_' + atlasType + '_' + i;
+                const url = atlasList[i];
+
+                this.load.atlas(key, url + '.png', url + '.json');
+            }
+        }
+
+
         // Tilemap with a lot of objects and tile-properties tricks
         // this.load.tilemap('map', 'client/assets/tilemaps/super-mario.json');
 
@@ -39,8 +63,6 @@ export default class PreloaderScene extends Phaser.State {
         // this.load.spritesheet('mario', 'assets/images/mario-sprites.png', { frameWidth: 16, frameHeight: 32 });
         // this.load.spritesheet('sprites16', 'assets/images/16x16sprites.png', { frameWidth: 16, frameHeight: 16 });
 
-        // Beginning of an atlas to replace spritesheets
-        this.load.atlas(cfg.players.keyPlayer1, cfg.players.urlPlayer1 + '.png', cfg.players.urlPlayer1 + '.json');
 
         // Music to play. Need to cut it for it to loop properly
         // this.load.audio('overworld', [

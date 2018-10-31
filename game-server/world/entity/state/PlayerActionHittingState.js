@@ -1,5 +1,5 @@
-import State from './State'
-import cfg from '../../../config'
+import State from './State';
+import cfg from '../../../config';
 
 
 export default class PlayerActionHittingState extends State {

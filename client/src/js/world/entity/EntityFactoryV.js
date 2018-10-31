@@ -1,4 +1,5 @@
-import PlayerV from './PlayerV'
+import PlayerV from './PlayerV';
+import GroundV from './GroundV';
 
 
 export default class EntityViewFactory {
@@ -12,6 +13,8 @@ export default class EntityViewFactory {
 		
 		if (type === 'players')
 			newEntity = new PlayerV(entity);
+		if (type === 'grounds')
+			newEntity = new GroundV(entity);
 
 		return newEntity;
 	}

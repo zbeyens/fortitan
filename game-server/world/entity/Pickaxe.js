@@ -1,6 +1,6 @@
-import Entity from '../../../Entity';
-import PickaxeState from './PickaxeState';
-import cfg from '../../../../../config';
+import Entity from './Entity';
+import cfg from '../../config';
+
 
 /**
  * Every Entity has a props, a state and a view component.
@@ -10,7 +10,7 @@ export default class Pickaxe extends Entity {
         super(id);
         this.props = props;
         this.props.category = cfg.item.pickaxeCategory;
-        this.state = new PickaxeState(this, state, engine);
+        // this.state = new PickaxeState(this, state, engine);
     }
 
 }

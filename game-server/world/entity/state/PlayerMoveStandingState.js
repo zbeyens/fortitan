@@ -1,5 +1,4 @@
-import State from './State';
-import PlayerMoveState from './PlayerMoveState'
+import PlayerMoveState from './PlayerMoveState';
 
 
 export default class PlayerMoveStandingState extends PlayerMoveState {
@@ -12,7 +11,8 @@ export default class PlayerMoveStandingState extends PlayerMoveState {
     handleInput(input) {
         super.handleInput(input);
 
-        if (input.up && this.elapsed > 50) {
+        const jumpInterval = 50;
+        if (input.up && this.elapsed > jumpInterval) {
             this.entity.enterJumpingState();
         }
     }

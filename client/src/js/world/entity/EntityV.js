@@ -2,11 +2,8 @@
  * Every Entity has a View (sprite)
  * It's updated from the State
  */
-export default class EntityV {
+ export default class EntityV {
     constructor(entity) {
-        this.props = {
-            texture: 'p1_walk'
-        };
         this.state = {
             position: {
                 x: 0,
@@ -14,26 +11,44 @@ export default class EntityV {
             },
         };
         Object.assign(this, entity);
-        this.props = {
-            texture: 'p1'
-        };
+
+        this.sprites = [];
     }
 
-    addSprite() {
+    addSprite(key) {
         const pos = this.state.position;
-        this.sprite = window.game.add.sprite(this.state.position.x, this.state.position.y, this.props.texture);
-        this.sprite.anchor.setTo(0.5);
+        const sprite = window.game.add.sprite(pos.x, pos.y, key);
+        sprite.anchor.setTo(0.5);
+        this.sprites.push(sprite);
+
+        return sprite;
+    }
+
+
+    getAnimationFrames(nFrames, offset = 0) {
+        const frames = [];
+        for (let i = 0; i < nFrames; i++) {
+            frames.push(offset + i);
+        }
+
+        return frames;
     }
 
     destroy() {
-        this.sprite.destroy();
+        for (const sprite of this.sprites) {
+            sprite.destroy();
+        }
     }
 
+    update(dt) {}
+
     /**
-     * update the sprite position
+     * update the sprites position
      */
-    update(dt) {
-        this.sprite.position = this.state.position;
+    updateSprites() {
+        for (const sprite of this.sprites) {
+            sprite.position = this.state.position;
+        }
 
         // this.game.debug.spriteBounds(this);
     }

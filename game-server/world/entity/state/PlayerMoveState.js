@@ -1,5 +1,5 @@
 import State from './State';
-import cfg from '../../../config';
+// import cfg from '../../../config';
 
 
 export default class PlayerMoveState extends State {
@@ -11,11 +11,9 @@ export default class PlayerMoveState extends State {
         };
 
         if (input.left) {
-            this.state.dirLeft = true;
             this.state.direction.x = -1;
         }
         if (input.right) {
-            this.state.dirLeft = false;
             this.state.direction.x = 1;
         }
 	}

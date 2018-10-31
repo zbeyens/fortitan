@@ -1,6 +1,5 @@
-import State from './State';
 import PlayerMoveState from './PlayerMoveState';
-import cfg from '../../../config';
+// import cfg from '../../../config';
 
 
 export default class PlayerMoveJumpingState extends PlayerMoveState {
@@ -14,7 +13,8 @@ export default class PlayerMoveJumpingState extends PlayerMoveState {
     update(delta) {
         super.update(delta);
 
-        if (Math.abs(this.entity.physics.body.velocity.y) < 0.0001) {
+        const vyMin = 0.0001;
+        if (Math.abs(this.entity.physics.body.velocity.y) < vyMin) {
             this.entity.enterStandingState();
         }
     }

@@ -1,11 +1,10 @@
-import MyPhysicsEngine from './physics/MyPhysicsEngine.js'
-import MyGameEngine from '../shared/MyGameEngine'
-import EntityFactory from './world/entity/EntityFactory'
-import Player from './world/entity/Player'
-import cfg from './config'
+import MyPhysicsEngine from './physics/MyPhysicsEngine';
+import MyGameEngine from '../shared/MyGameEngine';
+import EntityFactory from './world/entity/EntityFactory';
+import cfg from './config';
 
 
-export default class MyGameEngineServer extends MyGameEngine {
+export default class MyGameEngineS extends MyGameEngine {
 
     constructor() {
         super();
@@ -14,12 +13,18 @@ export default class MyGameEngineServer extends MyGameEngine {
         this.entityFactory = new EntityFactory(this);
     }
 
+    start() {
+        super.start();
+
+        this.createLevel();
+    }
+
     processInput(inputData, socketId) {
         super.processInput(inputData, socketId);
 
         // find the player entity with the socketId
         let player;
-        for (let id of Object.keys(this.world.entities.players)) {
+        for (const id of Object.keys(this.world.entities.players)) {
             const p = this.world.entities.players[id];
             if (p.socketId === socketId)
                 player = p;
@@ -37,30 +42,32 @@ export default class MyGameEngineServer extends MyGameEngine {
     }
 
     /**
-     * Makes a new player, adds it to the game world
+     * Creates a new player, adds it to the game world
      * TODO: we can place it randomly and set the props from the user input
      */
-    makePlayer() {
+    createPlayer() {
         const type = 'players';
 
-        const id = this.world.getNewId(type);
+        const state = cfg[type].state;
+        const props = cfg[type].props;
 
-        const state = cfg.players.state;
-        const props = cfg.players.props;
+        const entity = {
+            state,
+            props
+        };
 
-        const newPlayer = this.addEntity(type, {
-            id, state, props
-        });
-
-        return newPlayer;
+        const newEntity = this.addEntity(type, entity);
+        return newEntity;
     }
+
+    
 
 }
 
 // registerClasses(serializer){
-    //     serializer.registerClass(Ship);
-    //     serializer.registerClass(Missile);
-    // }
+//     serializer.registerClass(Ship);
+//     serializer.registerClass(Missile);
+// }
 
 // makeMissile(playerShip, inputId) {
 //     let missile = new Missile(this);

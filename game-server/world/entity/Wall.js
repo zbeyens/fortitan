@@ -1,7 +1,5 @@
-import Entity from '../../Entity';
-// import WallProps from './WallProps';
-import WallState from './WallState';
-import cfg from '../../../../config';
+import Entity from './Entity';
+import cfg from '../../config';
 
 
 /**
@@ -12,7 +10,7 @@ export default class Wall extends Entity {
         super(id);
         this.props = props;
         this.props.category = cfg.treeCategory;
-        this.state = new WallState(this, state, engine);
+        // this.state = new WallState(this, state, engine);
     }
 
 

@@ -102,6 +102,9 @@ export default class GameEngine {
      * @return {Object} object - the final object.
      */
     addEntityToWorld(type, object) {
+        console.log(type);
+        console.log(object);
+
         this.world.addEntity(type, object);
         // console.log(`========== object added ${object.toString()} ==========`);
 

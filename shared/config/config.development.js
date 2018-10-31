@@ -1,11 +1,10 @@
-let config = require('./config.global.js');
+const configGlobal = require('./config.global.js');
 
-config.env = 'development';
+const config = {
+    env: 'development',
 
-const configDev = {
-    
 };
 
-config = Object.assign(config, configDev); 
+Object.assign(configGlobal, config); 
 
-module.exports = config;
+module.exports = configGlobal;

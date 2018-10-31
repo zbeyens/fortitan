@@ -1,16 +1,5 @@
+import cfg from './config';
 
-import cfg from './config'
-
-// externalizing these parameters as options would add confusion to game
-// developers, and provide no real benefit.
-const STEP_DRIFT_THRESHOLDS = {
-    onServerSync: { MAX_LEAD: 1, MAX_LAG: 3 }, // max step lead/lag allowed after every server sync
-    onEveryStep: { MAX_LEAD: 7, MAX_LAG: 8 } // max step lead/lag allowed at every step
-};
-const STEP_DRIFT_THRESHOLD__CLIENT_RESET = 20; // if we are behind this many steps, just reset the step counter
-const GAME_UPS = 60; // default number of game steps per second
-const STEP_DELAY_MSEC = 12; // if forward drift detected, delay next execution by this amount
-const STEP_HURRY_MSEC = 8; // if backward drift detected, hurry next execution by this amount
 
 /**
  * The client engine is the singleton which manages the client-side
@@ -44,7 +33,7 @@ export default class ClientEngine {
         this.outboundMessages = [];
     }
 
-    
+
 
     /**
      * Makes a connection to the game server.  Extend this method if you want to add additional
@@ -106,9 +95,9 @@ export default class ClientEngine {
      * @param {Object} inputOptions - options for the input
      */
     sendInput(command, data) {
-        var message = {
-            command: command,
-            data: data,
+        const message = {
+            command,
+            data,
         };
 
         this.outboundMessages.push(message);
@@ -119,7 +108,7 @@ export default class ClientEngine {
 
     // emit an input to the authoritative server
     handleOutboundInput() {
-        for (var i = 0; i < this.outboundMessages.length; i++) {
+        for (let i = 0; i < this.outboundMessages.length; i++) {
             this.socket.emit(this.outboundMessages[i].command, this.outboundMessages[i].data);
         }
 
@@ -137,6 +126,18 @@ export default class ClientEngine {
 // import NetworkMonitor from './network/NetworkMonitor';
 // import NetworkTransmitter from './network/NetworkTransmitter';
 // 
+
+// externalizing these parameters as options would add confusion to game
+// developers, and provide no real benefit.
+// const STEP_DRIFT_THRESHOLDS = {
+//     onServerSync: { MAX_LEAD: 1, MAX_LAG: 3 }, // max step lead/lag allowed after every server sync
+//     onEveryStep: { MAX_LEAD: 7, MAX_LAG: 8 } // max step lead/lag allowed at every step
+// };
+// const STEP_DRIFT_THRESHOLD__CLIENT_RESET = 20; // if we are behind this many steps, just reset the step counter
+// const GAME_UPS = 60; // default number of game steps per second
+// const STEP_DELAY_MSEC = 12; // if forward drift detected, delay next execution by this amount
+// const STEP_HURRY_MSEC = 8; // if backward drift detected, hurry next execution by this amount
+
 
 // constructor(gameEngine) {
 
@@ -156,9 +157,9 @@ export default class ClientEngine {
 //     }
 
 // configure the Synchronizer singleton
-    // configureSynchronization() {
-    //     // const synchronizer = new Synchronizer(this, this.options.syncOptions);
-    // }
+// configureSynchronization() {
+//     // const synchronizer = new Synchronizer(this, this.options.syncOptions);
+// }
 
 // connect(socket) {
 //     // console.log(`connecting to game server ${matchMakerAnswer.serverURL}`);

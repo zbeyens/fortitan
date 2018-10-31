@@ -1,10 +1,12 @@
-import Matter from 'matter-js'
+import Matter from 'matter-js';
 
 
 /**
- * Handle collisions 
+ * The collision engine is split into two parts: collision detection and collision response.
+ * Matter handles collision detection.
+ * This class handles collision response. 
  */
-export default class CollisionHandler {
+export default class CollisionResponse {
 
     constructor(physicsEngine) {
         this.physicsEngine = physicsEngine;
@@ -14,7 +16,7 @@ export default class CollisionHandler {
      * Implementation required
      */
     handleCollisions() {
-        throw new Error('Abstract method');
+        // throw new Error('Abstract method');
 
         Matter.Events.on(this.physicsEngine, "collisionStart", (event) => {
             event.pairs.forEach((pair) => {

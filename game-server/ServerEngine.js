@@ -72,7 +72,7 @@ export default class ServerEngine {
     step() {
         this.gameEngine.emit('server__preStep', this.gameEngine.world.stepCount + 1);
 
-        this.serverTime = (new Date().getTime());
+        this.serverTime = new Date().getTime();
 
         // for each player, replay all the inputs in the oldest step
         // for (let playerIdStr of Object.keys(this.playerInputQueues)) {
@@ -269,7 +269,7 @@ export default class ServerEngine {
         // create an input queue for this player, if one doesn't already exist
         if (!this.playerInputQueues.hasOwnProperty(playerId))
             this.playerInputQueues[playerId] = {};
-        let queue = this.playerInputQueues[playerId];
+        const queue = this.playerInputQueues[playerId];
 
         // create an array of inputs for this step, if one doesn't already exist
         if (!queue[data.step]) queue[data.step] = [];
@@ -297,7 +297,7 @@ export default class ServerEngine {
      * @return {String} Stringified game status object.
      */
     gameStatus() {
-        let gameStatus = {
+        const gameStatus = {
             numPlayers: Object.keys(this.connectedPlayers).length,
             upTime: 0,
             cpuLoad: 0,
@@ -305,7 +305,7 @@ export default class ServerEngine {
             players: {}
         };
 
-        for (let p of Object.keys(this.connectedPlayers)) {
+        for (const p of Object.keys(this.connectedPlayers)) {
             gameStatus.players[p] = {
                 frameRate: 0,
             };

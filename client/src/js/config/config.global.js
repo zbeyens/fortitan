@@ -1,9 +1,8 @@
-const building = require('./cfgBuilding.js');
+const _ = require('lodash');
+const configShared = require('../../../../shared/config');
 
-/**
- * Config for production
- */
-const config = {
+// Client config
+const cfg = {
 
     phaserConfig: {
         renderer: Phaser.AUTO,
@@ -17,28 +16,56 @@ const config = {
 
     showStats: false,
 
-    sync: 'interpolate', // interpolate, extrapolate, or frameSync
+    // sync: 'interpolate', // interpolate, extrapolate, or frameSync
 
     standaloneMode: true,
     autoConnect: true,
 
-    bgUrl: 'img/background/sun.png',
-    bgKey: 'background',
-    bgWidth: 2048, //TODO: refactor to worldWidth
-    bgHeight: 1024,
-    bgScale: 0.9,
-
-
-    players: {
-        keyPlayer1: 'p1',
-        urlPlayer1: 'img/temp/p1',
-        keyWalk: 'p1_walk',
+    bg: {
+        url: 'img/background/sun.png',
+        key: 'background',
+        width: 2048, //TODO: refactor to worldWidth
+        height: 1024,
+        scale: 0.9,
     },
 
-    grounds: {},
+
+    // players: {
+    // 
+    // },
+
+    grounds: {
+        props: {
+            body: {}
+        }
+    },
+
+    textures: {
+        players: [
+            'img/temp/p1.png'
+        ],
+        grounds: [
+            'img/tiles/Spring/128x128/GrassMid.png',
+        ],
+    },
+
+    atlases: {
+        players: [
+            'img/temp/p1'
+        ],
+    },
+
+    animations: {
+        players: {
+            walk: {
+                nFrames: 11,
+                offset: 2,
+            },
+        },
+    },
 
     tree: {},
-    
+
     item: {},
 
     building: {},
@@ -47,5 +74,31 @@ const config = {
 
 };
 
-
+const config = {};
+_.merge(config, configShared, cfg);
 module.exports = config;
+
+// building
+// const config = {
+
+//     //props of each type of entity
+//     category: 0x0012,
+//     thickness: 10,
+//     length: 150,
+
+//     offsetX: 0,
+//     offsetY: 100,
+
+//     // keyWalk: 'p1_walk',
+//     // urlWalk: 'client/img/temp/p3_walk/p3_walk',
+// };
+
+
+// config.bodyOptions = {
+//     inertia: Infinity,
+//     isStatic: false,
+//     isSensor: true,
+//     collisionFilter: {
+//         category: config.category,
+//     },
+// }

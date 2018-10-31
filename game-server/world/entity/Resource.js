@@ -1,6 +1,4 @@
-import Entity from '../Entity';
-import ResourceProps from './ResourceProps';
-import ResourceState from './ResourceState';
+import Entity from './Entity';
 
 /**
  * A resource is ...

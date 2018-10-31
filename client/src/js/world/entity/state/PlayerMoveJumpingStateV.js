@@ -1,10 +1,10 @@
-import StateV from './StateV'
+import StateV from './StateV';
 
 
 export default class PlayerMoveJumpingStateV extends StateV {
 
     enter() {
-        this.entity.sprite.frame = 0;
+        this.entity.spriteBody.frame = 0;
     }
 
     update(dt) {

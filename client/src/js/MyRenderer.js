@@ -10,9 +10,9 @@ export default class MyRenderer extends Renderer {
 
         this.sprites = {};
 
-        for (let objId of Object.keys(this.sprites)) {
-            let objData = this.gameEngine.world.entities[objId];
-            let sprite = this.sprites[objId];
+        for (const objId of Object.keys(this.sprites)) {
+            const objData = this.gameEngine.world.entities[objId];
+            const sprite = this.sprites[objId];
 
             if (objData) {
 

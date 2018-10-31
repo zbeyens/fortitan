@@ -1,17 +1,14 @@
-import Entity from './Entity'
-import PlayerPhysics from './physics/PlayerPhysics'
+import Entity from './Entity';
+import PlayerPhysics from './physics/PlayerPhysics';
 // import Wall from '../building/wall/Wall';
 // import Pickaxe from '../item/weapon/pickaxe/Pickaxe';
-import cfg from '../../config'
+// import cfg from '../../config';
 import PlayerActionIdleState from './state/PlayerActionIdleState';
 import PlayerActionHittingState from './state/PlayerActionHittingState';
 import PlayerMoveStandingState from './state/PlayerMoveStandingState';
 import PlayerMoveJumpingState from './state/PlayerMoveJumpingState';
 
 
-/**
- * Every Entity has a props, a state and a view component.
- */
 export default class Player extends Entity {
     constructor({ id, state, props, engine }) {
         super(id);

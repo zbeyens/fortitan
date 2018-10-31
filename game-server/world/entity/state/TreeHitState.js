@@ -1,6 +1,6 @@
 import Matter from 'matter-js';
 import State from './State';
-import cfg from '../../../config/cConfig.global';
+import cfg from '../../../config';
 
 
 export default class PlayerActionHittingState extends State {

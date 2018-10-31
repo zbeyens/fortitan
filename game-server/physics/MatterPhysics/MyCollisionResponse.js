@@ -1,19 +1,19 @@
-import Matter from 'matter-js'
-import CollisionHandler from './CollisionHandler'
-import cfg from '../../config'
+import Matter from 'matter-js';
+import CollisionResponse from './CollisionResponse';
+import cfg from '../../config';
 
 /**
  * Handle collisions 
  */
-export default class MyCollisionHandler extends CollisionHandler {
+export default class MyCollisionResponse extends CollisionResponse {
 
     constructor(physicsEngine) {
         super(physicsEngine);
 
-        this.handleCollisions();
+        this.initCollisionReponse();
     }
 
-    handleCollisions() {
+    initCollisionReponse() {
         Matter.Events.on(this.physicsEngine, "collisionStart", (event) => {
             event.pairs.forEach((pair) => {
                 console.log("collision");
@@ -21,6 +21,8 @@ export default class MyCollisionHandler extends CollisionHandler {
                 const entityB = pair.bodyB.parent.entity;
 
                 if (!entityA || !entityB) return;
+
+                console.log(entityA);
 
                 this.checkPlayerGroundCollision(entityA, entityB);
 

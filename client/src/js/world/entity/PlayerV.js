@@ -16,39 +16,34 @@ export default class PlayerV extends EntityV {
     }
 
     initView() {
-        this.addSprite();
+        this.spriteBody = this.addSprite('atlas_players_' + this.props.atlasIndex);
 
-        const framesWalk = [];
-        for (var i = 0; i < 11; i++) {
-            framesWalk.push(2 + i);
-        }
+        const walk = cfg.animations.players.walk;
+        const walkFrames = this.getAnimationFrames(walk.nFrames, walk.offset);
+
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
-        this.sprite.animations.add('walk', framesWalk);
-        window.game.playerGroup.add(this.sprite);
+        this.spriteBody.animations.add('walk', walkFrames);
+        window.game.playerGroup.add(this.spriteBody);
     }
 
     initState() {
         this.enterStandingState();
-
     }
 
     update(dt) {
-        super.update(dt);
+        super.updateSprites();
 
         this.moveState.update(dt);
 
-        // this.game.debug.spriteBounds(this);
-
-        const isMoving = this.state.direction.x;
-        const onGround = this.state.onGround;
-
         // TODO: follow the mouseX ?
-        if (this.state.dirLeft) {
-            this.sprite.scale.x = -1;
+        if (this.state.direction.x === -1) {
+            this.spriteBody.scale.x = -1;
         } else {
-            this.sprite.scale.x = 1;
+            this.spriteBody.scale.x = 1;
         }
-        // this.state.actionState.render(this);
+
+
+        // this.game.debug.spriteBounds(this);
     }
 
     enterStandingState() {

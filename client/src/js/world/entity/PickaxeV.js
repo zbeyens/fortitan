@@ -1,4 +1,4 @@
-import EntityV from '../../../EntityV';
+import EntityV from './EntityV';
 
 export default class PickaxeV extends EntityV {
 

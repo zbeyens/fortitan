@@ -1,10 +1,11 @@
-import StateV from './StateV'
+import StateV from './StateV';
 
 
 export default class PlayerMoveWalkingStateV extends StateV {
 
     enter() {
-        this.entity.sprite.animations.play('walk', 15, true);
+        const frameRate = 15;
+        this.entity.spriteBody.animations.play('walk', frameRate, true);
     }
 
     update(dt) {
@@ -23,7 +24,7 @@ export default class PlayerMoveWalkingStateV extends StateV {
     }
 
     exit() {
-        this.entity.sprite.animations.stop('walk', true);
+        this.entity.spriteBody.animations.stop('walk', true);
     }
 
 }
