@@ -15,6 +15,14 @@
         }
     },
 
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack.config.js"
+            }
+        }
+    },
+
     // https://eslint.org/docs/user-guide/configuring#specifying-environments
     "env": {
         "browser": true,                         // browser global variables

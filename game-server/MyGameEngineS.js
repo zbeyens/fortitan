@@ -1,6 +1,6 @@
 import MyPhysicsEngine from './physics/MyPhysicsEngine';
 import MyGameEngine from '../shared/MyGameEngine';
-import EntityFactory from './world/entity/EntityFactory';
+import EntityFactoryS from './world/EntityFactoryS';
 import cfg from './config';
 
 
@@ -10,7 +10,7 @@ export default class MyGameEngineS extends MyGameEngine {
         super();
 
         this.physicsEngine = new MyPhysicsEngine(this);
-        this.entityFactory = new EntityFactory(this);
+        this.entityFactory = new EntityFactoryS(this);
     }
 
     start() {

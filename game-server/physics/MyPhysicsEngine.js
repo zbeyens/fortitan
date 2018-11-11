@@ -1,5 +1,5 @@
 import MatterPhysicsEngine from './MatterPhysicsEngine';
-import MyCollisionResponse from './MatterPhysics/MyCollisionResponse';
+import MyCollisionResponse from './MyCollisionResponse';
 // import cfg from '../config';
 
 
@@ -9,7 +9,6 @@ export default class MyPhysicsEngine extends MatterPhysicsEngine {
         super(gameEngine);
 
         this.collisionResponse = new MyCollisionResponse(this);
-
     }
 
     step(t, dt) {

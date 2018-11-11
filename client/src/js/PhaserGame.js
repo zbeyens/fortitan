@@ -14,26 +14,26 @@ import cfg from './config';
 export default class PhaserGame extends Phaser.Game {
 
     /**
-    * Constructor of the Renderer singleton.
-    * @param {ClientEngine} clientEngine - Reference to the ClientEngine instance.
-    */
+     * Constructor of the Renderer singleton.
+     * @param {ClientEngine} clientEngine - Reference to the ClientEngine instance.
+     */
     constructor(clientEngine) {
         // Create your Phaser game and inject it into the `#content` div.
         super(cfg.phaserConfig);
 
         this.clientEngine = clientEngine;
 
-        // Add the States your game has.
+        // Add the Scenes your game has.
         this.state.add('BootScene', BootScene);
         this.state.add('PreloaderScene', PreloaderScene);
         this.state.add('MainMenuScene', MainMenuScene);
         this.state.add('GameScene', GameScene);
 
-        // Now start the Boot state.
+        // Now start the Boot scene.
         this.state.start('BootScene');
 
         // Handle debug mode.
-        if (cfg.showStats) {
+        if (cfg.debug.stats) {
             this.setupStats();
         }
     }
@@ -61,4 +61,3 @@ export default class PhaserGame extends Phaser.Game {
     }
 
 }
-

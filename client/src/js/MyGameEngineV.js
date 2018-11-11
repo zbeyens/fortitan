@@ -1,5 +1,5 @@
 import MyGameEngine from '../../../shared/MyGameEngine';
-import EntityFactoryV from './world/entity/EntityFactoryV';
+import EntityFactoryV from './world/EntityFactoryV';
 
 
 export default class MyGameEngineV extends MyGameEngine {
@@ -9,12 +9,6 @@ export default class MyGameEngineV extends MyGameEngine {
 
         this.entityFactory = new EntityFactoryV(this);
     }
-
-    // addEntity(type, entityUpdate) {
-
-    // }
-
-
 
 }
 

@@ -1,31 +1,39 @@
-
 /**
  * Handling the inputs
  */
- 
 export default class InputManager {
-    constructor(clientEngine) {
-        this.clientEngine = clientEngine;
+    constructor(game) {
+        this.game = game;
         this.keys = {
-            up: window.game.input.keyboard.addKey(Phaser.KeyCode.UP),
-            down: window.game.input.keyboard.addKey(Phaser.KeyCode.DOWN),
-            left: window.game.input.keyboard.addKey(Phaser.KeyCode.LEFT),
-            right: window.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT),
-            space: window.game.input.keyboard.addKey(Phaser.KeyCode.SPACE),
-            x: window.game.input.keyboard.addKey(Phaser.KeyCode.X),
-            a: window.game.input.keyboard.addKey(Phaser.KeyCode.A),
-            q: window.game.input.keyboard.addKey(Phaser.KeyCode.Q),
-            w: window.game.input.keyboard.addKey(Phaser.KeyCode.W),
-            s: window.game.input.keyboard.addKey(Phaser.KeyCode.S),
-            d: window.game.input.keyboard.addKey(Phaser.KeyCode.D),
-            z: window.game.input.keyboard.addKey(Phaser.KeyCode.Z),
+            up: game.input.keyboard.addKey(Phaser.KeyCode.UP),
+            down: game.input.keyboard.addKey(Phaser.KeyCode.DOWN),
+            left: game.input.keyboard.addKey(Phaser.KeyCode.LEFT),
+            right: game.input.keyboard.addKey(Phaser.KeyCode.RIGHT),
+            space: game.input.keyboard.addKey(Phaser.KeyCode.SPACE),
+            x: game.input.keyboard.addKey(Phaser.KeyCode.X),
+            a: game.input.keyboard.addKey(Phaser.KeyCode.A),
+            q: game.input.keyboard.addKey(Phaser.KeyCode.Q),
+            w: game.input.keyboard.addKey(Phaser.KeyCode.W),
+            s: game.input.keyboard.addKey(Phaser.KeyCode.S),
+            d: game.input.keyboard.addKey(Phaser.KeyCode.D),
+            z: game.input.keyboard.addKey(Phaser.KeyCode.Z),
         };
 
         this.mouse = {
-            leftClick: window.game.input.activePointer.leftButton,
+            leftClick: game.input.activePointer.leftButton,
+        };
+
+        // we don't want to scroll when pressing space bar
+        window.onkeydown = (e) => {
+            const spaceKeyCode = 32; 
+            return !(e.keyCode === spaceKeyCode);
         };
     }
 
+    /**
+     * Handle inputs of the GameScene
+     * TODO: only send the input changes. Meanwhile, send all the inputs. 
+     */
     handleGameScene() {
         this.up = this.keys.up.isDown || this.keys.w.isDown || this.keys.z.isDown;
         this.down = this.keys.down.isDown || this.keys.s.isDown;
@@ -33,13 +41,16 @@ export default class InputManager {
         this.right = this.keys.right.isDown || this.keys.d.isDown;
         this.hit = this.mouse.leftClick.isDown || this.keys.space.isDown;
 
-        // TODO - only send the input changes
-        this.clientEngine.sendInput('move', this);
+        this.game.clientEngine.sendInput('move', this);
     }
-    
+
+    /**
+     * Handle inputs of the MainMenuScene
+     * Start GameScene
+     */
     handleMainMenuScene() {
         if (this.keys.x.isDown) {
-            window.game.state.start('GameScene');
+            this.game.state.start('GameScene');
         }
     }
 }

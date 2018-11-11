@@ -7,13 +7,16 @@ export default class Camera {
         this.game = game;
     }
 
-    followPlayer(player) {
+    update() {
+        const playerToFollow = this.game.gameEngine.selfPlayer;
+        if (!playerToFollow || this.game.camera.target) return;
+
         //  Notice that the sprite doesn't have any momentum at all,
         //  it's all just set by the camera follow type.
         //  0.1 is the amount of linear interpolation to use.
         //  The smaller the value, the smooth the camera (and the longer it takes to catch up)
         const lerp = 0.1;
-        this.game.camera.follow(player.spriteBody, Phaser.Camera.FOLLOW_LOCKON, lerp, lerp);
+        this.game.camera.follow(playerToFollow.spriteBody, Phaser.Camera.FOLLOW_LOCKON, lerp, lerp);
         console.log("Camera following");
     }
 

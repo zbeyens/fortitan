@@ -8,25 +8,36 @@ const cfg = {
         renderer: Phaser.AUTO,
         parent: 'content',
         width: 1280,
-        height: 720,
-        // scaleMode: Phaser.ScaleManager.SHOW_ALL,
-        antialias: true,
-        // transparent: false,
+        height: 700,
+        scaleMode: Phaser.ScaleManager.NO_SCALE,
+        resolution: 1,
+        // antialias: true,
     },
 
-    showStats: false,
+    debug: {
+        stats: 1, // Shows the FPS
+        cameraInfo: 1, // Render camera information including dimensions and location.
+        camera: 0, // Marks the follow target and deadzone.
+        inputInfo: 0, // Render debug information about the Input object.
+        scale: 0, // Prints game/canvas dimensions and game scale settings.
+    },
+
+    aspectRatio: 1.77777778, // 16 / 9
 
     // sync: 'interpolate', // interpolate, extrapolate, or frameSync
 
-    standaloneMode: true,
     autoConnect: true,
 
+    world: {
+        bounds: {
+            width: 20480,
+            height: 1024,
+            scale: 0.9,
+        },
+    },
+
     bg: {
-        url: 'img/background/sun.png',
-        key: 'background',
-        width: 2048, //TODO: refactor to worldWidth
-        height: 1024,
-        scale: 0.9,
+        scale: 3
     },
 
 
@@ -40,13 +51,29 @@ const cfg = {
         }
     },
 
-    textures: {
+    images: {
+        mainMenuBg: [
+            'img/icons/bg-2.png',
+        ],
+        mainMenuTitle: [
+            'img/title.png'
+        ],
+        bg: [
+            'img/background/sun.png'
+        ],
         players: [
             'img/temp/p1.png'
         ],
         grounds: [
             'img/tiles/Spring/128x128/GrassMid.png',
         ],
+
+        inventoryBar: [
+            'img/InventoryBar1.png'
+        ],
+        // 'img/SpriteWay/StonePick.png'
+        // 'img/tiles/Spring/256x256/GrassJoinHillRight2&Left2 DownShadow.png'
+        // 'img/tree/Asset 1.png'
     },
 
     atlases: {
@@ -71,6 +98,24 @@ const cfg = {
     building: {},
 
     stone: {},
+
+    hud: {
+        nResources: {
+            text: 'Resource : 0',
+        },
+        inventoryBar: {
+            scale: 0.4,
+        }
+    },
+
+    styles: {
+        numbers: {
+            fontSize: '32px',
+            fontWeight: 'bold',
+            fill: '#FFFFFF',
+            strokeThickness: 3,
+        },
+    },
 
 };
 

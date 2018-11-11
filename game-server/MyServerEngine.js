@@ -1,4 +1,4 @@
-import ServerEngine from './ServerEngine';
+import ServerEngine from 'iogine/ServerEngine';
 
 
 export default class MyServerEngine extends ServerEngine {

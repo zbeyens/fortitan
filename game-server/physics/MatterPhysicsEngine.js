@@ -1,5 +1,5 @@
 import Matter from 'matter-js';
-import PhysicsEngine from './PhysicsEngine';
+import PhysicsEngine from 'iogine/physics/PhysicsEngine';
 import cfg from '../../client/src/js/config';
 
 
@@ -16,7 +16,7 @@ import cfg from '../../client/src/js/config';
 
         this.initEngine();
 
-        if (cfg.standaloneMode) {
+        if (cfg.debug.standaloneMode && cfg.debug.physics) {
             this.initRenderer();
         }
     }
@@ -52,7 +52,7 @@ import cfg from '../../client/src/js/config';
     step(t, dt) {
         Matter.Engine.update(this, dt);
 
-        if (cfg.standaloneMode) {
+        if (cfg.debug.standaloneMode && cfg.debug.physics) {
             const selfPlayer = this.gameEngine.world.entities.players[0];
             if (selfPlayer) {
                 const w = this.renderer.options.width;

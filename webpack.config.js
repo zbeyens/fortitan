@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const env = process.env.NODE_ENV || "development";
 
@@ -24,7 +24,12 @@ const config = {
     },
 
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        modules: [
+            path.resolve(),
+            'node_modules',
+            'iogine'
+        ],
     },
 
     module: {

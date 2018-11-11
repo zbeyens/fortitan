@@ -1,4 +1,4 @@
-import GameEngine from './GameEngine';
+import GameEngine from 'iogine/GameEngine';
 import cfg from './config';
 
 
@@ -16,17 +16,12 @@ export default class MyGameEngine extends GameEngine {
         }
 	}
 
-    createLevel() {
-        this.createGround();
-    }
-
     step(t, dt) {
         super.step(t, dt);
     }
 
     /**
      * Create a new entity and add it to the world.
-     * If the state and the props are not given, it will look at cfg 
      * 
      * @param  {String} type    entity type
      * @return {Object} entityUpdate    world update    
@@ -57,18 +52,21 @@ export default class MyGameEngine extends GameEngine {
         return entity;
     }
     
+    createLevel() {
+        this.createGround();
+    }
+    
     createGround() {
         const type = 'grounds';
 
         const state = {};
 
         const props = cfg.grounds.props;
-        console.log(cfg);
 
-        const tilesX = 0;
-        const tilesY = 6;
-        const tilesWidth = 8;
-        const tilesHeight = 1;
+        const tilesX = cfg.grounds.tile.position.x;
+        const tilesY = cfg.grounds.tile.position.y;
+        const tilesWidth = cfg.grounds.tile.width;
+        const tilesHeight = cfg.grounds.tile.height;
         props.body.width = tilesWidth * cfg.tileSize;
         props.body.height = tilesHeight * cfg.tileSize;
 

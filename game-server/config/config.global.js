@@ -29,7 +29,6 @@ const cfg = {
         },
 
         props: {
-            category: category.players,
             body: {
                 width: 72,
                 height: 90,
@@ -41,7 +40,7 @@ const cfg = {
                     isStatic: false,
                     // collisionFilter: {
                     //     // group
-                    //     category: category.players,
+                    //     category: 0x0001,
                     // },
                 }
             }
@@ -50,13 +49,12 @@ const cfg = {
 
     grounds: {
         props: {
-            category: category.grounds,
             body: {
                 options: {
                     inertia: Infinity,
                     isStatic: true,
                     collisionFilter: {
-                        category: category.grounds,
+                        category: 0x0011,
                     },
                 }
             }
@@ -65,7 +63,6 @@ const cfg = {
 
     // trees: {
     //     props: {
-    //         category: 0x0010,
     //     },
     //     // bodyRadius: 95,
     //     // bodyWidth: 30,
@@ -74,7 +71,6 @@ const cfg = {
 
     // pickaxes: {
     //     props: {
-    //         category: 0x0100
     //     }
     // },
 };

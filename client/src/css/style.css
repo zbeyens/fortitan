@@ -1,0 +1,22 @@
+/*@import url('master.css');*/
+
+html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+
+    overflow-x: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: #00121c !important;
+
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 14px; /*bootstrap is 16px*/
+}

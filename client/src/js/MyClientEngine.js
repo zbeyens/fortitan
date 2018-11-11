@@ -1,15 +1,16 @@
 import EventEmitter from 'eventemitter3';
-import ClientEngine from './ClientEngine';
+import ClientEngine from 'iogine/ClientEngine';
 import PhaserGame from './PhaserGame';
 import FakeServerEngine from '../../../game-server/FakeServerEngine';
 import cfg from './config';
+
 
 export default class MyClientEngine extends ClientEngine {
 
     constructor(gameEngine) {
         super(gameEngine);
 
-        if (cfg.standaloneMode) {
+        if (cfg.debug.standaloneMode) {
             this.serverEngine = new FakeServerEngine(); 
         }
 
@@ -19,7 +20,7 @@ export default class MyClientEngine extends ClientEngine {
     }
 
     start() {
-        if (cfg.standaloneMode) {
+        if (cfg.debug.standaloneMode) {
             // start the fake server
             this.serverEngine.start();
 
@@ -33,13 +34,12 @@ export default class MyClientEngine extends ClientEngine {
         }
     }
 
-    // extend ClientEngine connect to add own events
     connect() {
         super.connect();
     }
 
     step(t, dt) {
-        if (cfg.standaloneMode) {
+        if (cfg.debug.standaloneMode) {
             this.serverEngine.step(dt);
         }
 
@@ -47,13 +47,17 @@ export default class MyClientEngine extends ClientEngine {
     }
 
     handleInboundMessage(data) {
-        super.handleInboundMessage(data);
-
         const type = 'players';
 
         this.updateEntities(type, data);
     }
 
+    /**
+     * Update all the entities of a type from the world update
+     * @param  {[type]} type [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
     updateEntities(type, data) {
         const entitiesServer = data[type];
         for (const id of Object.keys(entitiesServer)) {
@@ -95,7 +99,7 @@ export default class MyClientEngine extends ClientEngine {
 // }
 // 
 // start() {
-//     if (cfg.standaloneMode) {
+//     if (cfg.debug.standaloneMode) {
 //         // start the fake server
 //         this.serverEngine.start();
 
