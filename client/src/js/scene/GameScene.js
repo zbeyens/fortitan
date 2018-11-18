@@ -1,6 +1,7 @@
 import GameAssets from '../asset/GameAssets';
 import Camera from '../camera/Camera';
-import InputManager from '../control/InputManager';
+import GameController from '../control/GameController';
+import Debug from '../util/Debug';
 import cfg from '../config';
 
 /**
@@ -10,17 +11,18 @@ import cfg from '../config';
 
     create() {
         this.clientEngine = this.game.clientEngine;
-        this.gameEngine = this.clientEngine.gameEngine;
-        this.game.gameEngine = this.clientEngine.gameEngine;
+        this.gameEngine = this.game.gameEngine;
 
         this.initGroups();
         this.initWorld();
-        
-        this.inputManager = new InputManager(this.game);
+
+        this.inputController = new GameController(this.game);
         this.assets = new GameAssets(this.game);
         this.camera = new Camera(this.game);
+        this.debug = new Debug(this.game);
 
         console.log('Game starts...');
+        this.clientEngine.sendInput('playGame');
     }
 
     /**
@@ -49,30 +51,13 @@ import cfg from '../config';
      update(game) {
         const dt = game.time.elapsed;
 
-        this.inputManager.handleGameScene();
+        this.inputController.handleInputs();
+
+        this.clientEngine.step(dt);
+
         this.assets.update(dt);
         this.camera.update();
-
-        this.clientEngine.step(0, dt);
-
-        this.debug();        
-    }
-
-    debug() {
-        const debugX = 32;
-        const debugY = 600;
-        if (cfg.debug.cameraInfo) {
-            this.game.debug.cameraInfo(this.game.camera, debugX, debugX);
-        }
-        if (cfg.debug.camera) {
-            this.game.debug.camera(this.game.camera);
-        }
-        if (cfg.debug.inputInfo) {
-            this.game.debug.inputInfo(debugX, debugY);
-        }
-        if (cfg.debug.scale) {
-            this.game.debug.scale(debugX, debugY);
-        }
+        this.debug.update();        
     }
 
 }

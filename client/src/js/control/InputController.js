@@ -1,7 +1,7 @@
 /**
  * Handling the inputs
  */
-export default class InputManager {
+export default class InputController {
     constructor(game) {
         this.game = game;
         this.keys = {
@@ -30,27 +30,6 @@ export default class InputManager {
         };
     }
 
-    /**
-     * Handle inputs of the GameScene
-     * TODO: only send the input changes. Meanwhile, send all the inputs. 
-     */
-    handleGameScene() {
-        this.up = this.keys.up.isDown || this.keys.w.isDown || this.keys.z.isDown;
-        this.down = this.keys.down.isDown || this.keys.s.isDown;
-        this.left = this.keys.left.isDown || this.keys.a.isDown || this.keys.q.isDown;
-        this.right = this.keys.right.isDown || this.keys.d.isDown;
-        this.hit = this.mouse.leftClick.isDown || this.keys.space.isDown;
+    handleInputs() {}
 
-        this.game.clientEngine.sendInput('move', this);
-    }
-
-    /**
-     * Handle inputs of the MainMenuScene
-     * Start GameScene
-     */
-    handleMainMenuScene() {
-        if (this.keys.x.isDown) {
-            this.game.state.start('GameScene');
-        }
-    }
 }

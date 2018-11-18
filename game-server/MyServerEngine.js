@@ -2,20 +2,35 @@ import ServerEngine from 'iogine/ServerEngine';
 
 
 export default class MyServerEngine extends ServerEngine {
-    // constructor(io, gameEngine, inputOptions) {
-    //     super(io, gameEngine, inputOptions);
-    // }
 
-    start() {
-        super.start();
+    constructor(wss, gameEngine) {
+        super(wss, gameEngine);
+
+        this.eventHandlers.playGame = this.onPlayGame.bind(this);
     }
 
-    onPlayerConnected(socket) {
-        super.onPlayerConnected(socket);
+    onSocketConnected(ws) {
+        super.onSocketConnected(ws);
     }
 
-    onPlayerDisconnected(socketId, playerId) {
-        super.onPlayerDisconnected(socketId, playerId);
+    /**
+     * Event - on new player in the game:
+     * Create the player entity, store its socket id and
+     * emit its entity id.
+     * @param  {Socket} ws - socket
+     */
+    onPlayGame(ws) {
+        const player = this.gameEngine.createPlayer();
+        player.socketId = ws.socketId;
+
+        const data = {
+            playerId: player.id,
+        };
+
+        ws.inGame = true;
+        ws.emit('playerJoined', data);
     }
 
+    // TODO
+    onSocketDisconnect(socketId, playerId) {}
 }

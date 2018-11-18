@@ -3,9 +3,15 @@ import MyGameEngine from '../shared/MyGameEngine';
 import EntityFactoryS from './world/EntityFactoryS';
 import cfg from './config';
 
-
+/**
+ * Game engine of the server
+ */
 export default class MyGameEngineS extends MyGameEngine {
 
+    /**
+     * Init the physics engine.
+     * Init the entity factory.
+     */
     constructor() {
         super();
 
@@ -13,16 +19,21 @@ export default class MyGameEngineS extends MyGameEngine {
         this.entityFactory = new EntityFactoryS(this);
     }
 
+    /**
+     * Create the level of the game.
+     */
     start() {
         super.start();
 
         this.createLevel();
     }
 
-    processInput(inputData, socketId) {
-        super.processInput(inputData, socketId);
-
-        // find the player entity with the socketId
+    /**
+     * Find the player entity with the socket id to handle its input.
+     * @param  {Object} data - the input
+     * @param  {Number} socketId - the socket id
+     */
+    processInput(data, socketId) {
         let player;
         for (const id of Object.keys(this.world.entities.players)) {
             const p = this.world.entities.players[id];
@@ -31,14 +42,20 @@ export default class MyGameEngineS extends MyGameEngine {
         }
 
         if (player) {
-            player.handleInput(inputData);
+            player.handleInput(data);
         }
     }
 
-    step(t, dt) {
-        this.physicsEngine.step(t, dt);
+    /**
+     * Update the physics engine.
+     * Update the game engine.
+     * @param  {Number} t  
+     * @param  {Number} dt 
+     */
+    step(dt) {
+        this.physicsEngine.step(dt);
 
-        super.step(t, dt);
+        super.step(dt);
     }
 
     /**
@@ -59,8 +76,6 @@ export default class MyGameEngineS extends MyGameEngine {
         const newEntity = this.addEntity(type, entity);
         return newEntity;
     }
-
-    
 
 }
 

@@ -17,7 +17,20 @@
 export default class GameWorld {
 
     /**
-     * Constructor of the World instance
+     * Init a list of entity.
+     * Init a list of id counter
+     * @example
+     * this.entities = {
+     *     'players': {
+     *         '0': player0,
+     *         '1': player1,
+     *     },
+     *     'grounds': {},
+     * }
+     * this.idCount = {
+     *     'players': 2,
+     *     'grounds': 0,
+     * }
      */
     constructor() {
         this.stepCount = 0;
@@ -42,6 +55,10 @@ export default class GameWorld {
         return possibleId;
     }
 
+    /**
+     * Add a new type of entity
+     * @param {String} type - the entity type to add
+     */
     addEntityType(type) {
         this.entities[type] = {};
         this.idCount[type] = 0;
@@ -49,7 +66,8 @@ export default class GameWorld {
 
     /**
      * Add an entity to the game world
-     * @param {Entity} entity entity to add
+     * @param {String} type - the entity type
+     * @param {Entity} entity - the entity to add
      */
     addEntity(type, entity) {
         this.entities[type][entity.id] = entity;
@@ -57,7 +75,8 @@ export default class GameWorld {
 
     /**
      * Remove an entity from the game world
-     * @param {number} id id of the entity to remove
+     * @param {String} type - the entity type
+     * @param {Number} id - the entity id
      */
     removeEntity(type, id) {
         delete this.entities[type][id];

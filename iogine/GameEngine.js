@@ -21,30 +21,17 @@ import GameWorld from 'iogine/world/GameWorld';
  * and therefore clients must resolve server updates which conflict
  * with client-side predictions.
  *
- * The GameEngine is responsible for creating entities because an entity
- * can be dependent from another entity 
- * 
+ * The GameEngine is responsible for creating entities.
+ * Creation is not done in the constructor of the entity because its state
+ * can be dependent from another entity.
  */
 export default class GameEngine {
 
     /**
-     * Create a game engine instance. This needs to happen
-     * once on the server.
-     *
-     * @param {Object} options - options object
-     * @param {Number} options.traceLevel - the trace level from 0 to 5.  Lower value traces more.
-     * @param {Number} options.delayInputCount - client side only.  Introduce an artificial delay on the client to better match the time it will occur on the server.  This value sets the number of steps the client will wait before applying the input locally
+     * Extends the event emitter.
+     * NOTE: not important at the moment.
      */
     constructor() {
-
-        // TODO I think we should discuss this whole globals issues
-        // place the game engine in the LANCE globals
-        const isServerSide = (typeof window === 'undefined');
-        const glob = isServerSide ? global : window;
-        glob.ENGINE = {
-            gameEngine: this
-        };
-
         Object.assign(this, new EventEmitter(), EventEmitter.prototype);
     }
 
@@ -59,6 +46,9 @@ export default class GameEngine {
         this.initWorld();
     }
 
+    /**
+     * Init the game world.
+     */
     initWorld() {
         this.world = new GameWorld();
     }
@@ -66,16 +56,16 @@ export default class GameEngine {
     /**
      * Single game step.
      * Update all the entities of the world
-     *
-     * @param {Number} t - the current time (optional)
-     * @param {Number} dt - elapsed time since last step was called.  (optional)
+     * @param {Number} t - the current time
+     * @param {Number} dt - elapsed time since last step was called
      */
-    step(t, dt) {
-        let step = ++this.world.stepCount;
+    step(dt) {
+        // let step = ++this.world.stepCount;
+        ++this.world.stepCount;
 
         const entities = this.world.entities;
-        for (let entityType of Object.keys(entities)) {
-            for (let id of Object.keys(entities[entityType])) {
+        for (const entityType of Object.keys(entities)) {
+            for (const id of Object.keys(entities[entityType])) {
                 const entity = entities[entityType][id];
                 entity.update(dt);
             }
@@ -87,73 +77,60 @@ export default class GameEngine {
      * This method will be called on the server
      * when the input reaches the server. The input is also associated with
      * the ID of a player.
-     *
      * @param {Object} inputMsg - input descriptor object
-     * @param {String} inputMsg.input - describe the input (e.g. "up", "down", "fire")
-     * @param {Number} inputMsg.messageIndex - input identifier
-     * @param {Number} playerId - the player ID
+     * @param {Number} socketId - the socket ID
      */
-    processInput(inputMsg, playerId) {}
+    processInput(inputMsg, socketId) {}
 
     /**
-     * Add object to the game world.
-     *
-     * @param {Object} object - the object.
-     * @return {Object} object - the final object.
+     * Add an entity to the game world.
+     * @param {String} type - the entity type.
+     * @return {Entity} entity - the final entity.
      */
-    addEntityToWorld(type, object) {
-        console.log(type);
-        console.log(object);
+    addEntityToWorld(type, entity) {
+        this.world.addEntity(type, entity);
 
-        this.world.addEntity(type, object);
-        // console.log(`========== object added ${object.toString()} ==========`);
-
-        return object;
+        return entity;
     }
 
     /**
-     * Remove an object from the game world.
-     *
-     * @param {String} objectId - the object ID
+     * Remove an entity from the game world.
+     * @param {String} type - the entity type
+     * @param {Number} entityId - the entity ID
      */
-    removeEntityFromWorld(objectId) {
-        let object = this.world.entities[objectId];
+    removeEntityFromWorld(type, entityId) {
+        const entity = this.world.entities[type][entityId];
 
-        if (!object) {
-            console.log(`Game attempted to remove a game object which doesn't (or never did) exist, id=${objectId}`);
+        if (!entity) {
+            console.log(`Game attempted to remove a game entity which doesn't (or never did) exist, id=${entityId}`);
         }
-        console.log(`========== destroying object ${object.toString()} ==========`);
 
-        object.onRemoveFromWorld(this);
+        entity.onRemoveFromWorld(this);
 
-        this.emit('objectDestroyed', object);
-        this.world.removeEntity(objectId);
+        this.world.removeEntity(type, entityId);
     }
-
-    /**
-     * Check if a given object is owned by the player on this client
-     *
-     * @param {Object} object the game object to check
-     * @return {Boolean} true if the game object is owned by the player on this client
-     */
-    isOwnedByPlayer(object) {
-        return (object.playerId == this.playerId);
-    }
-
-    /**
-     * Register Game Object Classes
-     *
-     * @example
-     * registerClasses(serializer) {
-     *   serializer.registerClass(require('../common/Paddle'));
-     *   serializer.registerClass(require('../common/Ball'));
-     * }
-     *
-     * @param {Serializer} serializer - the serializer
-     */
-    registerClasses(serializer) {}
 
 }
+
+/**
+ * Check if a given object is owned by the player on this client
+ * @param {Object} object the game object to check
+ * @return {Boolean} true if the game object is owned by the player on this client
+ */
+// isOwnedByPlayer(object) {
+//     return object.playerId === this.playerId;
+// }
+
+/**
+ * Register Game Object Classes
+ * @example
+ * registerClasses(serializer) {
+ *   serializer.registerClass(require('../common/Paddle'));
+ *   serializer.registerClass(require('../common/Ball'));
+ * }
+ * @param {Serializer} serializer - the serializer
+ */
+// registerClasses(serializer) {}
 
 // start() {
 //     console.log('========== game engine started ==========');

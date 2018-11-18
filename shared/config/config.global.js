@@ -3,7 +3,7 @@ const cfg = {
 
     debug: {
         physics: true,
-        standaloneMode: true,
+        fakeServer: true,
     },
 
     entityTypes: [
@@ -16,7 +16,7 @@ const cfg = {
 
     players: {
         props: {
-            atlasIndex: 0,
+            // atlasIndex: 0,
         }
     },
 

@@ -18,6 +18,6 @@ export default class PhysicsEngine {
      *
      * @param {Number} dt - time elapsed since last step
      */
-    step(t, dt) {}
+    step(dt) {}
 
 }

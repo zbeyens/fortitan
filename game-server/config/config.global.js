@@ -1,14 +1,9 @@
 const _ = require('lodash');
 const configShared = require('../../shared/config');
 
-const category = {
-    players: 0x0001,
-    grounds: 0x0011
-};
 
 // Server config
 const cfg = {
-
     players: {
         speed: 5,
         jumpForce: -13,
@@ -28,35 +23,33 @@ const cfg = {
             }
         },
 
-        props: {
-            body: {
-                width: 72,
-                height: 90,
-                options: {
-                    inertia: Infinity, //prevents player rotation
-                    // friction: 0.002, 
-                    // friction: 0, 
-                    // frictionAir: 0,
-                    isStatic: false,
-                    // collisionFilter: {
-                    //     // group
-                    //     category: 0x0001,
-                    // },
-                }
+        body: {
+            width: 72,
+            height: 90,
+            options: {
+                inertia: Infinity, //prevents player rotation
+                // friction: 0.002, 
+                // friction: 0, 
+                // frictionAir: 0,
+                isStatic: false,
+                // collisionFilter: {
+                //     // group
+                //     category: 0x0001,
+                // },
             }
-        }
+        },
+        props: {}
     },
 
     grounds: {
-        props: {
-            body: {
-                options: {
-                    inertia: Infinity,
-                    isStatic: true,
-                    collisionFilter: {
-                        category: 0x0011,
-                    },
-                }
+        props: {},
+        body: {
+            options: {
+                inertia: Infinity,
+                isStatic: true,
+                collisionFilter: {
+                    category: 0x0011,
+                },
             }
         }
     },

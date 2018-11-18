@@ -1,7 +1,9 @@
 import MyGameEngine from '../../../shared/MyGameEngine';
 import EntityFactoryV from './world/EntityFactoryV';
 
-
+/**
+ * Game engine of the client.
+ */
 export default class MyGameEngineV extends MyGameEngine {
 
     constructor() {
@@ -11,5 +13,3 @@ export default class MyGameEngineV extends MyGameEngine {
     }
 
 }
-
-// registerClasses(serializer) {}

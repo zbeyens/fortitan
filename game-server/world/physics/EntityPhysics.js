@@ -1,4 +1,4 @@
-
+import Matter from 'matter-js';
 
 /**
  * Create the Bodies.
@@ -9,5 +9,21 @@ export default class EntityPhysics {
         this.entity = entity;
         this.state = entity.state;
         this.engine = engine;
+    }
+
+    addToWorld(body) {
+        Matter.World.add(this.engine.world, body);
+    }
+
+    createCircleBody(pos, radius, options) {
+        const body = Matter.Bodies.circle(pos.x, pos.y, radius, options);
+        body.entity = this.entity;
+        return body;
+    }
+
+    createRectangleBody(pos, width, height, options) {
+        const body = Matter.Bodies.rectangle(pos.x, pos.y, width, height, options);
+        body.entity = this.entity;
+        return body;
     }
 }

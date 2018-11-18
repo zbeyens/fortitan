@@ -16,7 +16,7 @@ import cfg from '../../client/src/js/config';
 
         this.initEngine();
 
-        if (cfg.debug.standaloneMode && cfg.debug.physics) {
+        if (cfg.debug.fakeServer && cfg.debug.physics) {
             this.initRenderer();
         }
     }
@@ -49,10 +49,10 @@ import cfg from '../../client/src/js/config';
         Matter.Render.run(this.renderer);
     }
 
-    step(t, dt) {
+    step(dt) {
         Matter.Engine.update(this, dt);
 
-        if (cfg.debug.standaloneMode && cfg.debug.physics) {
+        if (cfg.debug.fakeServer && cfg.debug.physics) {
             const selfPlayer = this.gameEngine.world.entities.players[0];
             if (selfPlayer) {
                 const w = this.renderer.options.width;

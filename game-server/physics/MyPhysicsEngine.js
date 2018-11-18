@@ -11,12 +11,12 @@ export default class MyPhysicsEngine extends MatterPhysicsEngine {
         this.collisionResponse = new MyCollisionResponse(this);
     }
 
-    step(t, dt) {
+    step(dt) {
         // if dt is too high, don't process the step to not break the game
         const dtMax = 100;
         if (dt > dtMax) return;
 
-        super.step(t, dt);
+        super.step(dt);
     }
 
 }

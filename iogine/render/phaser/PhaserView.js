@@ -37,8 +37,8 @@
     /**
      * Get an array of 'nFrames' consecutive number from the offset
      * It is required to create an animation  
-     * @param  {Integer} nFrames number of frames
-     * @param  {Integer} offset  the frame index to start
+     * @param  {Number} nFrames - number of frames
+     * @param  {Number} offset - frame index to start
      * @return {List}         
      */
     getAnimationFrames(nFrames, offset = 0) {

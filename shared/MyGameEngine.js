@@ -16,8 +16,8 @@ export default class MyGameEngine extends GameEngine {
         }
 	}
 
-    step(t, dt) {
-        super.step(t, dt);
+    step(dt) {
+        super.step(dt);
     }
 
     /**

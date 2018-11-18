@@ -1,4 +1,4 @@
-import InputManager from '../control/InputManager';
+import MainMenuController from '../control/MainMenuController';
 import MainMenuAssets from '../asset/MainMenuAssets';
 
 /**
@@ -8,14 +8,18 @@ import MainMenuAssets from '../asset/MainMenuAssets';
 export default class MainMenuScene extends Phaser.State {
 
     create() {
-        this.inputManager = new InputManager(this.game);
+        this.clientEngine = this.game.clientEngine;
+        this.gameEngine = this.game.gameEngine;
+
+        this.inputController = new MainMenuController(this.game);
         this.assets = new MainMenuAssets(this.game);
     }
 
     update(game) {
         const dt = game.time.elapsed;
 
-        this.inputManager.handleMainMenuScene();
+        this.inputController.handleInputs();
+
         this.assets.update(dt);
     }
 }

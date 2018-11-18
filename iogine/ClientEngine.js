@@ -7,113 +7,111 @@
 export default class ClientEngine {
 
     /**
-     * - Init an empty inboundMessages list.
-     * - Init an empty outboundMessages list.
-     *
-     * @param {GameEngine} gameEngine - a game engine
-     * @param {Object} inputOptions - options object
-     * @param {Boolean} inputOptions.autoConnect - if true, the client will automatically attempt connect to server.
-     * @param {Boolean} inputOptions.standaloneMode - if true, the client will never try to connect to a server
-     * @param {Number} inputOptions.delayInputCount - if set, inputs will be delayed by this many steps before they are actually applied on the client.
-     * @param {Number} inputOptions.healthCheckInterval - health check message interval (millisec). Default is 1000.
-     * @param {Number} inputOptions.healthCheckRTTSample - health check RTT calculation sample size. Default is 10.
-     * @param {Object} inputOptions.syncOptions - an object describing the synchronization method. If not set, will be set to extrapolate, with local object bending set to 0.0 and remote object bending set to 0.6. If the query-string parameter "sync" is defined, then that value is passed to this object's sync attribute.
-     * @param {String} inputOptions.scheduler - When set to "render-schedule" the game step scheduling is controlled by the renderer and step time is variable.  When set to "fixed" the game step is run independently with a fixed step time. Default is "render-schedule".
-     * @param {String} inputOptions.syncOptions.sync - chosen sync option, can be interpolate, extrapolate, or frameSync
-     * @param {Number} inputOptions.syncOptions.localObjBending - amount (0 to 1.0) of bending towards original client position, after each sync, for local objects
-     * @param {Number} inputOptions.syncOptions.remoteObjBending - amount (0 to 1.0) of bending towards original client position, after each sync, for remote objects
-     * @param {Renderer} Renderer - the Renderer class constructor
-     */
+     * Init an inboundMessages list.
+     * Init an outboundMessages list.
+     * Init eventHandlers object with a method for each event.
+     * @param {GameEngine} gameEngine - the client game engine
+    */
     constructor(gameEngine) {
         this.gameEngine = gameEngine;
 
         this.inboundMessages = [];
         this.outboundMessages = [];
+
+        this.eventHandlers = {};
+        this.eventHandlers.playerJoined = this.onPlayerJoined.bind(this);
+        this.eventHandlers.worldUpdate = this.onWorldUpdate.bind(this);
     }
 
     /**
      * Start the client engine:
      * - Start the game engine.
-     * - Connect to the server.
+     * - Connect to the websocket server.
      */
     start() {
         this.gameEngine.start();
 
-        // if (cfg.autoConnect) {
         this.connect();
-        // }
+    }
+
+    /**
+     * TODO: connect to a real websocket here
+     */
+    connect() {
+        console.log(`connecting to game server`);
+
+        this.setEventHandlers();
     }
 
     /**
      * Listen to network messages.
-     * Extend this method if you want to add own events.
-     * Events:
-     * - playerJoined: the response when you join the game. Store your id. 
-     * - worldUpdate: world update (all updated entities).
      */
-    connect(socket) {
-        console.log(`connecting to game server`);
-
-        this.socket.on('playerJoined', (data) => {
-            // TODO: we can add it to inboundMessages later for buffering.
-            this.gameEngine.selfId = data.playerId;
-            console.log("player joined");
-        });
-
-        this.socket.on('worldUpdate', (data) => {
-            this.inboundMessages.push(data);
-        });
+    setEventHandlers() {
+        for (const event of Object.keys(this.eventHandlers)) {
+            this.socket.on(event, (data) => {
+                this.inboundMessages.push({
+                    event,
+                    data
+                });
+            });
+        }
     }
 
     /**
      * Execute a single client game step: 
-     * - Handle each inbound message and then empty the list.
+     * - Handle inbound messages.
      * - Handle outbound messages.
      * - Execute a single game engine step.
-     * This is normally called by the Renderer at each draw event.
+     * This is normally called by the Renderer game loop at each draw event.
      */
-    step(t, dt) {
-        while (this.inboundMessages.length > 0) {
-            this.handleInboundMessage(this.inboundMessages.pop());
-        }
-
+    step(dt) {
+        this.handleInboundMessages();
         this.handleOutboundMessages();
 
-        this.gameEngine.step(t, dt);
+        this.gameEngine.step(dt);
+    }
+
+    /**
+     * Handle inbound messages received between the last 2 steps 
+     */
+    handleInboundMessages() {
+        for (let i = 0; i < this.inboundMessages.length; i++) {
+            this.handleInboundMessage(this.inboundMessages[i]);
+        }
+
+        this.inboundMessages = [];
+    }
+
+    /**
+     * Call the appropriate event handler for the message
+     * @param  {Object} msg - data for an event
+     */
+    handleInboundMessage(msg) {
+        this.eventHandlers[msg.event](msg.data);
     }
 
     /**
      * This function should be called by the client whenever a user input
      * occurs. This function will transmit the input to the server.
-     *
-     * This function can be called by the extended client engine class,
-     * typically at the beginning of client-side step processing
-     *
-     * @param {String} input - string representing the input
-     * @param {Object} inputOptions - options for the input
+     * @param {String} event - event name
+     * @param {Object} data - input
      */
-    sendInput(command, data) {
-        const message = {
-            command,
+    sendInput(event, data) {
+        const msg = {
+            event,
             data,
         };
 
-        this.outboundMessages.push(message);
+        this.outboundMessages.push(msg);
     }
 
     /**
-     * Handle a message that has been received from the server
-     * @param  {Object} data    world update
-     */
-    handleInboundMessage(data) {}
-
-    /**
+     * Handle outbound messages applied between the last 2 steps 
      * Emit each input to the authoritative server.
-     * Then, empty outboundMessages.
      */
     handleOutboundMessages() {
         for (let i = 0; i < this.outboundMessages.length; i++) {
-            this.socket.emit(this.outboundMessages[i].command, this.outboundMessages[i].data);
+            this.socket.emit(this.outboundMessages[i].event, this.outboundMessages[i].data);
         }
 
         this.outboundMessages = [];
@@ -155,7 +153,7 @@ export default class ClientEngine {
 //         this.outboundMessages = [];
 
 
-//         // if (!cfg.standaloneMode) {
+//         // if (!cfg.fakeServer) {
 //         //     this.configureSynchronization();
 //         // }
 //     }

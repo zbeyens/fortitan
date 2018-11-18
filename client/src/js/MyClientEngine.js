@@ -1,62 +1,48 @@
-import EventEmitter from 'eventemitter3';
 import ClientEngine from 'iogine/ClientEngine';
 import PhaserGame from './PhaserGame';
-import FakeServerEngine from '../../../game-server/FakeServerEngine';
-import cfg from './config';
+// import cfg from './config';
 
 
 export default class MyClientEngine extends ClientEngine {
 
+    /**
+     * Create the renderer of the client.
+     * You can add events to eventHandlers here.
+     * 
+     * @param  {GameEngine} gameEngine
+     */
     constructor(gameEngine) {
         super(gameEngine);
 
-        if (cfg.debug.standaloneMode) {
-            this.serverEngine = new FakeServerEngine(); 
-        }
-
-        // create the renderer
         this.renderer = gameEngine.renderer = new PhaserGame(this);
         window.game = this.renderer;
     }
 
-    start() {
-        if (cfg.debug.standaloneMode) {
-            // start the fake server
-            this.serverEngine.start();
-
-            // create a fake socket and client connection
-            this.socket = new EventEmitter();
-            this.socket.id = 0;
-            super.start();
-
-            // server receive connection
-            this.serverEngine.onPlayerConnected(this.socket);
-        }
-    }
-
-    connect() {
-        super.connect();
-    }
-
-    step(t, dt) {
-        if (cfg.debug.standaloneMode) {
-            this.serverEngine.step(dt);
-        }
-
-        super.step(t, dt);
-    }
-
-    handleInboundMessage(data) {
+    /**
+     * World update: all init, updated and deleted entities.
+     * TODO: generalize it -> ClientEngine
+     * @param  {Object} data
+     */
+    onWorldUpdate(data) {
         const type = 'players';
 
         this.updateEntities(type, data);
     }
 
     /**
-     * Update all the entities of a type from the world update
-     * @param  {[type]} type [description]
-     * @param  {[type]} data [description]
-     * @return {[type]}      [description]
+     * Response when you join the game. Store the id of your player entity.
+     * @param  {Object} data
+     */
+    onPlayerJoined(data) {
+        this.gameEngine.selfId = data.playerId;
+    }    
+
+
+    /**
+     * Update all the entities of a type from the world update.
+     * TODO: -> ClientEngine
+     * @param  {String} type - entity type
+     * @param  {[type]} data - world update
      */
     updateEntities(type, data) {
         const entitiesServer = data[type];
@@ -69,7 +55,7 @@ export default class MyClientEngine extends ClientEngine {
                 
                 // if it is a player with selfId, we know selfPlayer 
                 if (type === 'players' && Number(id) === this.gameEngine.selfId) {
-                    console.log("Self player update received");
+                    console.log("Self player init received");
                     this.gameEngine.selfPlayer = newEntity;
                 }
             } else {
@@ -99,7 +85,7 @@ export default class MyClientEngine extends ClientEngine {
 // }
 // 
 // start() {
-//     if (cfg.debug.standaloneMode) {
+//     if (cfg.debug.fakeServer) {
 //         // start the fake server
 //         this.serverEngine.start();
 

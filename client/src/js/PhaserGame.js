@@ -22,6 +22,7 @@ export default class PhaserGame extends Phaser.Game {
         super(cfg.phaserConfig);
 
         this.clientEngine = clientEngine;
+        this.gameEngine = clientEngine.gameEngine;
 
         // Add the Scenes your game has.
         this.state.add('BootScene', BootScene);
