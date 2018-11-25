@@ -18,7 +18,8 @@ export default class GameWorld {
 
     /**
      * Init a list of entity.
-     * Init a list of id counter
+     * Init a list of id counter.
+     * Add entity types.
      * @example
      * this.entities = {
      *     'players': {
@@ -32,10 +33,13 @@ export default class GameWorld {
      *     'grounds': 0,
      * }
      */
-    constructor() {
+    constructor(cfg) {
+        this.cfg = cfg;
         this.stepCount = 0;
         this.entities = {};
         this.idCount = {};
+
+        this.addEntityTypes();
     }
 
     /**
@@ -56,12 +60,13 @@ export default class GameWorld {
     }
 
     /**
-     * Add a new type of entity
-     * @param {String} type - the entity type to add
+     * Add the types of entity from cfg
      */
-    addEntityType(type) {
-        this.entities[type] = {};
-        this.idCount[type] = 0;
+    addEntityTypes() {
+        for (const entityType of this.cfg.entityTypes) {
+            this.entities[entityType] = {};
+            this.idCount[entityType] = 0;
+        }
     }
 
     /**
@@ -81,21 +86,21 @@ export default class GameWorld {
     removeEntity(type, id) {
         delete this.entities[type][id];
     }
-    
+
 }
 
 /**
-     * World object iterator.
-     * Invoke callback(objId, obj) for each object
-     *
-     * @param {function} callback function receives id and object. If callback returns false, the iteration will cease
-     */
-    // forEachObject(callback) {
-    //     for (let id of Object.keys(this.entities)) {
-    //         let returnValue = callback(id, this.entities[id]); // TODO: the key should be Number(id)
-    //         if (returnValue === false) break;
-    //     }
-    // }
+ * World object iterator.
+ * Invoke callback(objId, obj) for each object
+ *
+ * @param {function} callback function receives id and object. If callback returns false, the iteration will cease
+ */
+// forEachObject(callback) {
+//     for (let id of Object.keys(this.entities)) {
+//         let returnValue = callback(id, this.entities[id]); // TODO: the key should be Number(id)
+//         if (returnValue === false) break;
+//     }
+// }
 
 //  * Add the new entity
 //  * @param {Entity} entity added
@@ -127,62 +132,62 @@ export default class GameWorld {
 // }
 // 
 /**
-     * Returns all the game world objects which match a criteria
-     * @param {Object} query The query object
-     * @param {Object} [query.id] object id
-     * @param {Object} [query.playerId] player id
-     * @param {Class} [query.instanceType] matches whether `object instanceof instanceType`
-     * @param {Array} [query.components] An array of component names
-     * @param {Boolean} [query.returnSingle] Return the first object matched
-     * @returns {Array | Object} All game objects which match all the query parameters, or the first match if returnSingle was specified
-     */
-    // queryObjects(query) {
-    //     let queriedObjects = [];
+ * Returns all the game world objects which match a criteria
+ * @param {Object} query The query object
+ * @param {Object} [query.id] object id
+ * @param {Object} [query.playerId] player id
+ * @param {Class} [query.instanceType] matches whether `object instanceof instanceType`
+ * @param {Array} [query.components] An array of component names
+ * @param {Boolean} [query.returnSingle] Return the first object matched
+ * @returns {Array | Object} All game objects which match all the query parameters, or the first match if returnSingle was specified
+ */
+// queryObjects(query) {
+//     let queriedObjects = [];
 
-    //     // todo this is currently a somewhat inefficient implementation for API testing purposes.
-    //     // It should be implemented with cached dictionaries like in nano-ecs
-    //     this.forEachObject((id, object) => {
-    //         let conditions = [];
+//     // todo this is currently a somewhat inefficient implementation for API testing purposes.
+//     // It should be implemented with cached dictionaries like in nano-ecs
+//     this.forEachObject((id, object) => {
+//         let conditions = [];
 
-    //         // object id condition
-    //         conditions.push(!('id' in query) || query.id !== null && object.id === query.id);
+//         // object id condition
+//         conditions.push(!('id' in query) || query.id !== null && object.id === query.id);
 
-    //         // player id condition
-    //         conditions.push(!('playerId' in query) || query.playerId !== null && object.playerId === query.playerId);
+//         // player id condition
+//         conditions.push(!('playerId' in query) || query.playerId !== null && object.playerId === query.playerId);
 
-    //         // instance type conditio
-    //         conditions.push(!('instanceType' in query) || query.instanceType !== null && object instanceof query.instanceType);
+//         // instance type conditio
+//         conditions.push(!('instanceType' in query) || query.instanceType !== null && object instanceof query.instanceType);
 
-    //         // components conditions
-    //         if ('components' in query) {
-    //             query.components.forEach(componentClass => {
-    //                 conditions.push(object.hasComponent(componentClass));
-    //             });
-    //         }
+//         // components conditions
+//         if ('components' in query) {
+//             query.components.forEach(componentClass => {
+//                 conditions.push(object.hasComponent(componentClass));
+//             });
+//         }
 
-    //         // all conditions are true, object is qualified for the query
-    //         if (conditions.every(value => value)) {
-    //             queriedObjects.push(object);
-    //             if (query.returnSingle) return false;
-    //         }
-    //     });
+//         // all conditions are true, object is qualified for the query
+//         if (conditions.every(value => value)) {
+//             queriedObjects.push(object);
+//             if (query.returnSingle) return false;
+//         }
+//     });
 
-    //     // return a single object or null
-    //     if (query.returnSingle) {
-    //         return queriedObjects.length > 0 ? queriedObjects[0] : null;
-    //     }
+//     // return a single object or null
+//     if (query.returnSingle) {
+//         return queriedObjects.length > 0 ? queriedObjects[0] : null;
+//     }
 
-    //     return queriedObjects;
-    // }
+//     return queriedObjects;
+// }
 
-    /**
-     * Returns The first game object encountered which matches a criteria.
-     * Syntactic sugar for {@link queryObject} with `returnSingle: true`
-     * @param query See queryObjects
-     * @returns {Object}
-     */
-    // queryObject(query) {
-    //     return this.queryObjects(Object.assign(query, {
-    //         returnSingle: true
-    //     }));
-    // }
+/**
+ * Returns The first game object encountered which matches a criteria.
+ * Syntactic sugar for {@link queryObject} with `returnSingle: true`
+ * @param query See queryObjects
+ * @returns {Object}
+ */
+// queryObject(query) {
+//     return this.queryObjects(Object.assign(query, {
+//         returnSingle: true
+//     }));
+// }

@@ -11,9 +11,11 @@ export default class ClientEngine {
      * Init an outboundMessages list.
      * Init eventHandlers object with a method for each event.
      * @param {GameEngine} gameEngine - the client game engine
-    */
-    constructor(gameEngine) {
+     * @param {List} cfg.entityTypes
+     */
+    constructor(gameEngine, cfg) {
         this.gameEngine = gameEngine;
+        this.cfg = cfg;
 
         this.inboundMessages = [];
         this.outboundMessages = [];
@@ -72,27 +74,21 @@ export default class ClientEngine {
     }
 
     /**
-     * Handle inbound messages received between the last 2 steps 
+     * Handle inbound messages received between the last 2 steps .
+     * For each message, call the appropriate event handler
      */
     handleInboundMessages() {
         for (let i = 0; i < this.inboundMessages.length; i++) {
-            this.handleInboundMessage(this.inboundMessages[i]);
+            const msg = this.inboundMessages[i];
+            this.eventHandlers[msg.event](msg.data);
         }
 
         this.inboundMessages = [];
     }
 
     /**
-     * Call the appropriate event handler for the message
-     * @param  {Object} msg - data for an event
-     */
-    handleInboundMessage(msg) {
-        this.eventHandlers[msg.event](msg.data);
-    }
-
-    /**
      * This function should be called by the client whenever a user input
-     * occurs. This function will transmit the input to the server.
+     * occurs.
      * @param {String} event - event name
      * @param {Object} data - input
      */
@@ -108,6 +104,7 @@ export default class ClientEngine {
     /**
      * Handle outbound messages applied between the last 2 steps 
      * Emit each input to the authoritative server.
+     * TODO: as we already check the input 60 tps, we can directly send the input.
      */
     handleOutboundMessages() {
         for (let i = 0; i < this.outboundMessages.length; i++) {
@@ -115,6 +112,55 @@ export default class ClientEngine {
         }
 
         this.outboundMessages = [];
+    }
+
+    /**
+     * Response when you join the game. Store the id of your player entity.
+     * @param  {Object} data
+     */
+    onPlayerJoined(data) {
+        this.gameEngine.selfId = data.playerId;
+    } 
+
+    /**
+     * World update: all init, updated and deleted entities.
+     * TODO: generalize it -> ClientEngine
+     * @param  {Object} data
+     */
+    onWorldUpdate(data) {
+        this.updateEntities(data);
+    }
+    
+    /**
+     * For each entity type: `entityType`,
+     * For each entity `id` of `entityType` in the server world update: `entityServer`,
+     * Check if `id` is in the client world,
+     * If not, create the new entity.
+     * Else, update the existing entity.
+     * @param  {Object} data - world update
+     */
+    updateEntities(data) {
+        for (const entityType of this.cfg.entityTypes) {
+            const entitiesServer = data[entityType];
+            for (let idServer of Object.keys(entitiesServer)) {
+                idServer = Number(idServer);
+
+                const entityServer = entitiesServer[idServer];
+
+                const entitiesView = this.gameEngine.world.entities[entityType];
+                if (!entitiesView[idServer]) {
+                    const newEntity = this.gameEngine.createEntity(entityType, idServer, entityServer.state, entityServer.props);
+                    
+                    // if it is a player with selfId, we know selfPlayer 
+                    if (entityType === 'players' && idServer === this.gameEngine.selfId) {
+                        console.log("Self player init received");
+                        this.gameEngine.selfPlayer = newEntity;
+                    }
+                } else {
+                    this.gameEngine.updateEntity(entityType, entityServer);
+                }
+            }
+        }
     }
 
 }

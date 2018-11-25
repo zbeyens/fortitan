@@ -1,7 +1,7 @@
 import cfg from '../config';
 
 
-export default class Debug {
+export default class PhaserDebug {
 
     constructor(game) {
         this.game = game;

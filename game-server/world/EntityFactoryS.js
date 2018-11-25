@@ -8,15 +8,15 @@ export default class EntityFactoryS {
 		this.gameEngine = gameEngine;
 	}
 
-	createEntity(type, entity) {
-		entity.engine = this.gameEngine.physicsEngine;
-
+	createEntity(type, id, initState, initProps) {
+		const physicsEngine = this.gameEngine.physicsEngine;
 		let newEntity = null;
 		
 		if (type === 'players')
-			newEntity = new Player(entity);
+			newEntity = new Player(id, initState, initProps, physicsEngine);
 		if (type === 'grounds')
-			newEntity = new Ground(entity);
+			newEntity = new Ground(id, initState, initProps, physicsEngine);
+
 
 		return newEntity;
 	}

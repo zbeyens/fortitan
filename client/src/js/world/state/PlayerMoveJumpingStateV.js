@@ -1,7 +1,7 @@
-import StateV from './StateV';
+import State from 'iogine/world/State';
 
 
-export default class PlayerMoveJumpingStateV extends StateV {
+export default class PlayerMoveJumpingStateV extends State {
 
     enter() {
         this.entity.spriteBody.frame = 0;

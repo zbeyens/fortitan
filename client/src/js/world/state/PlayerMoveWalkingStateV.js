@@ -1,7 +1,7 @@
-import StateV from './StateV';
+import State from 'iogine/world/State';
 
 
-export default class PlayerMoveWalkingStateV extends StateV {
+export default class PlayerMoveWalkingStateV extends State {
 
     enter() {
         const frameRate = 15;

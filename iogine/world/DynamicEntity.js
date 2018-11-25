@@ -6,8 +6,8 @@ import Entity from './Entity';
  */
 export default class DynamicEntity extends Entity {
 	
-	constructor(id) {
-		super(id);
+	constructor(id, initState, initProps) {
+		super(id, initState, initProps);
 
 		this.netScheme = {};
 	}

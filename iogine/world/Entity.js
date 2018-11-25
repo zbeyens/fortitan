@@ -6,15 +6,11 @@
  */
 export default class Entity {
 
-    constructor(id) {
+    constructor(id, initState, initProps) {
         this.id = id;
-        this.state = {
-            position: {
-                x: 0,
-                y: 0,
-            }
-        };
-        this.props = {};
+
+        this.state = initState;
+        this.props = initProps;
     }
 
     update(dt) {}

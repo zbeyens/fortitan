@@ -5,8 +5,8 @@ import cfg from '../../config';
 
 export default class PlayerPhysics extends EntityPhysics {
 
-    constructor(entity, engine) {
-        super(entity, engine);
+    constructor(entity, physicsEngine) {
+        super(entity, physicsEngine);
 
         const cfgb = cfg.players.body;
         this.body = this.createRectangleBody(this.state.position, cfgb.width, cfgb.height, cfgb.options);

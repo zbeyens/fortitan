@@ -1,7 +1,7 @@
 const env = process.env.NODE_ENV || 'development';
 
 if (env === 'development') {
-    module.exports = require('./config.development.js');
+    module.exports = require('./configShared.development.js');
 } else {
-    module.exports = require('./config.global.js');
+    module.exports = require('./configShared.js');
 }

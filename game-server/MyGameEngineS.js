@@ -65,15 +65,12 @@ export default class MyGameEngineS extends MyGameEngine {
     createPlayer() {
         const type = 'players';
 
-        const state = cfg[type].state;
-        const props = cfg[type].props;
+        const id = this.world.getNewId(type);
 
-        const entity = {
-            state,
-            props
-        };
+        const initState = cfg[type].state;
+        const initProps = cfg[type].props;
 
-        const newEntity = this.addEntity(type, entity);
+        const newEntity = this.createEntity(type, id, initState, initProps);
         return newEntity;
     }
 

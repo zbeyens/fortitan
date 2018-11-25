@@ -1,7 +1,7 @@
 import GameAssets from '../asset/GameAssets';
 import Camera from '../camera/Camera';
 import GameController from '../control/GameController';
-import Debug from '../util/Debug';
+import PhaserDebug from '../util/PhaserDebug';
 import cfg from '../config';
 
 /**
@@ -19,7 +19,7 @@ import cfg from '../config';
         this.inputController = new GameController(this.game);
         this.assets = new GameAssets(this.game);
         this.camera = new Camera(this.game);
-        this.debug = new Debug(this.game);
+        this.debug = new PhaserDebug(this.game);
 
         console.log('Game starts...');
         this.clientEngine.sendInput('playGame');
@@ -51,7 +51,7 @@ import cfg from '../config';
      update(game) {
         const dt = game.time.elapsed;
 
-        this.inputController.handleInputs();
+        this.inputController.handleInput();
 
         this.clientEngine.step(dt);
 

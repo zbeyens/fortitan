@@ -31,7 +31,8 @@ export default class GameEngine {
      * Extends the event emitter.
      * NOTE: not important at the moment.
      */
-    constructor() {
+    constructor(cfg) {
+        this.cfg = cfg;
         Object.assign(this, new EventEmitter(), EventEmitter.prototype);
     }
 
@@ -50,7 +51,7 @@ export default class GameEngine {
      * Init the game world.
      */
     initWorld() {
-        this.world = new GameWorld();
+        this.world = new GameWorld(this.cfg);
     }
 
     /**
@@ -110,6 +111,31 @@ export default class GameEngine {
         this.world.removeEntity(type, entityId);
     }
 
+    /**
+     * Create a new entity and add it to the world.
+     * 
+     * @param  {String} type    entity type
+     * @return {Object} entityUpdate    world update    
+     */
+    createEntity(type, id, initState, initProps) {
+        const entity = this.entityFactory.createEntity(type, id, initState, initProps);
+        this.addEntityToWorld(type, entity);
+
+        return entity;
+    }
+
+    /**
+     * Update entity from the world update
+     * 
+     * @param  {String} type    entity type
+     * @return {Object} entityUpdate    world update                  
+     */
+    updateEntity(type, entityUpdate) {
+        const entity = this.world.entities[type][entityUpdate.id];
+        entity.state = entityUpdate.state;
+
+        return entity;
+    }
 }
 
 /**

@@ -1,4 +1,4 @@
-const configGlobal = require('./config.global.js');
+const configGlobal = require('./configShared.js');
 
 const config = {
     env: 'development',

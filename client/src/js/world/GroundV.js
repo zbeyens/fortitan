@@ -4,8 +4,8 @@ import cfg from '../config';
 
 export default class GroundV extends PhaserView {
 
-	constructor(entity) {
-		super(entity);
+	constructor(id, initState, initProps) {
+		super(id, initState, initProps);
 
 		const key = cfg.images.grounds[0];
 		this.spriteBody = window.game.add.tileSprite(this.state.position.x, this.state.position.y, this.props.body.width, this.props.body.height, key);

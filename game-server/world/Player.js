@@ -10,12 +10,10 @@ import PlayerMoveJumpingState from './state/PlayerMoveJumpingState';
 
 
 export default class Player extends DynamicEntity {
-    constructor({ id, state, props, engine }) {
-        super(id);
-        this.props = props;
-        this.state = state;
+    constructor(id, initState, initProps, physicsEngine) {
+        super(id, initState, initProps);
 
-        this.physics = new PlayerPhysics(this, engine);
+        this.physics = new PlayerPhysics(this, physicsEngine);
 
         this.initState();
     }

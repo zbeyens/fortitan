@@ -18,7 +18,7 @@ export default class MainMenuScene extends Phaser.State {
     update(game) {
         const dt = game.time.elapsed;
 
-        this.inputController.handleInputs();
+        this.inputController.handleInput();
 
         this.assets.update(dt);
     }

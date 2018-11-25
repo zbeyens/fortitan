@@ -1,6 +1,6 @@
 import ClientEngine from 'iogine/ClientEngine';
 import PhaserGame from './PhaserGame';
-// import cfg from './config';
+import cfg from './config';
 
 
 export default class MyClientEngine extends ClientEngine {
@@ -12,57 +12,12 @@ export default class MyClientEngine extends ClientEngine {
      * @param  {GameEngine} gameEngine
      */
     constructor(gameEngine) {
-        super(gameEngine);
+        super(gameEngine, cfg);
 
         this.renderer = gameEngine.renderer = new PhaserGame(this);
         window.game = this.renderer;
     }
 
-    /**
-     * World update: all init, updated and deleted entities.
-     * TODO: generalize it -> ClientEngine
-     * @param  {Object} data
-     */
-    onWorldUpdate(data) {
-        const type = 'players';
-
-        this.updateEntities(type, data);
-    }
-
-    /**
-     * Response when you join the game. Store the id of your player entity.
-     * @param  {Object} data
-     */
-    onPlayerJoined(data) {
-        this.gameEngine.selfId = data.playerId;
-    }    
-
-
-    /**
-     * Update all the entities of a type from the world update.
-     * TODO: -> ClientEngine
-     * @param  {String} type - entity type
-     * @param  {[type]} data - world update
-     */
-    updateEntities(type, data) {
-        const entitiesServer = data[type];
-        for (const id of Object.keys(entitiesServer)) {
-            const entityServer = entitiesServer[id];
-
-            const entitiesView = this.gameEngine.world.entities[type];
-            if (!entitiesView[id]) {
-                const newEntity = this.gameEngine.addEntity(type, entityServer);
-                
-                // if it is a player with selfId, we know selfPlayer 
-                if (type === 'players' && Number(id) === this.gameEngine.selfId) {
-                    console.log("Self player init received");
-                    this.gameEngine.selfPlayer = newEntity;
-                }
-            } else {
-                this.gameEngine.updateEntity(type, entityServer);
-            }
-        }
-    }
 }
 
 // connect() {

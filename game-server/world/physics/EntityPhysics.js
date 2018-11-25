@@ -5,10 +5,10 @@ import Matter from 'matter-js';
  * Handle the effect of collisions.
  */
 export default class EntityPhysics {
-    constructor(entity, engine) {
+    constructor(entity, physicsEngine) {
         this.entity = entity;
         this.state = entity.state;
-        this.engine = engine;
+        this.engine = physicsEngine;
     }
 
     addToWorld(body) {

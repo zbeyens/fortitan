@@ -9,9 +9,10 @@ import PlayerMoveJumpingStateV from './state/PlayerMoveJumpingStateV';
 
 export default class PlayerV extends PhaserView {
 
-    constructor(entity) {
-        super(entity);
+    constructor(id, initState, initProps) {
+        super(id, initState, initProps);
 
+        console.log(this);
         this.initView();
         this.initState();
     }

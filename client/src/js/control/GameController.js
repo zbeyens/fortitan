@@ -7,7 +7,7 @@ export default class GameController extends InputController {
      * Handle inputs of the GameScene
      * TODO: only send the input changes. Meanwhile, send all the inputs. 
      */
-    handleInputs() {
+    handleInput() {
         this.up = this.keys.up.isDown || this.keys.w.isDown || this.keys.z.isDown;
         this.down = this.keys.down.isDown || this.keys.s.isDown;
         this.left = this.keys.left.isDown || this.keys.a.isDown || this.keys.q.isDown;

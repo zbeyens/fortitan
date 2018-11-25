@@ -9,7 +9,7 @@ const cfg = {
     entityTypes: [
         'players',
         'grounds',
-        'resources'
+        'resources',
     ],
 
     tileSize: 128,

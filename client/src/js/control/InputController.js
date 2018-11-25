@@ -30,6 +30,6 @@ export default class InputController {
         };
     }
 
-    handleInputs() {}
+    handleInput() {}
 
 }

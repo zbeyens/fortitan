@@ -7,8 +7,11 @@
      * All sprites are stored in a list to easily manipulate/destroy them
      * @param  {Entity} entity
      */
-    constructor(entity) {
-        Object.assign(this, entity);
+    constructor(id, initState, initProps) {
+        this.id = id;
+
+        this.state = initState;
+        this.props = initProps;
 
         this.sprites = [];
     }
@@ -51,7 +54,7 @@
     }
 
     /**
-     * Destroy all the sprites from this entity
+     * Destroy all the sprites
      */
     destroy() {
         for (const sprite of this.sprites) {

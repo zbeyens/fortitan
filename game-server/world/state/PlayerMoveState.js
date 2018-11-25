@@ -1,4 +1,4 @@
-import State from './State';
+import State from 'iogine/world/State';
 // import cfg from '../../../config';
 
 
@@ -23,9 +23,9 @@ export default class PlayerMoveState extends State {
      * Move the player in X
      */
 	update(dt) {
-        this.state.position = this.physics.body.position;
+        this.state.position = this.entity.physics.body.position;
 
-        this.physics.move();
+        this.entity.physics.move();
 
         const pos = this.state.position;
         // angle from the camera center to the mouse

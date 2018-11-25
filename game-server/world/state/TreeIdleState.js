@@ -1,4 +1,4 @@
-import State from './State';
+import State from 'iogine/world/State';
 
 
 export default class PlayerActionIdleState extends State {

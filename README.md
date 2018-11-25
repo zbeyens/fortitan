@@ -7,9 +7,8 @@
 https://img.shields.io/badge/slack-1-red.svg?longCache=true&style=flat&logo=slack&link=https://arradastudios.slack.com/
 -->
 
-[![Slack Status][s5]][sl]
+[Slack][sl]
 
-[s5]: https://arradastudios.herokuapp.com/badge.svg
 [sl]: https://arradastudios.slack.com/
 
 iogine is a fast, scalable game framework for node.js. It provides the basic development framework and many related components, including libraries and tools. iogine is also suitable for real-time web applications; its distributed architecture makes iogine scale better than other real-time web frameworks. Based on [pomelo](https://github.com/NetEase/pomelo).

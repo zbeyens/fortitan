@@ -7,7 +7,7 @@ export default class PlayerMoveJumpingState extends PlayerMoveState {
     enter() {
         this.state.onGround = false;
         
-        this.physics.jump();
+        this.entity.physics.jump();
     }
 
     update(delta) {

@@ -10,10 +10,10 @@ export default class MyCollisionResponse extends CollisionResponse {
     constructor(physicsEngine) {
         super(physicsEngine);
 
-        this.initCollisionReponse();
+        this.handleCollisions();
     }
 
-    initCollisionReponse() {
+    handleCollisions() {
         Matter.Events.on(this.physicsEngine, "collisionStart", (event) => {
             event.pairs.forEach((pair) => {
                 console.log("collision");
