@@ -7,10 +7,12 @@ export default class GroundV extends PhaserView {
 	constructor(id, initState, initProps) {
 		super(id, initState, initProps);
 
+		const pos = this.state.position;
+		const body = this.props.body;
 		const key = cfg.images.grounds[0];
-		this.spriteBody = window.game.add.tileSprite(this.state.position.x, this.state.position.y, this.props.body.width, this.props.body.height, key);
-		this.centerAnchor(this.spriteBody);
-		window.game.platformGroup.add(this.spriteBody);
+		this.spriteMain = this.game.add.tileSprite(pos.x, pos.y, body.width, body.height, key);
+		this.game.platformGroup.add(this.spriteMain);
+		this.addCenter(this.spriteMain);
 	}
 
 }

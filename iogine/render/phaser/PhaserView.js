@@ -13,28 +13,22 @@
         this.state = initState;
         this.props = initProps;
 
+        this.game = window.game;
+
         this.sprites = [];
     }
 
-    /**
-     * Add a sprite to the game and set its anchor point to its center
-     * @param {Object} position
-     * @param {String} key      key of the texture to use
-     */
-    addSprite(position, key) {
-        const sprite = window.game.add.sprite(position.x, position.y, key);
-        sprite.anchor.setTo(0.5);
-        this.sprites.push(sprite);
-
-        return sprite;
-    }
-
-    add(sprite) {
+    addToSprites(sprite) {
         this.sprites.push(sprite);
     }
 
     centerAnchor(sprite) {
         sprite.anchor.setTo(0.5);
+    }
+
+    addCenter(sprite) {
+        this.centerAnchor(sprite);
+        this.addToSprites(sprite);
     }
 
     /**
@@ -65,10 +59,9 @@
     update(dt) {}
 
     /**
-     * Update the sprites position
-     * Not useful
+     * Default update: update the sprites position to the state position
      */
-    updateSprites() {
+    updatePositions() {
         for (const sprite of this.sprites) {
             sprite.position = this.state.position;
         }

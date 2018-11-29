@@ -5,7 +5,7 @@ export default class PlayerMoveWalkingStateV extends State {
 
     enter() {
         const frameRate = 15;
-        this.entity.spriteBody.animations.play('walk', frameRate, true);
+        this.entity.spriteMain.animations.play('walk', frameRate, true);
     }
 
     update(dt) {
@@ -24,7 +24,7 @@ export default class PlayerMoveWalkingStateV extends State {
     }
 
     exit() {
-        this.entity.spriteBody.animations.stop('walk', true);
+        this.entity.spriteMain.animations.stop('walk', true);
     }
 
 }

@@ -29,7 +29,7 @@ export default class PlayerMoveState extends State {
 
         const pos = this.state.position;
         // angle from the camera center to the mouse
-        this.state.targetAngle = Math.atan2(window.game.camera.y + window.game.input.mousePointer.y - pos.y, window.game.camera.x + window.game.input.mousePointer.x - pos.x);
+        // this.state.targetAngle = Math.atan2(this.game.camera.y + this.game.input.mousePointer.y - pos.y, this.game.camera.x + this.game.input.mousePointer.x - pos.x);
 
         this.state.angle = this.state.targetAngle * 180 / Math.PI;
         // Matter.Body.setAngle(this.body, this.targetAngle);

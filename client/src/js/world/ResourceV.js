@@ -6,7 +6,7 @@ export default class ResourceV extends EntityV {
         super(entity);
 
         this.addSprite();
-        window.game.resourceGroup.add(this.sprite);
+        this.game.resourceGroup.add(this.sprite);
     }
 
     update(delta) {

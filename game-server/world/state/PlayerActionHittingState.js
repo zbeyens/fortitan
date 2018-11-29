@@ -21,4 +21,8 @@ export default class PlayerActionHittingState extends State {
         }
     }
 
+    exit() {
+        this.state.hitting = false;
+    }
+
 }

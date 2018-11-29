@@ -12,20 +12,22 @@ export default class PlayerV extends PhaserView {
     constructor(id, initState, initProps) {
         super(id, initState, initProps);
 
-        console.log(this);
         this.initView();
         this.initState();
     }
 
     initView() {
-        this.spriteBody = this.addSprite(this.state.position, cfg.atlases.players[0]);
+        const pos = this.state.position;
+
+        const key = cfg.atlases.players[0];
+        this.spriteMain = this.game.playerGroup.create(pos.x, pos.y, key);
+        this.addCenter(this.spriteMain);
 
         const walk = cfg.animations.players.walk;
         const walkFrames = this.getAnimationFrames(walk.nFrames, walk.offset);
 
         //  Create an animation called 'walk', the fact we don't specify any frames means it will use all frames in the atlas
-        this.spriteBody.animations.add('walk', walkFrames);
-        window.game.playerGroup.add(this.spriteBody);
+        this.spriteMain.animations.add('walk', walkFrames);
     }
 
     initState() {
@@ -33,15 +35,15 @@ export default class PlayerV extends PhaserView {
     }
 
     update(dt) {
-        super.updateSprites();
+        super.updatePositions();
 
         this.moveState.update(dt);
 
         // TODO: follow the mouseX ?
         if (this.state.direction.x === -1) {
-            this.spriteBody.scale.x = -1;
+            this.spriteMain.scale.x = -1;
         } else if (this.state.direction.x === 1) {
-            this.spriteBody.scale.x = 1;
+            this.spriteMain.scale.x = 1;
         }
     }
 

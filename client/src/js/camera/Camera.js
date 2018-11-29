@@ -16,7 +16,7 @@ export default class Camera {
         //  0.1 is the amount of linear interpolation to use.
         //  The smaller the value, the smooth the camera (and the longer it takes to catch up)
         const lerp = 0.1;
-        this.game.camera.follow(playerToFollow.spriteBody, Phaser.Camera.FOLLOW_LOCKON, lerp, lerp);
+        this.game.camera.follow(playerToFollow.spriteMain, Phaser.Camera.FOLLOW_LOCKON, lerp, lerp);
         console.log("Camera following");
     }
 

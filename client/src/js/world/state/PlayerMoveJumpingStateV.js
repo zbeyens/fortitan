@@ -4,7 +4,7 @@ import State from 'iogine/world/State';
 export default class PlayerMoveJumpingStateV extends State {
 
     enter() {
-        this.entity.spriteBody.frame = 0;
+        this.entity.spriteMain.frame = 0;
     }
 
     update(dt) {

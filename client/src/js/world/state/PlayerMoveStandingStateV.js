@@ -4,7 +4,7 @@ import State from 'iogine/world/State';
 export default class PlayerMoveStandingStateV extends State {
 
     enter() {
-        this.entity.spriteBody.frame = 1;
+        this.entity.spriteMain.frame = 1;
     }
 
     update(dt) {

@@ -24,8 +24,8 @@ export default class TreeV extends ResourceV {
 
         const radius = 4;
         // let magnitude = this._duration / this._radius * this._radius;
-        const shakeX = window.game.rnd.integerInRange(-radius, radius);
-        const shakeY = window.game.rnd.integerInRange(-radius, radius);
+        const shakeX = this.game.rnd.integerInRange(-radius, radius);
+        const shakeY = this.game.rnd.integerInRange(-radius, radius);
 
         this.sprite.x = this.entity.state.x + shakeX;
         this.sprite.y = this.entity.state.y + shakeY;
