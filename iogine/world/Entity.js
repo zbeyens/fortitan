@@ -6,11 +6,13 @@
  */
 export default class Entity {
 
-    constructor(id, initState, initProps) {
+    constructor(id, initState, initProps, gameEngine) {
         this.id = id;
 
         this.state = initState;
         this.props = initProps;
+        
+        this.gameEngine = gameEngine;
     }
 
     update(dt) {}

@@ -1,16 +1,41 @@
-import Entity from './Entity';
-import cfg from '../../config';
+import DynamicEntity from 'iogine/world/DynamicEntity';
+import PickaxePhysics from './physics/PickaxePhysics';
 
 
-/**
- * Every Entity has a props, a state and a view component.
- */
-export default class Pickaxe extends Entity {
-    constructor({ id, state, props, engine }) {
-        super(id);
-        this.props = props;
-        this.props.category = cfg.item.pickaxeCategory;
-        // this.state = new PickaxeState(this, state, engine);
-    }
+export default class Pickaxe extends DynamicEntity {
+	constructor(id, initState, initProps, gameEngine) {
+		super(id, initState, initProps, gameEngine);
+
+		this.physics = new PickaxePhysics(this, gameEngine.physicsEngine);
+	}
+
+	update(dt) {}
 
 }
+
+/**
+ * msg worldUpdate
+ *
+ * player: {
+ *  id
+ *  state: {
+ *    usingItem: 'pickaxe'
+ *    hitting: true,
+ *  }
+ * }
+ *
+ * when owner by a player NOT TO DO,
+ * only when on ground:
+ * pickaxe: {
+ *  id, 
+ *  state: {
+ *  	position,
+ *  }
+ * }
+ *
+ * client receive msg:
+ *
+ * find entityV with ownerId
+ * update pickaxeV state position to entity.position
+ *
+ */

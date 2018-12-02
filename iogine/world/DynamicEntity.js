@@ -6,8 +6,8 @@ import Entity from './Entity';
  */
 export default class DynamicEntity extends Entity {
 	
-	constructor(id, initState, initProps) {
-		super(id, initState, initProps);
+	constructor(id, initState, initProps, gameEngine) {
+		super(id, initState, initProps, gameEngine);
 
 		this.netScheme = {};
 	}

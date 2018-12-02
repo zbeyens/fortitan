@@ -7,84 +7,89 @@ import PlayerActionIdleState from './state/PlayerActionIdleState';
 import PlayerActionHittingState from './state/PlayerActionHittingState';
 import PlayerMoveStandingState from './state/PlayerMoveStandingState';
 import PlayerMoveJumpingState from './state/PlayerMoveJumpingState';
-
+import Inventory from './Inventory';
+import Pickaxe from './Pickaxe';
 
 export default class Player extends DynamicEntity {
-    constructor(id, initState, initProps, physicsEngine) {
-        super(id, initState, initProps);
+	constructor(id, initState, initProps, gameEngine) {
+		super(id, initState, initProps, gameEngine);
 
-        this.physics = new PlayerPhysics(this, physicsEngine);
+		this.physics = new PlayerPhysics(this, gameEngine.physicsEngine);
 
-        this.initState();
-    }
+		this.inventory = new Inventory(this);
+		this.gameEngine.createPickaxe(this);
+		console.log('this.inventory.items', this.inventory.items);
 
-    initState() {
-        this.enterStandingState();
-        this.enterActionIdleState();
-    }
+		this.initState();
+	}
 
-    handleInput(input) {
-        this.moveState.handleInput(input);
-        this.actionState.handleInput(input);
-    }
+	initState() {
+		this.enterStandingState();
+		this.enterActionIdleState();
+	}
 
-    update(dt) {
-        this.moveState.update(dt);
-        this.actionState.update(dt);
-    }
+	handleInput(input) {
+		this.moveState.handleInput(input);
+		this.actionState.handleInput(input);
+	}
 
-    enterStandingState() {
-        this.moveState = new PlayerMoveStandingState(this);
-    }
+	update(dt) {
+		this.moveState.update(dt);
+		this.actionState.update(dt);
+	}
 
-    enterJumpingState() {
-        this.moveState = new PlayerMoveJumpingState(this);
-    }
+	enterStandingState() {
+		this.moveState = new PlayerMoveStandingState(this);
+	}
 
-    enterActionIdleState() {
-        this.actionState = new PlayerActionIdleState(this);
-    }
+	enterJumpingState() {
+		this.moveState = new PlayerMoveJumpingState(this);
+	}
 
-    enterActionHittingState() {
-        this.actionState = new PlayerActionHittingState(this);
-    }
+	enterActionIdleState() {
+		this.actionState = new PlayerActionIdleState(this);
+	}
+
+	enterActionHittingState() {
+		this.actionState = new PlayerActionHittingState(this);
+	}
 
 }
 
 // const self = this;
-        // this.buildingPreview = new Wall({
-        //  id: 0,
-        //  props: {
-        //         preview: true
-        //     },
-        //  state: {
-        //      x: self.state.x,
-        //      y: self.state.y,
-        //      owner: self,
-        //  },
-        //  engine: engine
-        // });
+// this.buildingPreview = new Wall({
+//  id: 0,
+//  props: {
+//         preview: true
+//     },
+//  state: {
+//      x: self.state.x,
+//      y: self.state.y,
+//      owner: self,
+//  },
+//  engine: engine
+// });
 
-        // this.items = [];
-        // this.items.push(new Pickaxe({
-        //     id: 0,
-        //     state: {
-        //         x: this.state.x,
-        //         y: this.state.y,
-        //         owner: self
-        //     },
-        //     props: {
-        //         texture: 'pickaxe'
-        //     },
-        //     engine: engine
-        // }));
+// this.items = [];
+// this.items.push(new Pickaxe({
+//     id: 0,
+//     state: {
+//         x: this.state.x,
+//         y: this.state.y,
+//         owner: self
+//     },
+//     props: {
+//         texture: 'pickaxe'
+//     },
+//     engine: engine
+// }));
 
 // update(dt) {
 //         super.update(dt);
-        // for (let i = this.items.length - 1; i >= 0; i--) {
-        //        const entity = this.items[i];
-        //        entity.update(dt);
-        //    }
+// for (let i = this.items.length - 1; i >= 0; i--) {
+//        const entity = this.items[i];
+//        entity.update(dt);
+//    }
 
-        //    this.buildingPreview.update(dt);
-    // }
+//    this.buildingPreview.update(dt);
+// }

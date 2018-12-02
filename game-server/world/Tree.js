@@ -1,16 +1,13 @@
-import Resource from './Resource';
+import DynamicEntity from 'iogine/world/DynamicEntity';
+import TreePhysics from './physics/TreePhysics';
 
 
-/**
- * Every Entity has a props, a state and a view component.
- */
-export default class Tree extends Resource {
-    constructor({ id, state, props, engine }) {
-        super(id);
-        this.props = props;
-		// props.category = cfg.tree.category
+export default class Tree extends DynamicEntity {
 
-        // this.state = new TreeState(this, state, engine);
+    constructor(id, initState, initProps, gameEngine) {
+		super(id, initState, initProps, gameEngine);
+        
+        this.physics = new TreePhysics(this, gameEngine.physicsEngine);
     }
-
+  
 }

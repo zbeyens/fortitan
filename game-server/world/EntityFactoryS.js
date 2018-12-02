@@ -1,6 +1,7 @@
 import Player from './Player';
 import Ground from './Ground';
-
+import Tree from './Tree';
+import Pickaxe from './Pickaxe';
 
 export default class EntityFactoryS {
 
@@ -9,15 +10,18 @@ export default class EntityFactoryS {
 	}
 
 	createEntity(type, id, initState, initProps) {
-		const physicsEngine = this.gameEngine.physicsEngine;
+		const gameEngine = this.gameEngine;
 		let newEntity = null;
+
+		if (type === 'players') 
+			newEntity = new Player(id, initState, initProps, gameEngine);
+		if (type === 'grounds') 
+			newEntity = new Ground(id, initState, initProps, gameEngine);
+		if (type === 'trees') 
+			newEntity = new Tree(id, initState, initProps, gameEngine);
+		if (type === 'pickaxes') 
+			newEntity = new Pickaxe(id, initState, initProps, gameEngine);
 		
-		if (type === 'players')
-			newEntity = new Player(id, initState, initProps, physicsEngine);
-		if (type === 'grounds')
-			newEntity = new Ground(id, initState, initProps, physicsEngine);
-
-
 		return newEntity;
 	}
 

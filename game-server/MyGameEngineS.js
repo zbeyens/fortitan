@@ -8,71 +8,129 @@ import cfg from './config';
  */
 export default class MyGameEngineS extends MyGameEngine {
 
-    /**
+	/**
      * Init the physics engine.
      * Init the entity factory.
      */
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.physicsEngine = new MyPhysicsEngine(this);
-        this.entityFactory = new EntityFactoryS(this);
-    }
+		this.physicsEngine = new MyPhysicsEngine(this);
+		this.entityFactory = new EntityFactoryS(this);
+	}
 
-    /**
+	/**
      * Create the level of the game.
      */
-    start() {
-        super.start();
+	start() {
+		super.start();
 
-        this.createLevel();
-    }
+		this.createLevel();
+	}
 
-    /**
+	/**
      * Find the player entity with the socket id to handle its input.
      * @param  {Object} data - the input
      * @param  {Number} socketId - the socket id
      */
-    processInput(data, socketId) {
-        let player;
-        for (const id of Object.keys(this.world.entities.players)) {
-            const p = this.world.entities.players[id];
-            if (p.socketId === socketId)
-                player = p;
-        }
+	processInput(data, socketId) {
+		let player;
+		for (const id of Object.keys(this.world.entities.players)) {
+			const p = this.world.entities.players[id];
+			if (p.socketId === socketId) 
+				player = p;
+			}
+		
+		if (player) {
+			player.handleInput(data);
+		}
+	}
 
-        if (player) {
-            player.handleInput(data);
-        }
-    }
-
-    /**
+	/**
      * Update the physics engine.
      * Update the game engine.
      * @param  {Number} t  
      * @param  {Number} dt 
      */
-    step(dt) {
-        this.physicsEngine.step(dt);
+	step(dt) {
+		this.physicsEngine.step(dt);
 
-        super.step(dt);
-    }
+		super.step(dt);
+	}
 
-    /**
+	createLevel() {
+		super.createLevel();
+
+		for (let i = 0; i < cfg.trees.amount; i++) {
+			const treeMarginFactor = 400;
+			const randomFactor = 50;
+			const position = {
+				x: Math.random() * randomFactor + i * treeMarginFactor,
+				y: 650
+			};
+			this.createTree(position);
+		}
+	}
+
+	/**
      * Creates a new player, adds it to the game world
      * TODO: we can place it randomly and set the props from the user input
      */
-    createPlayer() {
-        const type = 'players';
+	createPlayer() {
+		const type = 'players';
 
-        const id = this.world.getNewId(type);
+		const id = this.world.getNewId(type);
 
-        const initState = cfg[type].state;
-        const initProps = cfg[type].props;
+		const initState = cfg[type].state;
+		const initProps = cfg[type].props;
 
-        const newEntity = this.createEntity(type, id, initState, initProps);
-        return newEntity;
-    }
+		const newEntity = this.createEntity(type, id, initState, initProps);
+		return newEntity;
+	}
+
+	/**
+     * Creates a new tree, adds it to the game world
+     * TODO: we can place it randomly and set the props from the user input
+     */
+	createTree(position) {
+		const type = 'trees';
+
+		const id = this.world.getNewId(type);
+
+		const initState = {
+			position
+		};
+		const initProps = {
+			body: cfg.trees.body
+		};
+
+		const newEntity = this.createEntity(type, id, initState, initProps);
+		return newEntity;
+	}
+	
+	createPickaxe(owner) {
+		const type = 'pickaxes';
+
+		const id = this.world.getNewId(type);
+
+		const ownerPos = owner.state.position;
+		const initState = {
+			owner,
+			position: {
+				x: ownerPos.x,
+				y: ownerPos.y,
+			},
+		};
+		const initProps = {
+			body: cfg.pickaxes.body
+		};
+
+		const newEntity = this.createEntity(type, id, initState, initProps);
+		newEntity.gameEngine = this;
+		owner.inventory.add(newEntity);
+		
+		return newEntity;
+	}
 
 }
 
@@ -84,13 +142,13 @@ export default class MyGameEngineS extends MyGameEngine {
 // makeMissile(playerShip, inputId) {
 //     let missile = new Missile(this);
 
-//     // we want the missile location and velocity to correspond to that of the ship firing it
+//      we want the missile location and velocity to correspond to that of the ship firing it
 //     missile.position.copy(playerShip.position);
 //     missile.velocity.copy(playerShip.velocity);
 //     missile.angle = playerShip.angle;
 //     missile.playerId = playerShip.playerId;
 //     missile.ownerId = playerShip.id;
-//     missile.inputId = inputId; // this enables usage of the missile shadow object
+//     missile.inputId = inputId;  this enables usage of the missile shadow object
 //     missile.velocity.x += Math.cos(missile.angle * (Math.PI / 180)) * 10;
 //     missile.velocity.y += Math.sin(missile.angle * (Math.PI / 180)) * 10;
 
@@ -98,7 +156,7 @@ export default class MyGameEngineS extends MyGameEngine {
 
 //     let obj = this.addEntityToWorld(missile);
 
-//     // if the object was added successfully to the game world, destroy the missile after some game ticks
+//      if the object was added successfully to the game world, destroy the missile after some game ticks
 //     if (obj)
 //         this.timer.add(30, this.destroyMissile, this, [obj.id]);
 

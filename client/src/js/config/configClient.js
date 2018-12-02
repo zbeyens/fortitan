@@ -51,6 +51,8 @@ const cfg = {
         }
     },
 
+    trees: {},
+
     images: {
         mainMenuBg: [
             'img/icons/bg-2.png',
@@ -67,9 +69,15 @@ const cfg = {
         grounds: [
             'img/tiles/Spring/128x128/GrassMid.png',
         ],
+        trees: [
+            'img/tree/Asset 1.png',
+        ],
 
         inventoryBar: [
             'img/InventoryBar1.png'
+        ],
+        pickaxes: [
+            'img/SpriteWay/WoodPick.png'
         ],
         // 'img/SpriteWay/StonePick.png'
         // 'img/tiles/Spring/256x256/GrassJoinHillRight2&Left2 DownShadow.png'

@@ -9,7 +9,9 @@ const cfg = {
     entityTypes: [
         'players',
         'grounds',
-        'resources',
+        'trees',
+        // 'items',
+        'pickaxes',
     ],
 
     tileSize: 128,
@@ -34,6 +36,9 @@ const cfg = {
             imageIndex: 0,
             body: {}
         }
+    },
+    trees: {
+        
     },
 
 };

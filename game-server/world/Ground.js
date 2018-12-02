@@ -4,10 +4,10 @@ import GroundPhysics from './physics/GroundPhysics';
 
 export default class Ground extends StaticEntity {
 
-    constructor(id, initState, initProps, physicsEngine) {
-        super(id, initState, initProps);
+    constructor(id, initState, initProps, gameEngine) {
+		super(id, initState, initProps, gameEngine);
         
-        this.physics = new GroundPhysics(this, physicsEngine);
+        this.physics = new GroundPhysics(this, gameEngine.physicsEngine);
     }
   
 }

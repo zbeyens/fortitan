@@ -1,33 +1,39 @@
-import ResourceV from './ResourceV';
+// import ResourceV from './ResourceV';
+import PhaserView from 'iogine/render/phaser/PhaserView';
+import cfg from '../config';
+import TreeHitState from './state/TreeHitState';
+import TreeIdleState from './state/TreeIdleState';
 
-export default class TreeV extends ResourceV {
+export default class TreeV extends PhaserView {
 
-    constructor(entity) {
-        super(entity);
+	constructor(id, initState, initProps) {
+		super(id, initState, initProps);
 
-        this.time = 0;
-    }
+		const pos = this.state.position;
+		const key = cfg.images.trees[0];
+		this.spriteMain = this.game.add.sprite(pos.x, pos.y, key);
+		this.game.resourceGroup.add(this.spriteMain);
+		this.addCenter(this.spriteMain);
 
-    update(delta) {
-        super.update(delta);
+		this.initState();
+	}
 
-        if (delta) {
-            this.time += delta;
-        }
+	initState() {
+		this.enterHitState();
+	}
 
-        const shakeDuration = 200;
-        const shakeInterval = 1000;
-        if (this.time > shakeDuration) {
-            if (this.time > shakeInterval) this.time = 0;
-            return;
-        }
+	update(dt) {
+		super.updatePositions(dt);
 
-        const radius = 4;
-        // let magnitude = this._duration / this._radius * this._radius;
-        const shakeX = this.game.rnd.integerInRange(-radius, radius);
-        const shakeY = this.game.rnd.integerInRange(-radius, radius);
+		this.actionState.update(dt);
+	}
 
-        this.sprite.x = this.entity.state.x + shakeX;
-        this.sprite.y = this.entity.state.y + shakeY;
-    }
+	enterIdleState() {
+		this.actionState = new TreeIdleState(this);
+	}
+
+	enterHitState() {
+		this.actionState = new TreeHitState(this);
+	}
+
 }
