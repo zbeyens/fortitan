@@ -46,7 +46,9 @@ export default class ClientEngine {
     }
 
     /**
-     * Listen to network messages.
+     * Listen to each event added in the constructor.
+     * When receiving a message asynchronously, 
+     * push it to inboundMessages 
      */
     setEventHandlers() {
         for (const event of Object.keys(this.eventHandlers)) {

@@ -86,6 +86,7 @@ export default class GameEngine {
     /**
      * Add an entity to the game world.
      * @param {String} type - the entity type.
+     * @param {Entity} entity - the entity object.
      * @return {Entity} entity - the final entity.
      */
     addEntityToWorld(type, entity) {

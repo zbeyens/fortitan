@@ -1,137 +1,133 @@
-import MyPhysicsEngine from './physics/MyPhysicsEngine';
-import MyGameEngine from '../shared/MyGameEngine';
-import EntityFactoryS from './world/EntityFactoryS';
-import cfg from './config';
+import MyPhysicsEngine from "./physics/MyPhysicsEngine";
+import MyGameEngine from "../shared/MyGameEngine";
+import EntityFactoryS from "./world/EntityFactoryS";
+import cfg from "./config";
 
 /**
  * Game engine of the server
  */
 export default class MyGameEngineS extends MyGameEngine {
+  /**
+   * Init the physics engine.
+   * Init the entity factory.
+   */
+  constructor() {
+    super();
 
-	/**
-     * Init the physics engine.
-     * Init the entity factory.
-     */
-	constructor() {
-		super();
+    this.physicsEngine = new MyPhysicsEngine(this);
+    this.entityFactory = new EntityFactoryS(this);
+  }
 
-		this.physicsEngine = new MyPhysicsEngine(this);
-		this.entityFactory = new EntityFactoryS(this);
-	}
+  /**
+   * Create the level of the game.
+   */
+  start() {
+    super.start();
 
-	/**
-     * Create the level of the game.
-     */
-	start() {
-		super.start();
+    this.createLevel();
+  }
 
-		this.createLevel();
-	}
+  /**
+   * Find the player entity with the socket id to handle its input.
+   * @param  {Object} data - the input
+   * @param  {Number} socketId - the socket id
+   */
+  processInput(data, socketId) {
+    let player;
+    for (const id of Object.keys(this.world.entities.players)) {
+      const p = this.world.entities.players[id];
+      if (p.socketId === socketId) player = p;
+    }
 
-	/**
-     * Find the player entity with the socket id to handle its input.
-     * @param  {Object} data - the input
-     * @param  {Number} socketId - the socket id
-     */
-	processInput(data, socketId) {
-		let player;
-		for (const id of Object.keys(this.world.entities.players)) {
-			const p = this.world.entities.players[id];
-			if (p.socketId === socketId) 
-				player = p;
-			}
-		
-		if (player) {
-			player.handleInput(data);
-		}
-	}
+    if (player) {
+      player.handleInput(data);
+    }
+  }
 
-	/**
-     * Update the physics engine.
-     * Update the game engine.
-     * @param  {Number} t  
-     * @param  {Number} dt 
-     */
-	step(dt) {
-		this.physicsEngine.step(dt);
+  /**
+   * Update the physics engine.
+   * Update the game engine.
+   * @param  {Number} t
+   * @param  {Number} dt
+   */
+  step(dt) {
+    this.physicsEngine.step(dt);
 
-		super.step(dt);
-	}
+    super.step(dt);
+  }
 
-	createLevel() {
-		super.createLevel();
+  createLevel() {
+    super.createLevel();
 
-		for (let i = 0; i < cfg.trees.amount; i++) {
-			const treeMarginFactor = 400;
-			const randomFactor = 50;
-			const position = {
-				x: Math.random() * randomFactor + i * treeMarginFactor,
-				y: 650
-			};
-			this.createTree(position);
-		}
-	}
+    for (let i = 0; i < cfg.trees.amount; i++) {
+      const treeMarginFactor = 400;
+      const randomFactor = 50;
+      const position = {
+        x: Math.random() * randomFactor + i * treeMarginFactor,
+        y: 650
+      };
+      this.createTree(position);
+    }
+  }
 
-	/**
-     * Creates a new player, adds it to the game world
-     * TODO: we can place it randomly and set the props from the user input
-     */
-	createPlayer() {
-		const type = 'players';
+  /**
+   * Creates a new player, adds it to the game world
+   * TODO: we can place it randomly and set the props from the user input
+   */
+  createPlayer() {
+    const type = "players";
 
-		const id = this.world.getNewId(type);
+    const id = this.world.getNewId(type);
 
-		const initState = cfg[type].state;
-		const initProps = cfg[type].props;
+    const initState = cfg[type].state;
+    const initProps = cfg[type].props;
 
-		const newEntity = this.createEntity(type, id, initState, initProps);
-		return newEntity;
-	}
+    const newEntity = this.createEntity(type, id, initState, initProps);
+    return newEntity;
+  }
 
-	/**
-     * Creates a new tree, adds it to the game world
-     * TODO: we can place it randomly and set the props from the user input
-     */
-	createTree(position) {
-		const type = 'trees';
+  /**
+   * Creates a new tree, adds it to the game world
+   * TODO: we can place it randomly and set the props from the user input
+   */
+  createTree(position) {
+    const type = "trees";
 
-		const id = this.world.getNewId(type);
+    const id = this.world.getNewId(type);
 
-		const initState = {
-			position
-		};
-		const initProps = {
-			body: cfg.trees.body
-		};
+    const initState = {
+      position
+    };
+    const initProps = {
+      body: cfg.trees.body
+    };
 
-		const newEntity = this.createEntity(type, id, initState, initProps);
-		return newEntity;
-	}
-	
-	createPickaxe(owner) {
-		const type = 'pickaxes';
+    const newEntity = this.createEntity(type, id, initState, initProps);
+    return newEntity;
+  }
 
-		const id = this.world.getNewId(type);
+  createPickaxe(owner) {
+    const type = "pickaxes";
 
-		const ownerPos = owner.state.position;
-		const initState = {
-			owner,
-			position: {
-				x: ownerPos.x,
-				y: ownerPos.y,
-			},
-		};
-		const initProps = {
-			body: cfg.pickaxes.body
-		};
+    const id = this.world.getNewId(type);
 
-		const newEntity = this.createEntity(type, id, initState, initProps);
-		newEntity.gameEngine = this;
-		owner.inventory.add(newEntity);
-		
-		return newEntity;
-	}
+    const ownerPos = owner.state.position;
+    const initState = {
+      owner,
+      position: {
+        x: ownerPos.x,
+        y: ownerPos.y
+      }
+    };
+    const initProps = {
+      body: cfg.pickaxes.body
+    };
 
+    const newEntity = this.createEntity(type, id, initState, initProps);
+    owner.inventory.add(newEntity);
+
+    return newEntity;
+  }
 }
 
 // registerClasses(serializer){

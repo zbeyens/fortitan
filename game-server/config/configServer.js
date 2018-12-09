@@ -1,99 +1,110 @@
-const _ = require('lodash');
-const configShared = require('../../shared/config');
+const _ = require("lodash");
+const configShared = require("../../shared/config");
+
+const categories = {
+  // default: 0x0001,
+  players: 0x0001,
+  trees: 0x0002,
+  grounds: 0x0004,
+  pickaxes: 0x0008
+};
 
 // Server config
 const cfg = {
-	players: {
-		speed: 5,
-		jumpForce: -13,
+  players: {
+    speed: 5,
+    jumpForce: -13,
 
-		hittingCd: 500,
-		hittingRayWidth: 10,
-		hittingRayRange: 100,
+    hittingCd: 500,
+    hittingRayWidth: 10,
+    hittingRayRange: 100,
 
-		state: {
-			position: {
-				x: 300,
-				y: 300
-			},
-			direction: {
-				x: 0,
-				y: 0
-			}
-		},
+    state: {
+      position: {
+        x: 300,
+        y: 300
+      },
+      direction: {
+        x: 0,
+        y: 0
+      }
+    },
 
-		body: {
-			width: 72,
-			height: 90,
-			options: {
-				inertia: Infinity, //prevents player rotation
-				// friction: 0.002,
-				// friction: 0,
-				// frictionAir: 0,
-				isStatic: false,
-				// collisionFilter: {
-				//      group
-				//     category: 0x0001,
-				// },
-			}
-		},
-		props: {}
-	},
+    body: {
+      width: 72,
+      height: 90,
+      options: {
+        inertia: Infinity, //prevents player rotation
+        // friction: 0.002,
+        // friction: 0,
+        // frictionAir: 0,
+        isStatic: false,
+        collisionFilter: {
+          category: categories.players,
+          mask: categories.players | categories.grounds
+        }
+      }
+    },
+    props: {}
+  },
 
-	grounds: {
-		body: {
-			options: {
-				inertia: Infinity,
-				isStatic: true,
-				collisionFilter: {
-					category: 0x0011
-				}
-			}
-		}
-	},
-	trees: {
-		amount: 10,
-		body: {
-			radius: 110,
-			options: {
-				inertia: Infinity,
-				isStatic: true,
-				collisionFilter: {
-					category: 0x0012
-				},
-				isSensor: true
-			}
-		}
-	},
-	inventory: {
-		limit: 10,
-	},
-	pickaxes: {
-		body: {
-			radius: 30,
-			options: {
-				inertia: Infinity,
-				isStatic: false,
-				isSensor: true,
-				collisionFilter: {
-					category: 0x0013
-				},
-			}
-		}
-	}
+  grounds: {
+    body: {
+      options: {
+        inertia: Infinity,
+        isStatic: true,
+        collisionFilter: {
+          category: categories.grounds
+        }
+      }
+    }
+  },
+  trees: {
+    amount: 10,
+    body: {
+      radius: 110,
+      options: {
+        inertia: Infinity,
+        isStatic: true,
+        isSensor: true
+        // collisionFilter: {
+        //   category: categories.trees,
+        //   mask: categories.trees | categories.pickaxes
+        // }
+        // isSensor: true
+      }
+    }
+  },
+  inventory: {
+    limit: 10
+  },
+  pickaxes: {
+    body: {
+      radius: 30,
+      options: {
+        inertia: Infinity,
+        isStatic: true,
+        isSensor: true
+        // collisionFilter: {
+        //   category: categories.pickaxes,
+        //   mask: categories.pickaxes | categories.trees
+        // }
+      }
+    }
+  }
 
-	// trees: {
-	//     props: {
-	//     },
-	//      bodyRadius: 95,
-	//      bodyWidth: 30,
-	//      bodyHeight: 60
-	// },
+  // trees: {
+  //     props: {
+  //     },
+  //      bodyRadius: 95,
+  //      bodyWidth: 30,
+  //      bodyHeight: 60
+  // },
 
-	// pickaxes: {
-	//     props: {
-	//     }
-	// },
+  // pickaxes: {
+  //     props: {
+  //     }
+  // },
 };
 
 // cfg.trees.bodyOptions = {

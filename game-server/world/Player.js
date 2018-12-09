@@ -1,59 +1,57 @@
-import DynamicEntity from 'iogine/world/DynamicEntity';
-import PlayerPhysics from './physics/PlayerPhysics';
+import DynamicEntity from "iogine/world/DynamicEntity";
+import PlayerPhysics from "./physics/PlayerPhysics";
 // import Wall from '../building/wall/Wall';
 // import Pickaxe from '../item/weapon/pickaxe/Pickaxe';
 // import cfg from '../../config';
-import PlayerActionIdleState from './state/PlayerActionIdleState';
-import PlayerActionHittingState from './state/PlayerActionHittingState';
-import PlayerMoveStandingState from './state/PlayerMoveStandingState';
-import PlayerMoveJumpingState from './state/PlayerMoveJumpingState';
-import Inventory from './Inventory';
-import Pickaxe from './Pickaxe';
+import PlayerUseIdleState from "./state/PlayerUseIdleState";
+import PlayerUseState from "./state/PlayerUseState";
+import PlayerMoveStandingState from "./state/PlayerMoveStandingState";
+import PlayerMoveJumpingState from "./state/PlayerMoveJumpingState";
+import Inventory from "./Inventory";
 
 export default class Player extends DynamicEntity {
-	constructor(id, initState, initProps, gameEngine) {
-		super(id, initState, initProps, gameEngine);
+  constructor(id, initState, initProps, gameEngine) {
+    super(id, initState, initProps, gameEngine);
 
-		this.physics = new PlayerPhysics(this, gameEngine.physicsEngine);
+    this.physics = new PlayerPhysics(this, gameEngine.physicsEngine);
 
-		this.inventory = new Inventory(this);
-		this.gameEngine.createPickaxe(this);
-		console.log('this.inventory.items', this.inventory.items);
+    this.inventory = new Inventory(this);
+    this.gameEngine.createPickaxe(this);
+    console.log("this.inventory.items", this.inventory.items);
 
-		this.initState();
-	}
+    this.initState();
+  }
 
-	initState() {
-		this.enterStandingState();
-		this.enterActionIdleState();
-	}
+  initState() {
+    this.enterStandingState();
+    this.enterUseIdleState();
+  }
 
-	handleInput(input) {
-		this.moveState.handleInput(input);
-		this.actionState.handleInput(input);
-	}
+  handleInput(input) {
+    this.moveState.handleInput(input);
+    this.actionState.handleInput(input);
+  }
 
-	update(dt) {
-		this.moveState.update(dt);
-		this.actionState.update(dt);
-	}
+  update(dt) {
+    this.moveState.update(dt);
+    this.actionState.update(dt);
+  }
 
-	enterStandingState() {
-		this.moveState = new PlayerMoveStandingState(this);
-	}
+  enterStandingState() {
+    this.moveState = new PlayerMoveStandingState(this);
+  }
 
-	enterJumpingState() {
-		this.moveState = new PlayerMoveJumpingState(this);
-	}
+  enterJumpingState() {
+    this.moveState = new PlayerMoveJumpingState(this);
+  }
 
-	enterActionIdleState() {
-		this.actionState = new PlayerActionIdleState(this);
-	}
+  enterUseIdleState() {
+    this.actionState = new PlayerUseIdleState(this);
+  }
 
-	enterActionHittingState() {
-		this.actionState = new PlayerActionHittingState(this);
-	}
-
+  enterUseState() {
+    this.actionState = new PlayerUseState(this);
+  }
 }
 
 // const self = this;

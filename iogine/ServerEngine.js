@@ -106,6 +106,12 @@ export default class ServerEngine {
         this.setEventHandlers(ws);
     }
 
+    /**
+     * Listen to each event added in the constructor.
+     * When receiving a message asynchronously, 
+     * push it to inboundMessages 
+     * @param {Websocket} ws - one socket
+     */
     setEventHandlers(ws) {
         for (const event of Object.keys(this.eventHandlers)) {
             ws.on(event, (data) => {
