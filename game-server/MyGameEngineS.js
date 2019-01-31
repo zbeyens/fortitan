@@ -1,7 +1,7 @@
-import MyPhysicsEngine from "./physics/MyPhysicsEngine";
-import MyGameEngine from "../shared/MyGameEngine";
-import EntityFactoryS from "./world/EntityFactoryS";
-import cfg from "./config";
+import MyPhysicsEngine from './physics/MyPhysicsEngine';
+import MyGameEngine from '../shared/MyGameEngine';
+import EntityFactoryS from './world/EntityFactoryS';
+import cfg from './config';
 
 /**
  * Game engine of the server
@@ -64,7 +64,7 @@ export default class MyGameEngineS extends MyGameEngine {
       const randomFactor = 50;
       const position = {
         x: Math.random() * randomFactor + i * treeMarginFactor,
-        y: 650
+        y: 650,
       };
       this.createTree(position);
     }
@@ -75,12 +75,14 @@ export default class MyGameEngineS extends MyGameEngine {
    * TODO: we can place it randomly and set the props from the user input
    */
   createPlayer() {
-    const type = "players";
+    const type = 'players';
 
     const id = this.world.getNewId(type);
 
     const initState = cfg[type].state;
-    const initProps = cfg[type].props;
+    const initProps = {
+      type,
+    };
 
     const newEntity = this.createEntity(type, id, initState, initProps);
     return newEntity;
@@ -91,15 +93,16 @@ export default class MyGameEngineS extends MyGameEngine {
    * TODO: we can place it randomly and set the props from the user input
    */
   createTree(position) {
-    const type = "trees";
+    const type = 'trees';
 
     const id = this.world.getNewId(type);
 
     const initState = {
-      position
+      position,
     };
     const initProps = {
-      body: cfg.trees.body
+      body: cfg.trees.body,
+      type,
     };
 
     const newEntity = this.createEntity(type, id, initState, initProps);
@@ -107,7 +110,7 @@ export default class MyGameEngineS extends MyGameEngine {
   }
 
   createPickaxe(owner) {
-    const type = "pickaxes";
+    const type = 'pickaxes';
 
     const id = this.world.getNewId(type);
 
@@ -116,11 +119,12 @@ export default class MyGameEngineS extends MyGameEngine {
       owner,
       position: {
         x: ownerPos.x,
-        y: ownerPos.y
-      }
+        y: ownerPos.y,
+      },
     };
     const initProps = {
-      body: cfg.pickaxes.body
+      body: cfg.pickaxes.body,
+      type,
     };
 
     const newEntity = this.createEntity(type, id, initState, initProps);

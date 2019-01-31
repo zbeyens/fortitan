@@ -9,6 +9,29 @@ export default class MyCollisionResponse extends CollisionResponse {
   constructor(physicsEngine) {
     super(physicsEngine);
 
+    Matter.Events.on(this.physicsEngine, "beforeUpdate", () => {
+      const bodies = Matter.Composite.allBodies(this.physicsEngine.world);
+      const gravity = this.physicsEngine.world.gravity;
+
+      for (let i = 0; i < bodies.length; i++) {
+        const body = bodies[i];
+
+        if (!body.noGravity) continue;
+
+        Matter.Body.applyForce(
+          body,
+          {
+            x: 0,
+            y: 0
+          },
+          {
+            x: -gravity.x * gravity.scale * body.mass,
+            y: -gravity.y * gravity.scale * body.mass
+          }
+        );
+      }
+    });
+
     this.handleCollisions();
   }
 
@@ -16,7 +39,6 @@ export default class MyCollisionResponse extends CollisionResponse {
     Matter.Events.on(this.physicsEngine, "collisionStart", event => {
       event.pairs.forEach(pair => {
         console.log("collision");
-        console.log(this.physicsEngine.world);
         const entityA = pair.bodyA.parent.entity;
         const entityB = pair.bodyB.parent.entity;
 

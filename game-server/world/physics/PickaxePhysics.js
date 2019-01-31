@@ -13,6 +13,7 @@ export default class PickaxePhysics extends EntityPhysics {
       cfgb.options
     );
     this.addToWorld(this.body);
+    this.body.noGravity = true;
   }
 
   updatePosition() {

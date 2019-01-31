@@ -1,19 +1,25 @@
-import State from "iogine/world/State";
+import State from 'iogine/world/State';
+import cfg from '../../config';
 
 export default class PickaxeUseState extends State {
   enter() {
     this.timeElapsed = 0;
+    this.state.using = true;
   }
 
   update(dt) {
-    console.log("PickAXE USED!");
-
     this.timeElapsed += dt;
 
-    // TODO: pickaxe use
+    this.state.angle += cfg.pickaxes.useAngleFactor * dt;
 
-    if (this.timeElapsed > 1000) {
+    if (this.timeElapsed > cfg.pickaxes.useTime) {
+      this.exit();
       this.entity.enterUseIdleState();
     }
+  }
+
+  exit() {
+    this.state.using = false;
+    this.state.angle = cfg.pickaxes.idleAngle;
   }
 }

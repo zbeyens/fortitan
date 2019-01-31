@@ -13,7 +13,6 @@ export default class EntityPhysics {
 
   addToWorld(body) {
     Matter.World.add(this.engine.world, body);
-    console.log(this.engine.world);
   }
 
   createCircleBody(pos, radius, options) {

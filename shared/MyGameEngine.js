@@ -1,40 +1,40 @@
 import GameEngine from 'iogine/GameEngine';
 import cfg from './config';
 
-
 export default class MyGameEngine extends GameEngine {
+  constructor() {
+    super(cfg);
+  }
 
-    constructor() {
-        super(cfg);
-    }
-    
-    createLevel() {
-        this.createGround();
-    }
-    
-    createGround() {
-        const type = 'grounds';
+  createLevel() {
+    this.createGround();
+  }
 
-        const id = this.world.getNewId(type);
+  createGround() {
+    const type = 'grounds';
 
-        const initState = {};
+    const id = this.world.getNewId(type);
 
-        const initProps = cfg.grounds.props;
+    const initState = {};
 
-        const tilesX = cfg.grounds.tile.position.x;
-        const tilesY = cfg.grounds.tile.position.y;
-        const tilesWidth = cfg.grounds.tile.width;
-        const tilesHeight = cfg.grounds.tile.height;
-        initProps.body.width = tilesWidth * cfg.tileSize;
-        initProps.body.height = tilesHeight * cfg.tileSize;
+    const tilesX = cfg.grounds.tile.position.x;
+    const tilesY = cfg.grounds.tile.position.y;
+    const tilesWidth = cfg.grounds.tile.width;
+    const tilesHeight = cfg.grounds.tile.height;
+    const initProps = {
+      type,
+      body: {
+        width: tilesWidth * cfg.tileSize,
+        height: tilesHeight * cfg.tileSize,
+      },
+    };
 
-        initState.position = {
-            x: tilesX * cfg.tileSize + initProps.body.width / 2,
-            y: tilesY * cfg.tileSize + initProps.body.height / 2
-        };
+    initState.position = {
+      x: tilesX * cfg.tileSize + initProps.body.width / 2,
+      y: tilesY * cfg.tileSize + initProps.body.height / 2,
+    };
 
-        const newEntity = this.createEntity(type, id, initState, initProps);
-        return newEntity;
-    }
-
+    const newEntity = this.createEntity(type, id, initState, initProps);
+    return newEntity;
+  }
 }

@@ -1,8 +1,8 @@
-import State from "iogine/world/State";
-import DynamicEntity from "iogine/world/DynamicEntity";
-import PickaxePhysics from "./physics/PickaxePhysics";
-import PickaxeUseState from "./state/PickaxeUseState";
-import PickaxeMoveState from "./state/PickaxeMoveState";
+import State from 'iogine/world/State';
+import DynamicEntity from 'iogine/world/DynamicEntity';
+import PickaxePhysics from './physics/PickaxePhysics';
+import PickaxeUseState from './state/PickaxeUseState';
+import PickaxeMoveState from './state/PickaxeMoveState';
 
 export default class Pickaxe extends DynamicEntity {
   constructor(id, initState, initProps, gameEngine) {
@@ -19,8 +19,8 @@ export default class Pickaxe extends DynamicEntity {
   }
 
   update(dt) {
-    this.moveState.update(dt);
     this.useState.update(dt);
+    this.moveState.update(dt);
   }
 
   enterUseIdleState() {

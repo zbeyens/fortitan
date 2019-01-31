@@ -1,10 +1,9 @@
-import State from "iogine/world/State";
-import cfg from "../../config";
+import State from 'iogine/world/State';
 
 export default class PlayerUseState extends State {
   enter() {}
 
-  update(delta) {
+  update(dt) {
     // inventory.items[usingItem].use
     const usingItem = this.entity.inventory.usingItem;
 
