@@ -1,11 +1,12 @@
 import EventEmitter from 'eventemitter3';
 import GameWorld from 'iogine/world/GameWorld';
+import { ENTITY_TYPES } from '@fortitan/shared/config/world.csconfig';
 // import Timer from 'iogine/util/Timer';
 
 /**
  * The GameEngine contains the game logic. Extend this class
- * to implement game mechanics. One instance runs once on the server, 
- * where the final decisions are always taken, 
+ * to implement game mechanics. One instance runs once on the server,
+ * where the final decisions are always taken,
  * and one instance can be run on each client as well,
  * where the client emulates what it expects to be happening
  * on the server (extrapolation, not yet implemented).
@@ -26,117 +27,119 @@ import GameWorld from 'iogine/world/GameWorld';
  * can be dependent from another entity.
  */
 export default class GameEngine {
+  /**
+   * Extends the event emitter.
+   * NOTE: not important at the moment.
+   */
+  constructor(cfg) {
+    this.cfg = cfg;
+    Object.assign(this, new EventEmitter(), EventEmitter.prototype);
+  }
 
-    /**
-     * Extends the event emitter.
-     * NOTE: not important at the moment.
-     */
-    constructor(cfg) {
-        this.cfg = cfg;
-        Object.assign(this, new EventEmitter(), EventEmitter.prototype);
+  /**
+   * Start the game.
+   * Extending the start method is useful
+   * for setting up the game's worldSettings attribute,
+   * and registering methods on the event handler.
+   */
+  start() {
+    console.info('========== game engine started ==========');
+
+    console.log('world');
+    this.world = new GameWorld(ENTITY_TYPES);
+    console.log(this);
+  }
+
+  /**
+   * Single game step.
+   * Update all the entities of the world
+   * @param {Number} t - the current time
+   * @param {Number} dt - elapsed time since last step was called
+   */
+  step(dt) {
+    // let step = ++this.world.stepCount;
+    ++this.world.stepCount;
+
+    const { entities } = this.world;
+    for (const entityType of Object.keys(entities)) {
+      for (const id of Object.keys(entities[entityType])) {
+        const entity = entities[entityType][id];
+        entity.update(dt);
+      }
+    }
+  }
+
+  /**
+   * Override this function to implement input handling.
+   * This method will be called on the server
+   * when the input reaches the server. The input is also associated with
+   * the ID of a player.
+   * @param {Object} inputMsg - input descriptor object
+   * @param {Number} socketId - the socket ID
+   */
+  processInput(inputMsg, socketId) {}
+
+  /**
+   * Add an entity to the game world.
+   * @param {String} type - the entity type.
+   * @param {Entity} entity - the entity object.
+   * @return {Entity} entity - the final entity.
+   */
+  addEntityToWorld(type, entity) {
+    this.world.addEntity(type, entity);
+
+    return entity;
+  }
+
+  /**
+   * Remove an entity from the game world.
+   * @param {String} type - the entity type
+   * @param {Number} entityId - the entity ID
+   */
+  removeEntityFromWorld(type, entityId) {
+    const entity = this.world.entities[type][entityId];
+
+    if (!entity) {
+      console.info(
+        `Game attempted to remove a game entity which doesn't (or never did) exist, id=${entityId}`
+      );
     }
 
-    /**
-     * Start the game. 
-     * Extending the start method is useful
-     * for setting up the game's worldSettings attribute,
-     * and registering methods on the event handler.
-     */
-    start() {
-        console.log('========== game engine started ==========');
-        this.initWorld();
-    }
+    entity.onRemoveFromWorld(this);
 
-    /**
-     * Init the game world.
-     */
-    initWorld() {
-        this.world = new GameWorld(this.cfg);
-    }
+    this.world.removeEntity(type, entityId);
+  }
 
-    /**
-     * Single game step.
-     * Update all the entities of the world
-     * @param {Number} t - the current time
-     * @param {Number} dt - elapsed time since last step was called
-     */
-    step(dt) {
-        // let step = ++this.world.stepCount;
-        ++this.world.stepCount;
+  /**
+   * Create a new entity and add it to the world.
+   *
+   * @param  {String} type    entity type
+   * @return {Object} entityUpdate    world update
+   */
+  createEntity(type, id, initState, initProps) {
+    const entity = this.entityFactory.createEntity(
+      type,
+      id,
+      initState,
+      initProps
+    );
+    this.addEntityToWorld(type, entity);
 
-        const entities = this.world.entities;
-        for (const entityType of Object.keys(entities)) {
-            for (const id of Object.keys(entities[entityType])) {
-                const entity = entities[entityType][id];
-                entity.update(dt);
-            }
-        }
-    }
+    return entity;
+  }
 
-    /**
-     * Override this function to implement input handling.
-     * This method will be called on the server
-     * when the input reaches the server. The input is also associated with
-     * the ID of a player.
-     * @param {Object} inputMsg - input descriptor object
-     * @param {Number} socketId - the socket ID
-     */
-    processInput(inputMsg, socketId) {}
+  /**
+   * Update entity from the world update
+   *
+   * @param  {String} type    entity type
+   * @return {Object} entityUpdate    world update
+   */
+  updateEntity(type, entityUpdate) {
+    const entity = this.world.entities[type][entityUpdate.id];
+    entity.state = entityUpdate.state;
 
-    /**
-     * Add an entity to the game world.
-     * @param {String} type - the entity type.
-     * @param {Entity} entity - the entity object.
-     * @return {Entity} entity - the final entity.
-     */
-    addEntityToWorld(type, entity) {
-        this.world.addEntity(type, entity);
-
-        return entity;
-    }
-
-    /**
-     * Remove an entity from the game world.
-     * @param {String} type - the entity type
-     * @param {Number} entityId - the entity ID
-     */
-    removeEntityFromWorld(type, entityId) {
-        const entity = this.world.entities[type][entityId];
-
-        if (!entity) {
-            console.log(`Game attempted to remove a game entity which doesn't (or never did) exist, id=${entityId}`);
-        }
-
-        entity.onRemoveFromWorld(this);
-
-        this.world.removeEntity(type, entityId);
-    }
-
-    /**
-     * Create a new entity and add it to the world.
-     * 
-     * @param  {String} type    entity type
-     * @return {Object} entityUpdate    world update    
-     */
-    createEntity(type, id, initState, initProps) {
-        const entity = this.entityFactory.createEntity(type, id, initState, initProps);
-        this.addEntityToWorld(type, entity);
-
-        return entity;
-    }
-
-    /**
-     * Update entity from the world update
-     * 
-     * @param  {String} type    entity type
-     * @return {Object} entityUpdate    world update                  
-     */
-    updateEntity(type, entityUpdate) {
-        const entity = this.world.entities[type][entityUpdate.id];
-        entity.state = entityUpdate.state;
-
-        return entity;
-    }
+    return entity;
+  }
 }
 
 /**

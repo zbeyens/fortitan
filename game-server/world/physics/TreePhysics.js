@@ -1,12 +1,11 @@
-import Matter from "matter-js";
-import EntityPhysics from "./EntityPhysics";
-import cfg from "../../config";
+import EntityPhysics from './EntityPhysics';
+import { BODY_ENTITIES } from '../../config/physics.config';
 
 export default class TreePhysics extends EntityPhysics {
   constructor(entity, physicsEngine) {
     super(entity, physicsEngine);
 
-    const cfgb = cfg.trees.body;
+    const cfgb = BODY_ENTITIES.trees.body;
     this.body = this.createCircleBody(
       this.state.position,
       cfgb.radius,

@@ -1,83 +1,109 @@
 {
-  "name": "iogine",
-  "version": "1.0.0",
-  "description": "",
-  "directories": {
-    "doc": "doc"
-  },
+  "name": "fortitan",
+  "version": "0.1.0",
+  "description": "io games framework",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server",
-    "start": "cross-env NODE_ENV=development node web-server/app.js",
-    "start2": "cross-env NODE_ENV=development webpack-dev-server node web-server/app.js"
+    "analyze:ci": "source-map-explorer --html build/static/js/*.js > source-map-result.html",
+    "analyze": "npm run build && source-map-explorer build/static/js/*.js",
+    "build": "react-scripts build",
+    "clean": "rm -rf node_modules",
+    "eject": "react-scripts eject",
+    "format": "prettier-eslint \"src/**/*.{js,jsx}\" --write",
+    "lint-css": "stylelint \"src/**/*.{js,jsx}\"",
+    "lint-js": "eslint --ext .js --ext .jsx src",
+    "lint": "npm-run-all lint-js lint-css",
+    "rebuild": "npm run clean && npm install && npm run build",
+    "reinstall": "npm run clean && npm install",
+    "start": "rescripts start",
+    "test:CI": "cross-env CI=true react-scripts test --env=jsdom --modulePaths=src",
+    "test:coverage": "react-scripts test --coverage --modulePaths=src",
+    "test": "react-scripts test --modulePaths=src",
+    "validate": "npm-run-all lint test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": ""
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint",
+      "git add"
+    ]
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "body-parser": "^1.18.3",
-    "connect-mongo": "^2.0.1",
-    "eventemitter3": "^3.1.0",
-    "express": "^4.16.3",
-    "express-session": "^1.15.6",
-    "helmet": "^3.13.0",
-    "howler": "^2.0.14",
-    "iplocation": "^5.0.1",
-    "jsonfile": "^4.0.0",
-    "lance": "^2.10.14",
+    "@fortitan/game-server": "file:game-server",
+    "@fortitan/shared": "file:shared",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^2.0.3",
+    "cross-env": "5.2.0",
+    "eventemitter3": "^3.1.2",
+    "express": "^4.17.1",
+    "express-session": "^1.16.1",
+    "helmet": "^3.18.0",
+    "iogine": "file:iogine",
     "lodash": "^4.17.11",
     "matter-js": "^0.14.2",
-    "module-alias": "^2.1.0",
-    "mongoose": "^5.2.6",
-    "morgan": "^1.9.0",
+    "mobx": "^5.9.4",
+    "mobx-react": "^6.0.2",
+    "mobx-state-tree": "^3.14.0",
+    "mongoose": "^5.5.11",
+    "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth": "^1.0.0",
-    "phaser-ce": "^2.11.0",
-    "public-ip": "^2.4.0",
-    "serve-favicon": "^2.5.0",
-    "socket.io-client": "^2.1.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth": "^2.0.0",
+    "phaser": "^3.17.0",
+    "prop-types": "15.7.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-scripts": "^3.0.1",
+    "react-spring": "^8.0.20",
+    "socket.io-client": "^2.2.0",
     "stats.js": "^0.17.0",
-    "ws": "^6.0.0"
+    "styled-components": "4.2.1",
+    "styled-system": "^4.2.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "cross-env": "^5.2.0",
-    "css-loader": "^1.0.0",
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-import-resolver-webpack": "^0.10.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-react": "^7.10.0",
-    "file-loader": "^1.1.11",
-    "nodemon": "^1.18.3",
-    "pm2": "^3.0.3",
-    "postcss-loader": "^2.1.6",
-    "request": "^2.87.0",
-    "style-loader": "^0.21.0",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-middleware": "^3.1.3",
-    "webpack-dev-server": "^3.1.5",
-    "webpack-hot-middleware": "^2.22.3"
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
+    "@borealisgroup/eslint-config": "^1.7.5",
+    "@borealisgroup/stylelint-config": "^1.7.5",
+    "@rescripts/cli": "0.0.10",
+    "@rescripts/rescript-env": "0.0.10",
+    "dat.gui": "^0.7.6",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.13.0",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7",
+    "mobx-react-devtools": "^6.1.1",
+    "npm-run-all": "^4.1.5",
+    "phaser-plugin-debug-draw": "^2.0.1",
+    "pm2": "^3.5.1",
+    "source-map-explorer": "^1.8.0"
   },
   "_moduleDirectories": [
     "iogine"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zbeyens/io-boilerplate.git"
+    "url": "git+https://github.com/zbeyens/fortitan.git"
   },
   "author": "Arrada Studios",
   "bugs": {
-    "url": "https://github.com/zbeyens/io-boilerplate/issues"
+    "url": "https://github.com/zbeyens/fortitan/issues"
   },
-  "homepage": "https://github.com/zbeyens/io-boilerplate#readme"
+  "homepage": "https://github.com/zbeyens/fortitan#readme",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

@@ -1,7 +1,7 @@
 import MyPhysicsEngine from './physics/MyPhysicsEngine';
 import MyGameEngine from '../shared/MyGameEngine';
 import EntityFactoryS from './world/EntityFactoryS';
-import cfg from './config';
+import { BODY_ENTITIES } from './config/physics.config';
 
 /**
  * Game engine of the server
@@ -59,7 +59,7 @@ export default class MyGameEngineS extends MyGameEngine {
   createLevel() {
     super.createLevel();
 
-    for (let i = 0; i < cfg.trees.amount; i++) {
+    for (let i = 0; i < BODY_ENTITIES.trees.amount; i++) {
       const treeMarginFactor = 400;
       const randomFactor = 50;
       const position = {
@@ -79,7 +79,7 @@ export default class MyGameEngineS extends MyGameEngine {
 
     const id = this.world.getNewId(type);
 
-    const initState = cfg[type].state;
+    const initState = BODY_ENTITIES[type].state;
     const initProps = {
       type,
     };
@@ -101,7 +101,7 @@ export default class MyGameEngineS extends MyGameEngine {
       position,
     };
     const initProps = {
-      body: cfg.trees.body,
+      body: BODY_ENTITIES.trees.body,
       type,
     };
 
@@ -123,7 +123,7 @@ export default class MyGameEngineS extends MyGameEngine {
       },
     };
     const initProps = {
-      body: cfg.pickaxes.body,
+      body: BODY_ENTITIES.pickaxes.body,
       type,
     };
 

@@ -1,11 +1,7 @@
 import GameEngine from 'iogine/GameEngine';
-import cfg from './config';
+import { WORLD_CS } from './config/world.csconfig';
 
 export default class MyGameEngine extends GameEngine {
-  constructor() {
-    super(cfg);
-  }
-
   createLevel() {
     this.createGround();
   }
@@ -17,24 +13,26 @@ export default class MyGameEngine extends GameEngine {
 
     const initState = {};
 
-    const tilesX = cfg.grounds.tile.position.x;
-    const tilesY = cfg.grounds.tile.position.y;
-    const tilesWidth = cfg.grounds.tile.width;
-    const tilesHeight = cfg.grounds.tile.height;
+    const tilesX = WORLD_CS.grounds.tile.position.x;
+    const tilesY = WORLD_CS.grounds.tile.position.y;
+    const tilesWidth = WORLD_CS.grounds.tile.width;
+    const tilesHeight = WORLD_CS.grounds.tile.height;
     const initProps = {
       type,
       body: {
-        width: tilesWidth * cfg.tileSize,
-        height: tilesHeight * cfg.tileSize,
+        width: tilesWidth * WORLD_CS.tileSize,
+        height: tilesHeight * WORLD_CS.tileSize,
       },
     };
 
     initState.position = {
-      x: tilesX * cfg.tileSize + initProps.body.width / 2,
-      y: tilesY * cfg.tileSize + initProps.body.height / 2,
+      x: tilesX * WORLD_CS.tileSize + initProps.body.width / 2,
+      y: tilesY * WORLD_CS.tileSize + initProps.body.height / 2,
     };
 
     const newEntity = this.createEntity(type, id, initState, initProps);
+    console.log('HHH');
+    console.log(newEntity);
     return newEntity;
   }
 }

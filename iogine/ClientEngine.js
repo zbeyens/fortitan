@@ -5,168 +5,174 @@
  * the server.
  */
 export default class ClientEngine {
+  /**
+   * Init an inboundMessages list.
+   * Init an outboundMessages list.
+   * Init eventHandlers object with a method for each event.
+   * @param {GameEngine} gameEngine - the client game engine
+   * @param {List} cfg.entityTypes
+   */
+  constructor(gameEngine, entityTypes) {
+    this.gameEngine = gameEngine;
 
-    /**
-     * Init an inboundMessages list.
-     * Init an outboundMessages list.
-     * Init eventHandlers object with a method for each event.
-     * @param {GameEngine} gameEngine - the client game engine
-     * @param {List} cfg.entityTypes
-     */
-    constructor(gameEngine, cfg) {
-        this.gameEngine = gameEngine;
-        this.cfg = cfg;
+    this.entityTypes = entityTypes;
 
-        this.inboundMessages = [];
-        this.outboundMessages = [];
+    this.inboundMessages = [];
+    this.outboundMessages = [];
 
-        this.eventHandlers = {};
-        this.eventHandlers.playerJoined = this.onPlayerJoined.bind(this);
-        this.eventHandlers.worldUpdate = this.onWorldUpdate.bind(this);
+    this.eventHandlers = {};
+    this.eventHandlers.playerJoined = this.onPlayerJoined.bind(this);
+    this.eventHandlers.worldUpdate = this.onWorldUpdate.bind(this);
+  }
+
+  /**
+   * Start the client engine:
+   * - Start the game engine.
+   * - Connect to the websocket server.
+   */
+  start() {
+    this.gameEngine.start();
+
+    this.connect();
+  }
+
+  /**
+   * TODO: connect to a real websocket here
+   */
+  connect() {
+    console.log(`connecting to game server`);
+
+    this.setEventHandlers();
+  }
+
+  /**
+   * Listen to each event added in the constructor.
+   * When receiving a message asynchronously,
+   * push it to inboundMessages
+   */
+  setEventHandlers() {
+    for (const event of Object.keys(this.eventHandlers)) {
+      this.socket.on(event, data => {
+        this.inboundMessages.push({
+          event,
+          data,
+        });
+      });
+    }
+  }
+
+  /**
+   * Execute a single client game step:
+   * - Handle inbound messages.
+   * - Handle outbound messages.
+   * - Execute a single game engine step.
+   * This is normally called by the Renderer game loop at each draw event.
+   */
+  step(dt) {
+    this.handleInboundMessages();
+    this.handleOutboundMessages();
+
+    this.gameEngine.step(dt);
+  }
+
+  /**
+   * Handle inbound messages received between the last 2 steps .
+   * For each message, call the appropriate event handler
+   */
+  handleInboundMessages() {
+    for (let i = 0; i < this.inboundMessages.length; i++) {
+      const msg = this.inboundMessages[i];
+      this.eventHandlers[msg.event](msg.data);
     }
 
-    /**
-     * Start the client engine:
-     * - Start the game engine.
-     * - Connect to the websocket server.
-     */
-    start() {
-        this.gameEngine.start();
+    this.inboundMessages = [];
+  }
 
-        this.connect();
+  /**
+   * This function should be called by the client whenever a user input
+   * occurs.
+   * @param {String} event - event name
+   * @param {Object} data - input
+   */
+  sendInput(event, data) {
+    const msg = {
+      event,
+      data,
+    };
+
+    this.outboundMessages.push(msg);
+  }
+
+  /**
+   * Handle outbound messages applied between the last 2 steps
+   * Emit each input to the authoritative server.
+   * TODO: as we already check the input 60 tps, we can directly send the input.
+   */
+  handleOutboundMessages() {
+    for (let i = 0; i < this.outboundMessages.length; i++) {
+      this.socket.emit(
+        this.outboundMessages[i].event,
+        this.outboundMessages[i].data
+      );
     }
 
-    /**
-     * TODO: connect to a real websocket here
-     */
-    connect() {
-        console.log(`connecting to game server`);
+    this.outboundMessages = [];
+  }
 
-        this.setEventHandlers();
-    }
+  /**
+   * Response when you join the game. Store the id of your player entity.
+   * @param  {Object} data
+   */
+  onPlayerJoined(data) {
+    this.gameEngine.selfId = data.playerId;
+  }
 
-    /**
-     * Listen to each event added in the constructor.
-     * When receiving a message asynchronously, 
-     * push it to inboundMessages 
-     */
-    setEventHandlers() {
-        for (const event of Object.keys(this.eventHandlers)) {
-            this.socket.on(event, (data) => {
-                this.inboundMessages.push({
-                    event,
-                    data
-                });
-            });
+  /**
+   * World update: all init, updated and deleted entities.
+   * TODO: generalize it -> ClientEngine
+   * @param  {Object} data
+   */
+  onWorldUpdate(data) {
+    this.updateEntities(data);
+  }
+
+  /**
+   * For each entity type: `entityType`,
+   * For each entity `id` of `entityType` in the server world update: `entityServer`,
+   * Check if `id` is in the client world,
+   * If not, create the new entity.
+   * Else, update the existing entity.
+   * @param  {Object} data - world update
+   */
+  updateEntities(data) {
+    for (const entityType of this.entityTypes) {
+      const entitiesServer = data[entityType];
+      for (let idServer of Object.keys(entitiesServer)) {
+        idServer = Number(idServer);
+
+        const entityServer = entitiesServer[idServer];
+
+        const entitiesView = this.gameEngine.world.entities[entityType];
+        if (!entitiesView[idServer]) {
+          const newEntity = this.gameEngine.createEntity(
+            entityType,
+            idServer,
+            entityServer.state,
+            entityServer.props
+          );
+
+          // if it is a player with selfId, we know selfPlayer
+          if (entityType === 'players' && idServer === this.gameEngine.selfId) {
+            console.log('Self player init received');
+            this.gameEngine.selfPlayer = newEntity;
+          }
+        } else {
+          this.gameEngine.updateEntity(entityType, entityServer);
         }
+      }
     }
-
-    /**
-     * Execute a single client game step: 
-     * - Handle inbound messages.
-     * - Handle outbound messages.
-     * - Execute a single game engine step.
-     * This is normally called by the Renderer game loop at each draw event.
-     */
-    step(dt) {
-        this.handleInboundMessages();
-        this.handleOutboundMessages();
-
-        this.gameEngine.step(dt);
-    }
-
-    /**
-     * Handle inbound messages received between the last 2 steps .
-     * For each message, call the appropriate event handler
-     */
-    handleInboundMessages() {
-        for (let i = 0; i < this.inboundMessages.length; i++) {
-            const msg = this.inboundMessages[i];
-            this.eventHandlers[msg.event](msg.data);
-        }
-
-        this.inboundMessages = [];
-    }
-
-    /**
-     * This function should be called by the client whenever a user input
-     * occurs.
-     * @param {String} event - event name
-     * @param {Object} data - input
-     */
-    sendInput(event, data) {
-        const msg = {
-            event,
-            data,
-        };
-
-        this.outboundMessages.push(msg);
-    }
-
-    /**
-     * Handle outbound messages applied between the last 2 steps 
-     * Emit each input to the authoritative server.
-     * TODO: as we already check the input 60 tps, we can directly send the input.
-     */
-    handleOutboundMessages() {
-        for (let i = 0; i < this.outboundMessages.length; i++) {
-            this.socket.emit(this.outboundMessages[i].event, this.outboundMessages[i].data);
-        }
-
-        this.outboundMessages = [];
-    }
-
-    /**
-     * Response when you join the game. Store the id of your player entity.
-     * @param  {Object} data
-     */
-    onPlayerJoined(data) {
-        this.gameEngine.selfId = data.playerId;
-    } 
-
-    /**
-     * World update: all init, updated and deleted entities.
-     * TODO: generalize it -> ClientEngine
-     * @param  {Object} data
-     */
-    onWorldUpdate(data) {
-        this.updateEntities(data);
-    }
-    
-    /**
-     * For each entity type: `entityType`,
-     * For each entity `id` of `entityType` in the server world update: `entityServer`,
-     * Check if `id` is in the client world,
-     * If not, create the new entity.
-     * Else, update the existing entity.
-     * @param  {Object} data - world update
-     */
-    updateEntities(data) {
-        for (const entityType of this.cfg.entityTypes) {
-            const entitiesServer = data[entityType];
-            for (let idServer of Object.keys(entitiesServer)) {
-                idServer = Number(idServer);
-
-                const entityServer = entitiesServer[idServer];
-
-                const entitiesView = this.gameEngine.world.entities[entityType];
-                if (!entitiesView[idServer]) {
-                    const newEntity = this.gameEngine.createEntity(entityType, idServer, entityServer.state, entityServer.props);
-                    
-                    // if it is a player with selfId, we know selfPlayer 
-                    if (entityType === 'players' && idServer === this.gameEngine.selfId) {
-                        console.log("Self player init received");
-                        this.gameEngine.selfPlayer = newEntity;
-                    }
-                } else {
-                    this.gameEngine.updateEntity(entityType, entityServer);
-                }
-            }
-        }
-    }
-
+  }
 }
-
 
 // import io from 'socket.io-client';
 // import Utils from './lib/Utils';
@@ -175,7 +181,7 @@ export default class ClientEngine {
 // import Serializer from './serialize/Serializer';
 // import NetworkMonitor from './network/NetworkMonitor';
 // import NetworkTransmitter from './network/NetworkTransmitter';
-// 
+//
 
 // externalizing these parameters as options would add confusion to game
 // developers, and provide no real benefit.
@@ -188,7 +194,6 @@ export default class ClientEngine {
 // const STEP_DELAY_MSEC = 12; // if forward drift detected, delay next execution by this amount
 // const STEP_HURRY_MSEC = 8; // if backward drift detected, hurry next execution by this amount
 
-
 // constructor(gameEngine) {
 
 //         // this.serializer = new Serializer();
@@ -199,7 +204,6 @@ export default class ClientEngine {
 
 //         this.inboundMessages = [];
 //         this.outboundMessages = [];
-
 
 //         // if (!cfg.fakeServer) {
 //         //     this.configureSynchronization();

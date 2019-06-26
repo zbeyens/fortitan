@@ -1,92 +1,88 @@
 /**
  * This class represents an instance of the game world,
  * where all data of the current state of the world is saved.
- * The Game Engine includes a reference to the Game World, 
- * which consists of the game state, and a collection of entities. 
- * The Game World is essentially the data which is liable to change from one game step to the next, 
+ * The Game Engine includes a reference to the Game World,
+ * which consists of the game state, and a collection of entities.
+ * The Game World is essentially the data which is liable to change from one game step to the next,
  * and whose changes must be sent on every sync to every client.
  *
- * The entities are instances of Entity base classes. 
- * There are two supported base object classes: DynamicEntity and StaticEntity. 
- * DynamicEntity is used for entities with a state that is variable (e.g. Player). 
+ * The entities are instances of Entity base classes.
+ * There are two supported base object classes: DynamicEntity and StaticEntity.
+ * DynamicEntity is used for entities with a state that is variable (e.g. Player).
  * These entities are serializable, and can be sent over a network.
  * StaticEntity is used for entities with a state that remains constant (e.g. Ground).
  * Thus, we say that these entities are "user-controlled" by a client.
  * These entities should not be sent over a network, since the client information is always up-to-date.
  */
 export default class GameWorld {
+  /**
+   * Init a list of entity.
+   * Init a list of id counter.
+   * Add entity types.
+   * @example
+   * this.entities = {
+   *     'players': {
+   *         '0': player0,
+   *         '1': player1,
+   *     },
+   *     'grounds': {},
+   * }
+   * this.idCount = {
+   *     'players': 2,
+   *     'grounds': 0,
+   * }
+   */
+  constructor(entityTypes) {
+    this.stepCount = 0;
+    this.entities = {};
+    this.idCount = {};
 
-    /**
-     * Init a list of entity.
-     * Init a list of id counter.
-     * Add entity types.
-     * @example
-     * this.entities = {
-     *     'players': {
-     *         '0': player0,
-     *         '1': player1,
-     *     },
-     *     'grounds': {},
-     * }
-     * this.idCount = {
-     *     'players': 2,
-     *     'grounds': 0,
-     * }
-     */
-    constructor(cfg) {
-        this.cfg = cfg;
-        this.stepCount = 0;
-        this.entities = {};
-        this.idCount = {};
+    this.addEntityTypes(entityTypes);
+  }
 
-        this.addEntityTypes();
+  /**
+   * Gets a new, fresh and unused id that can be used for a new entity
+   * Use case: entities are sent to the client with an id.
+   * Then, id is used to identify the entity later for update or delete.
+   * @return {Number} the new id
+   */
+  getNewId(type) {
+    let possibleId = this.idCount[type];
+    // find a free id (we can spare this check)
+    while (possibleId in this.entities[type]) possibleId++;
+
+    this.idCount[type] = possibleId + 1;
+
+    return possibleId;
+  }
+
+  /**
+   * Add the types of entity from cfg
+   */
+  addEntityTypes(entityTypes) {
+    for (const entityType of entityTypes) {
+      this.entities[entityType] = {};
+      this.idCount[entityType] = 0;
     }
+  }
 
-    /**
-     * Gets a new, fresh and unused id that can be used for a new entity
-     * Use case: entities are sent to the client with an id.
-     * Then, id is used to identify the entity later for update or delete.
-     * @return {Number} the new id
-     */
-    getNewId(type) {
-        let possibleId = this.idCount[type];
-        // find a free id (we can spare this check)
-        while (possibleId in this.entities[type])
-            possibleId++;
+  /**
+   * Add an entity to the game world
+   * @param {String} type - the entity type
+   * @param {Entity} entity - the entity to add
+   */
+  addEntity(type, entity) {
+    this.entities[type][entity.id] = entity;
+  }
 
-        this.idCount[type] = possibleId + 1;
-
-        return possibleId;
-    }
-
-    /**
-     * Add the types of entity from cfg
-     */
-    addEntityTypes() {
-        for (const entityType of this.cfg.entityTypes) {
-            this.entities[entityType] = {};
-            this.idCount[entityType] = 0;
-        }
-    }
-
-    /**
-     * Add an entity to the game world
-     * @param {String} type - the entity type
-     * @param {Entity} entity - the entity to add
-     */
-    addEntity(type, entity) {
-        this.entities[type][entity.id] = entity;
-    }
-
-    /**
-     * Remove an entity from the game world
-     * @param {String} type - the entity type
-     * @param {Number} id - the entity id
-     */
-    removeEntity(type, id) {
-        delete this.entities[type][id];
-    }
-
+  /**
+   * Remove an entity from the game world
+   * @param {String} type - the entity type
+   * @param {Number} id - the entity id
+   */
+  removeEntity(type, id) {
+    delete this.entities[type][id];
+  }
 }
 
 /**
@@ -130,7 +126,7 @@ export default class GameWorld {
 //         }
 //     }
 // }
-// 
+//
 /**
  * Returns all the game world objects which match a criteria
  * @param {Object} query The query object

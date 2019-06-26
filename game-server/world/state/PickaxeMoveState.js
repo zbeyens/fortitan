@@ -1,9 +1,9 @@
 import State from 'iogine/world/State';
-import cfg from '../../config';
+import { BODY_ENTITIES } from '../../config/physics.config';
 
 export default class PickaxeMoveState extends State {
   enter() {
-    this.state.angle = cfg.pickaxes.idleAngle;
+    this.state.angle = BODY_ENTITIES.pickaxes.idleAngle;
   }
 
   update(dt) {
@@ -18,7 +18,7 @@ export default class PickaxeMoveState extends State {
 
     const ownerPos = ownerState.position;
 
-    const offsetRadius = cfg.pickaxes.offsetRadius;
+    const { offsetRadius } = BODY_ENTITIES.pickaxes;
     this.entity.state.position = {
       x: ownerPos.x + xDirection * offsetRadius * Math.cos(this.state.angle),
       y: ownerPos.y + offsetRadius * Math.sin(this.state.angle),

@@ -1,6 +1,6 @@
-import Matter from "matter-js";
-import PhysicsEngine from "iogine/physics/PhysicsEngine";
-import cfg from "../../client/src/js/config";
+import Matter from 'matter-js';
+import PhysicsEngine from 'iogine/physics/PhysicsEngine';
+import { DEBUG_CS } from '@fortitan/shared/config/debug.csconfig';
 
 /**
  * Matter physics engine runned on the server.
@@ -17,7 +17,7 @@ export default class MatterPhysicsEngine extends PhysicsEngine {
 
     this.initEngine();
 
-    if (cfg.debug.fakeServer && cfg.debug.physics) {
+    if (DEBUG_CS.fakeServer && DEBUG_CS.physics) {
       this.initRenderer();
     }
   }
@@ -44,8 +44,8 @@ export default class MatterPhysicsEngine extends PhysicsEngine {
         hasBounds: true,
         showAxes: true,
         showCollisions: true,
-        showConvexHulls: true
-      }
+        showConvexHulls: true,
+      },
     });
     Matter.Render.run(this.renderer);
   }
@@ -53,7 +53,7 @@ export default class MatterPhysicsEngine extends PhysicsEngine {
   step(dt) {
     Matter.Engine.update(this, dt);
 
-    if (cfg.debug.fakeServer && cfg.debug.physics) {
+    if (DEBUG_CS.fakeServer && DEBUG_CS.physics) {
       const selfPlayer = this.gameEngine.world.entities.players[0];
       if (selfPlayer) {
         const w = this.renderer.options.width;

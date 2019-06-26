@@ -1,12 +1,12 @@
-import Matter from "matter-js";
-import EntityPhysics from "./EntityPhysics";
-import cfg from "../../config";
+import Matter from 'matter-js';
+import EntityPhysics from './EntityPhysics';
+import { BODY_ENTITIES } from '../../config/physics.config';
 
 export default class PickaxePhysics extends EntityPhysics {
   constructor(entity, physicsEngine) {
     super(entity, physicsEngine);
 
-    const cfgb = cfg.pickaxes.body;
+    const cfgb = BODY_ENTITIES.pickaxes.body;
     this.body = this.createCircleBody(
       this.state.position,
       cfgb.radius,
@@ -19,7 +19,7 @@ export default class PickaxePhysics extends EntityPhysics {
   updatePosition() {
     Matter.Body.setPosition(this.body, {
       x: this.state.position.x,
-      y: this.state.position.y
+      y: this.state.position.y,
     });
   }
 }
