@@ -19,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     
-    overflow: hidden;
+    /* overflow: hidden; */
   }
   
   #root {
