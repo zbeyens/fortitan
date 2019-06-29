@@ -1,4 +1,4 @@
-import ClientEngine from 'iogine/ClientEngine';
+import { ClientEngine } from 'iogine';
 import { ENTITY_TYPES } from '@fortitan/shared/config/world.csconfig';
 
 export default class MyClientEngine extends ClientEngine {

@@ -2,7 +2,6 @@ const express = require("express"),
   app = express(),
   path = require("path"),
   bodyParser = require("body-parser"),
-  // favicon = require("serve-favicon"),
   logger = require("morgan"),
   helmet = require("helmet");
 

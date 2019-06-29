@@ -1,5 +1,6 @@
-import GameEngine from 'iogine/GameEngine';
+import { GameEngine } from 'iogine';
 import { WORLD_CS } from './config/world.csconfig';
+// import { WORLD_CS } from './config/world.csconfig';
 
 export default class MyGameEngine extends GameEngine {
   createLevel() {

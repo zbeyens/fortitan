@@ -1,0 +1,79 @@
+{
+  "name": "@fortitan/client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "io games framework",
+  "scripts": {
+    "analyze:ci": "source-map-explorer --html build/static/js/*.js > source-map-result.html",
+    "analyze": "npm run build && source-map-explorer build/static/js/*.js",
+    "build": "react-scripts build",
+    "clean": "rm -rf node_modules",
+    "eject": "react-scripts eject",
+    "format": "prettier-eslint \"src/**/*.{js,jsx}\" --write",
+    "lint-css": "stylelint \"src/**/*.{js,jsx}\"",
+    "lint-js": "eslint --ext .js --ext .jsx src",
+    "lint": "npm-run-all lint-js lint-css",
+    "rebuild": "npm run clean && npm install && npm run build",
+    "reinstall": "npm run clean && npm install",
+    "start": "rescripts start",
+    "test:CI": "cross-env CI=true react-scripts test --env=jsdom --modulePaths=src",
+    "test:coverage": "react-scripts test --coverage --modulePaths=src",
+    "test": "react-scripts test --modulePaths=src",
+    "validate": "npm-run-all lint test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@fortitan/game-server": "^1.0.0",
+    "@fortitan/shared": "^1.0.0",
+    "@rescripts/cli": "0.0.11",
+    "axios": "^0.19.0",
+    "cross-env": "5.2.0",
+    "eventemitter3": "^3.1.2",
+    "iogine": "^1.0.0",
+    "matter-js": "^0.14.2",
+    "mobx": "^5.10.1",
+    "mobx-react": "^6.1.1",
+    "mobx-state-tree": "^3.14.0",
+    "phaser": "^3.18.1",
+    "prop-types": "15.7.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-scripts": "^3.0.1",
+    "react-spring": "^8.0.25",
+    "socket.io-client": "^2.2.0",
+    "stats.js": "^0.17.0",
+    "styled-components": "4.3.2",
+    "styled-system": "^5.0.12"
+  },
+  "author": "Arrada Studios",
+  "homepage": "https://github.com/zbeyens/fortitan/tree/master/packages/client#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zbeyens/fortitan/tree/master/packages/client"
+  },
+  "bugs": {
+    "url": "https://github.com/zbeyens/fortitan/issues"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

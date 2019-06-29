@@ -1,0 +1,20 @@
+{
+  "name": "@fortitan/game-server",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "@fortitan/shared": "^1.0.0",
+    "iogine": "^1.0.0"
+  },
+  "keywords": [],
+  "homepage": "https://github.com/zbeyens/fortitan/tree/master/packages/game-server#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zbeyens/fortitan/tree/master/packages/game-server"
+  },
+  "bugs": {
+    "url": "https://github.com/zbeyens/fortitan/issues"
+  }
+}

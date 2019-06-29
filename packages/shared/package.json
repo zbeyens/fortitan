@@ -1,0 +1,19 @@
+{
+  "name": "@fortitan/shared",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "keywords": [],
+  "homepage": "https://github.com/zbeyens/fortitan/tree/master/packages/shared#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zbeyens/fortitan/tree/master/packages/shared"
+  },
+  "bugs": {
+    "url": "https://github.com/zbeyens/fortitan/issues"
+  },
+  "dependencies": {
+    "iogine": "^1.0.0"
+  }
+}

@@ -1,49 +1,40 @@
 {
   "name": "fortitan",
-  "version": "0.1.0",
-  "description": "io games framework",
+  "private": true,
   "scripts": {
-    "analyze:ci": "source-map-explorer --html build/static/js/*.js > source-map-result.html",
-    "analyze": "npm run build && source-map-explorer build/static/js/*.js",
-    "build": "react-scripts build",
+    "bootstrap": "lerna bootstrap --hoist",
     "clean": "rm -rf node_modules",
-    "eject": "react-scripts eject",
-    "format": "prettier-eslint \"src/**/*.{js,jsx}\" --write",
-    "lint-css": "stylelint \"src/**/*.{js,jsx}\"",
-    "lint-js": "eslint --ext .js --ext .jsx src",
-    "lint": "npm-run-all lint-js lint-css",
-    "rebuild": "npm run clean && npm install && npm run build",
-    "reinstall": "npm run clean && npm install",
-    "start": "rescripts start",
-    "test:CI": "cross-env CI=true react-scripts test --env=jsdom --modulePaths=src",
-    "test:coverage": "react-scripts test --coverage --modulePaths=src",
-    "test": "react-scripts test --modulePaths=src",
-    "validate": "npm-run-all lint test"
+    "generate": "plop --plopfile ./scripts/generators/index.js",
+    "lint": "lerna exec --parallel --since -- eslint . --ext .js,.jsx",
+    "release": "npm run lint && npm run build && lerna publish"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": ""
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint",
-      "git add"
-    ]
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
+    "@borealisgroup/eslint-config": "^1.7.7",
+    "@borealisgroup/stylelint-config": "^1.7.8",
+    "@fortitan/game-server": "file:packages/game-server",
+    "@rescripts/cli": "0.0.11",
+    "@rescripts/rescript-env": "0.0.10",
+    "dat.gui": "^0.7.6",
+    "eslint": "^6.0.1",
+    "husky": "^2.7.0",
+    "lerna": "^3.15.0",
+    "lint-staged": "^8.2.1",
+    "mobx-react-devtools": "^6.1.1",
+    "npm-run-all": "^4.1.5",
+    "phaser-plugin-debug-draw": "^2.0.1",
+    "pm2": "^3.5.1",
+    "source-map-explorer": "^1.8.0"
   },
   "dependencies": {
-    "@fortitan/game-server": "file:game-server",
-    "@fortitan/shared": "file:shared",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
-    "connect-mongo": "^2.0.3",
     "cross-env": "5.2.0",
     "eventemitter3": "^3.1.2",
     "express": "^4.17.1",
     "express-session": "^1.16.1",
     "helmet": "^3.18.0",
-    "iogine": "file:iogine",
-    "lodash": "^4.17.11",
     "matter-js": "^0.14.2",
     "mobx": "^5.9.4",
     "mobx-react": "^6.0.2",
@@ -63,47 +54,5 @@
     "stats.js": "^0.17.0",
     "styled-components": "4.2.1",
     "styled-system": "^4.2.4"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@borealisgroup/eslint-config": "^1.7.5",
-    "@borealisgroup/stylelint-config": "^1.7.5",
-    "@rescripts/cli": "0.0.10",
-    "@rescripts/rescript-env": "0.0.10",
-    "dat.gui": "^0.7.6",
-    "eslint": "^5.16.0",
-    "eslint-plugin-react": "^7.13.0",
-    "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
-    "mobx-react-devtools": "^6.1.1",
-    "npm-run-all": "^4.1.5",
-    "phaser-plugin-debug-draw": "^2.0.1",
-    "pm2": "^3.5.1",
-    "source-map-explorer": "^1.8.0"
-  },
-  "_moduleDirectories": [
-    "iogine"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zbeyens/fortitan.git"
-  },
-  "author": "Arrada Studios",
-  "bugs": {
-    "url": "https://github.com/zbeyens/fortitan/issues"
-  },
-  "homepage": "https://github.com/zbeyens/fortitan#readme",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
