@@ -1,4 +1,4 @@
-import InputManager from '../../manager/InputManager';
+import InputManager from '../../managers/InputManager';
 
 export default class GameController extends InputManager {
   constructor(scene) {
@@ -26,6 +26,6 @@ export default class GameController extends InputManager {
     // this.hit = this.mouse.leftClick.isDown || this.keys.SPACE.isDown;
     this.hit = this.keys.SPACE.isDown;
 
-    this.clientEngine.sendInput('move', this);
+    // this.clientEngine.sendInput('move', this);
   }
 }

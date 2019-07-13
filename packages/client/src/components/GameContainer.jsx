@@ -1,10 +1,18 @@
 import React, { useEffect } from 'react';
 import { PARENT_DIV_TAG } from 'config/phaser.config';
-import PhaserGame from 'game/PhaserGame';
+import GameClient from 'game/Game.client';
 
 const GameContainer = ({ clientEngine }) => {
   useEffect(() => {
-    new PhaserGame(clientEngine);
+    // mock the socket.io
+    const ioMock = {
+      emit: () => {},
+      on: () => {},
+      in: () => {},
+      connected: 'connected',
+    };
+
+    GameClient(ioMock, clientEngine);
     //   var canvas = document.getElementById('game');
     // var windowWidth = window.innerWidth;
     // var windowHeight = window.innerHeight;

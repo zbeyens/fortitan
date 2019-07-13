@@ -2,10 +2,13 @@ import Phaser from 'phaser';
 
 export const PARENT_DIV_TAG = 'phaser-game';
 
+const DEFAULT_WIDTH = 1280;
+const DEFAULT_HEIGHT = 720;
+
 export const GAME_CONFIG = {
   type: Phaser.CANVAS,
-  width: 1280,
-  height: 720,
+  width: DEFAULT_WIDTH,
+  height: DEFAULT_HEIGHT,
   parent: PARENT_DIV_TAG,
   scale: {
     // mode: Phaser.Scale.RESIZE,

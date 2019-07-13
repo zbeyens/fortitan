@@ -32,8 +32,6 @@ export default class MyGameEngine extends GameEngine {
     };
 
     const newEntity = this.createEntity(type, id, initState, initProps);
-    console.log('HHH');
-    console.log(newEntity);
     return newEntity;
   }
 }

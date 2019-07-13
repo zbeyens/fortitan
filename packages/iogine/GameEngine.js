@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import GameWorld from 'iogine/world/GameWorld';
-import { ENTITY_TYPES } from '@fortitan/shared/config/world.csconfig';
+import { TYPES } from '@fortitan/shared/config/world.csconfig';
 // import Timer from 'iogine/util/Timer';
 
 /**
@@ -46,7 +46,7 @@ export default class GameEngine {
     console.info('========== game engine started ==========');
 
     console.log('world');
-    this.world = new GameWorld(ENTITY_TYPES);
+    this.world = new GameWorld(TYPES);
     console.log(this);
   }
 

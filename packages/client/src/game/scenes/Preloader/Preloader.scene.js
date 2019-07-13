@@ -53,17 +53,16 @@ export default class PreloaderScene extends Phaser.Scene {
    */
   create() {
     console.info('Preloaded');
-    this.scene.start('MainMenuScene');
+    this.scene.start('GameScene');
 
     this.scale.on('resize', this.resize, this);
   }
 
-  resize(gameSize, baseSize, displaySize, resolution) {
-    const { width, height } = baseSize;
+  // resize(gameSize, baseSize) {
+  resize() {
+    // const { width, height } = baseSize;
 
     this.cameras.resize(window.innerWidth, window.innerHeight);
-
-    console.log(width);
 
     // this.bg.setSize(width, height);
     // this.logo.setPosition(width / 2, height / 2);

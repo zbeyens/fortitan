@@ -2,8 +2,9 @@ import Phaser from 'phaser';
 import { GAME_CONFIG } from 'config/phaser.config';
 import Stats from 'stats.js';
 import { DEBUG } from 'config/debug.config';
+import MatterScene from '@fortitan/game-server/game/scenes/Matter.scene';
+import { WORLD_CS } from '@fortitan/shared/config/world.csconfig';
 import PreloaderScene from './scenes/Preloader/Preloader.scene';
-import MainMenuScene from './scenes/MainMenu/MainMenu.scene';
 import GameScene from './scenes/Game/Game.scene';
 
 /**
@@ -11,24 +12,26 @@ import GameScene from './scenes/Game/Game.scene';
  * Uses Phaser. It is accessible from every Phaser object (Phaser.Sprite,...) using the 'game' member
  * It will be instantiated once on each client.
  */
-export default class PhaserGame extends Phaser.Game {
+class PhaserGame extends Phaser.Game {
   /**
    * Constructor of the Renderer singleton.
    */
-  constructor(clientEngine) {
+  constructor(io, config, clientEngine) {
     // Create your Phaser game and inject it into the `#content` div.
-    super(GAME_CONFIG);
+    super(config);
 
-    this.clientEngine = clientEngine;
-    this.gameEngine = clientEngine.gameEngine;
+    this.debug = true;
+
+    // this.clientEngine = clientEngine;
+    // this.gameEngine = clientEngine.gameEngine;
 
     // Add the Scenes your game has.
-    this.scene.add('PreloaderScene', PreloaderScene);
-    this.scene.add('MainMenuScene', MainMenuScene);
-    this.scene.add('GameScene', GameScene);
+    // this.scene.add('PreloaderScene', PreloaderScene);
+    // this.scene.add('MainMenuScene', MainMenuScene);
+    // this.scene.add('GameScene', GameScene);
 
     // Now start the Boot scene.
-    this.scene.start('PreloaderScene');
+    // this.scene.start('PreloaderScene');
 
     // Handle debug mode.
     if (DEBUG.stats.on) {
@@ -57,3 +60,28 @@ export default class PhaserGame extends Phaser.Game {
     });
   }
 }
+
+const GameClient = (io, clientEngine) => {
+  const config = { ...GAME_CONFIG };
+
+  config.scene = [MatterScene];
+  // config
+  config.physics = {
+    default: 'matter',
+    matter: {
+      gravity: {
+        y: 2,
+      },
+      setBounds: {
+        x: WORLD_CS.x,
+        y: WORLD_CS.y,
+        width: WORLD_CS.width,
+        height: WORLD_CS.height,
+      },
+    },
+  };
+  config.physics.matter.debug = true;
+
+  return new PhaserGame(io, config, clientEngine);
+};
+export default GameClient;

@@ -1,4 +1,4 @@
-import InputManager from '../../manager/InputManager';
+import InputManager from '../../managers/InputManager';
 
 export default class MainMenuController extends InputManager {
   constructor(scene) {

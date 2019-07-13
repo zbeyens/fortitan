@@ -14,22 +14,23 @@ export default class Map extends PhaserView {
     this.scene = scene;
 
     const key = IMAGES.bg[0];
-    const { width } = WORLD_CS.bounds;
-    const { height } = WORLD_CS.bounds;
-    this.bg = this.scene.make.tileSprite({
-      x: width / 2,
-      y: height / 2,
-      width,
-      height,
-      key,
-    });
+    const { x, y, width, height } = WORLD_CS;
+    this.bg = this.scene.make
+      .tileSprite({
+        x,
+        y,
+        width,
+        height,
+        key,
+      })
+      .setOrigin(0);
     this.scene.backgroundGroup.add(this.bg);
 
     gui.f1 = gui.addFolder('Map');
     gui.f1.add(this.bg, 'height', 100, 2000).step(100);
   }
 
-  update(dt) {
+  update() {
     // console.log(this.scene.sys.displayList);
     // this.bg.position = {
     //     x: this.game.width / 2,

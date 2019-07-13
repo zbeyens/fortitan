@@ -1,12 +1,17 @@
-export const ENTITY_TYPES = [
-  'players',
-  'grounds',
-  'trees',
-  // 'items',
-  'pickaxes',
-];
+export const TYPES = {
+  player: 'players',
+  ground: 'grounds',
+  tree: 'trees',
+  pickaxe: 'pickaxes',
+};
 
 export const WORLD_CS = {
+  x: 0,
+  y: 0,
+  width: 20480,
+  height: 1024,
+  scale: 0.9,
+
   tileSize: 128,
 
   players: {
@@ -31,10 +36,4 @@ export const WORLD_CS = {
     },
   },
   trees: {},
-
-  bounds: {
-    width: 20480,
-    height: 1024,
-    scale: 0.9,
-  },
 };

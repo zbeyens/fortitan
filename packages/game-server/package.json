@@ -5,7 +5,9 @@
   "private": true,
   "dependencies": {
     "@fortitan/shared": "^1.0.0",
-    "iogine": "^1.0.0"
+    "canvas": "^2.5.0",
+    "iogine": "^1.0.0",
+    "socket.io": "^2.2.0"
   },
   "keywords": [],
   "homepage": "https://github.com/zbeyens/fortitan/tree/master/packages/game-server#readme",

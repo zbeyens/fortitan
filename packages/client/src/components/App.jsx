@@ -41,9 +41,6 @@ autorun(() => {
 test.todos.push({ finished: false });
 test.todos.push({ finished: false });
 
-console.log(test.unfinishedTodoCount);
-console.log(test.unfinishedTodoCount);
-
 // create a client engine and a game engine
 const gameEngine = new MyGameEngineV();
 
@@ -55,7 +52,7 @@ if (DEBUG_CS.fakeServer) {
   clientEngine = new MyClientEngine(gameEngine);
 }
 
-clientEngine.start();
+// clientEngine.start();
 
 const App = () => (
   <ThemeProvider theme={theme}>

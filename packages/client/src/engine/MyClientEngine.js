@@ -1,5 +1,5 @@
 import { ClientEngine } from 'iogine';
-import { ENTITY_TYPES } from '@fortitan/shared/config/world.csconfig';
+import { TYPES } from '@fortitan/shared/config/world.csconfig';
 
 export default class MyClientEngine extends ClientEngine {
   /**
@@ -10,7 +10,7 @@ export default class MyClientEngine extends ClientEngine {
    * cns
    */
   constructor(gameEngine) {
-    super(gameEngine, ENTITY_TYPES);
+    super(gameEngine, TYPES);
   }
 }
 // this.renderer = gameEngine.renderer = new PhaserGame(this);

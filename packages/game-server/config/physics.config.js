@@ -1,4 +1,5 @@
 /* eslint-disable no-bitwise */
+
 export const BODY_CATEGORIES = {
   default: 1,
   players: 2,

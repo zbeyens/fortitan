@@ -2,6 +2,9 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = [
+  config => {
+    return config;
+  },
   [
     'use-babel-config',
     {
